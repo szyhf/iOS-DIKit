@@ -9,5 +9,6 @@
 #import "DIRouter.h"
 
 @interface DIRouter (Assemble)
-
++(void)addElement:(NSString*)element
+		 toParent:(NSString*)lastElement;
 @end

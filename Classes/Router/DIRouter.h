@@ -18,6 +18,7 @@
  *  @param path 组装路径
  */
 +(void)realizePath:(NSString*)path;
++(void)realizeJson:(NSString*)jsonTree;
 /**
  *  预先记录注册路径，用于实现延迟加载
  *
@@ -31,4 +32,5 @@
  */
 +(void)lazyLoad:(UIViewController*)controller;
 +(void)printRouterMap;
+
 @end

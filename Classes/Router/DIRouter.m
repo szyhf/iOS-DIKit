@@ -7,12 +7,11 @@
 //
 
 #import "DIRouter.h"
+#import "DIRouter+JsonTree.h"
 #import "DIRouter+Registry.h"
 #import "DIRouterParentViewObserver.h"
 #import "DIRouter+HandlerBlocks.h"
-#import "DILog.h"
-#import "NSString+Judge.h"
-#import "DIContainer.h"
+#import "DIRouter+Assemble.h"
 
 @interface DIRouter()
 /**
@@ -159,59 +158,23 @@
 	NSString* lastElement;
 	for (NSString* element in elements)
 	{
-		bool isSlove = false;
-		if(![NSString isNilOrEmpty:lastElement])
-		{
-			Class lastClazz = NSClassFromString(lastElement);
-			Class currentClazz = NSClassFromString(element);
-			
-			NSDictionary<NSString*,RealizeHandlerBlock>* blockMap;
-			Class superLastClazz = lastClazz;
-			
-			//回溯当前类，直到找到最接近的被注册过的类型。
-			while (superLastClazz!=nil
-				   && blockMap == nil
-				   && !isSlove )
-			{
-				NSString* superLastName = NSStringFromClass(superLastClazz);
-				blockMap = [[self realizeMap]objectForKey:superLastName];
-				
-				//如果找到了blockMap，则尝试在blockMap中继续找可能符合条件的处理器
-				//完全有可能存在blockMap，但不存在处理器的情况，此时应继续向上遍历当前父类是否还存在别的可能符合条件的处理器
-				if(blockMap!=nil)
-				{
-					Class superCurrentClazz = currentClazz;
-					RealizeHandlerBlock handlerBlock;
-					
-					//回溯当前类，直到找到最近被注册的处理器
-					while (superCurrentClazz!=nil
-						   && handlerBlock==nil)
-					{
-						NSString* superCurrentName = NSStringFromClass(superCurrentClazz);
-						handlerBlock = [blockMap objectForKey:superCurrentName];
-						if(handlerBlock!=nil)
-						{
-							handlerBlock(lastElement,element);
-							isSlove = true;
-							break;
-						}
-						superCurrentClazz = [superCurrentClazz superclass];
-					}
-				}
-				
-				superLastClazz = [superLastClazz superclass];
-			}
-#ifdef WARN
-			if (!isSlove)
-			{
-				WarnLog(@"RelizePath Failed: %@\nError: %@",path,element);
-			}
-#endif
-		}
+		[self addElement:element toParent:lastElement];
+		
 		lastElement = element;
 
 	}
 }
+
++(void)realizeJson:(NSString*)jsonTree
+{
+	NSDictionary* tree = [jsonTree jsonDictionary];
+	if (tree==nil)
+	{
+		return;
+	}
+	[DIRouter relizeTree:tree];
+}
+
 
 +(void)printRouterMap
 {

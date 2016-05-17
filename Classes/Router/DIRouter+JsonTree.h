@@ -7,6 +7,8 @@
 //
 
 #import <DIKit/DIKit.h>
+#import "DIRouter.h"
 
 @interface DIRouter (JsonTree)
++(void)relizeTree:(NSDictionary*)tree;
 @end
