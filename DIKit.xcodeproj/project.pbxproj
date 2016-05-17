@@ -96,7 +96,10 @@
 				<string>0C5277A51CEAD8F80021B477</string>
 				<string>0C5277B21CEAD8F80021B477</string>
 				<string>0C5277A31CEAD8F80021B477</string>
+				<string>0CFAC3091CEB3C2C00ABC4F5</string>
 				<string>0C5277A11CEAD8F80021B477</string>
+				<string>0CFAC3131CEB401700ABC4F5</string>
+				<string>0CFAC30E1CEB3C4400ABC4F5</string>
 			</array>
 			<key>isa</key>
 			<string>PBXSourcesBuildPhase</string>
@@ -124,13 +127,17 @@
 				<string>0C5277AE1CEAD8F80021B477</string>
 				<string>0C5277A61CEAD8F80021B477</string>
 				<string>0C5277A21CEAD8F80021B477</string>
+				<string>0CFAC30F1CEB3C4400ABC4F5</string>
 				<string>0C5277A81CEAD8F80021B477</string>
 				<string>0C5277AF1CEAD8F80021B477</string>
 				<string>0C5277AD1CEAD8F80021B477</string>
 				<string>0C52777E1CEAD8BF0021B477</string>
+				<string>0CFAC3081CEB3C2C00ABC4F5</string>
+				<string>0CFAC30D1CEB3C4400ABC4F5</string>
 				<string>0C5277A01CEAD8F80021B477</string>
 				<string>0C5277AC1CEAD8F80021B477</string>
 				<string>0C5277AA1CEAD8F80021B477</string>
+				<string>0CFAC3121CEB401700ABC4F5</string>
 				<string>0C5277A41CEAD8F80021B477</string>
 			</array>
 			<key>isa</key>
@@ -207,8 +214,6 @@
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>DIKit.h</string>
 			<key>path</key>
 			<string>DIKit.h</string>
 			<key>sourceTree</key>
@@ -583,8 +588,12 @@
 		<dict>
 			<key>children</key>
 			<array>
+				<string>0CFAC3101CEB401700ABC4F5</string>
+				<string>0CFAC3111CEB401700ABC4F5</string>
 				<string>0C52778D1CEAD8F80021B477</string>
 				<string>0C52778E1CEAD8F80021B477</string>
+				<string>0CFAC3061CEB3C2C00ABC4F5</string>
+				<string>0CFAC3071CEB3C2C00ABC4F5</string>
 				<string>0C52778F1CEAD8F80021B477</string>
 				<string>0C5277901CEAD8F80021B477</string>
 				<string>0C5277911CEAD8F80021B477</string>
@@ -790,6 +799,9 @@
 			<array>
 				<string>0C52779C1CEAD8F80021B477</string>
 				<string>0C52779D1CEAD8F80021B477</string>
+				<string>0CFAC30A1CEB3C4400ABC4F5</string>
+				<string>0CFAC30C1CEB3C4400ABC4F5</string>
+				<string>0CFAC30B1CEB3C4400ABC4F5</string>
 				<string>0C52779E1CEAD8F80021B477</string>
 				<string>0C52779F1CEAD8F80021B477</string>
 			</array>
@@ -997,12 +1009,150 @@
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Classes</string>
 			<key>path</key>
 			<string>Classes</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CFAC3061CEB3C2C00ABC4F5</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>DIRouter+JsonTree.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CFAC3071CEB3C2C00ABC4F5</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>DIRouter+JsonTree.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CFAC3081CEB3C2C00ABC4F5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CFAC3061CEB3C2C00ABC4F5</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CFAC3091CEB3C2C00ABC4F5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CFAC3071CEB3C2C00ABC4F5</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CFAC30A1CEB3C4400ABC4F5</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>NSString+DIAdd.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CFAC30B1CEB3C4400ABC4F5</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>NSString+Json.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CFAC30C1CEB3C4400ABC4F5</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>NSString+Json.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CFAC30D1CEB3C4400ABC4F5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CFAC30A1CEB3C4400ABC4F5</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CFAC30E1CEB3C4400ABC4F5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CFAC30B1CEB3C4400ABC4F5</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CFAC30F1CEB3C4400ABC4F5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CFAC30C1CEB3C4400ABC4F5</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CFAC3101CEB401700ABC4F5</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>DIRouter+Assemble.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CFAC3111CEB401700ABC4F5</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>DIRouter+Assemble.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CFAC3121CEB401700ABC4F5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CFAC3101CEB401700ABC4F5</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CFAC3131CEB401700ABC4F5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CFAC3111CEB401700ABC4F5</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
 		</dict>
 	</dict>
 	<key>rootObject</key>
