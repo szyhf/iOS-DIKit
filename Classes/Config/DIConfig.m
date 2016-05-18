@@ -63,19 +63,35 @@
 	return NO;
 }
 
-//-(NSString*)getString:(NSString*)key default:(NSString*)defalut
-//{
-	//return [storage stringValueForKey:key default:@""];
-//}
++(NSInteger(^)(NSString*))getInt
+{
+	return ^NSInteger(NSString* key)
+	{
+		return 0;
+	};
+}
 
-//-(Boolean)getBool:(NSString*)key default:(Boolean)defalut
-//{
-	//return [storage boolValueForKey:key default:defalut];
-//}
++(float(^)(NSString*))getFloat
+{
+	return ^float(NSString* key)
+	{
+		return 0.;
+	};
+}
 
-//-(int)getInt:(NSString*)key default:(int)defalut
-//{
-	//return [storage intValueForKey:key default:defalut];
-//}
++(NSString*(^)(NSString*))getNSString
+{
+	return ^NSString*(NSString*key)
+	{
+		return @"";
+	};
+}
 
++(BOOL(^)(NSString*))getBool
+{
+	return ^BOOL(NSString* key)
+	{
+		return NO;
+	};
+}
 @end
