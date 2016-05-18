@@ -14,18 +14,6 @@
 
 @implementation DIRouter (Assemble)
 
-+(void)sloveSuper:(Class)clazz
-{
-	NSDictionary<NSString*,RealizeHandlerBlock>* blockMap;
-	while (clazz!=nil)
-	{
-		NSString* clazzName = NSStringFromClass(clazz);
-		
-		blockMap = [[self realizeMap]objectForKey:clazzName];
-		
- 	}
-}
-
 +(void)addElement:(NSString* _Nonnull)element
 		 toParent:( NSString* _Nonnull )lastElement
 {
@@ -101,15 +89,15 @@
  *
  *  @return 推断出来的可行元素名
  */
-+(NSString*)realizeOfAnonymous:(NSString*)anonymous
++(NSString*)realizeOfAnonymous:(NSString*)aliasName
 {
-	NSString* realizeName = [self anonymousMap][anonymous];
+	NSString* realizeName = [self aliasMap][aliasName];
 	if([NSString isNilOrEmpty:realizeName])
 	{
 		//尝试根据名称进行推测
 		for (NSString* suffix in [DIRouter assumeMap])
 		{
-			if([anonymous endsWith:suffix])
+			if([aliasName endsWith:suffix])
 			{
 				realizeName = [DIRouter assumeMap][suffix];
 				break;
@@ -117,7 +105,7 @@
 		}
 	}	
 	
-	if(![DIContainer isBind:anonymous])
+	if(![DIContainer isBind:aliasName])
 	{
 		//尚未注册过
 		Class realizeClazz = NSClassFromString(realizeName);
@@ -125,15 +113,18 @@
 		{
 			id ins = [[realizeClazz alloc]init];
 			//用实例注册一个匿名的类型
-			[DIContainer bindClassName:anonymous withInstance:ins];
+			[DIContainer bindClassName:aliasName withInstance:ins];
 		}
-		WarnLogWhile(realizeClazz==nil, @"Using anonymousMap as %@ => %@, but origin class is not exit.",anonymous,realizeName);
+		WarnLogWhile(realizeClazz==nil, @"Using anonymousMap as %@ => %@, but origin class is not exit.",aliasName,realizeName);
 	}
 	
-	DebugLogWhile(anonymous!=realizeName, @"Assume %@ as %@",anonymous,realizeName);
+	NoticeLogWhile(aliasName!=realizeName, @"Assume %@ as %@",aliasName,realizeName);
 	return realizeName;
 }
 
+/**
+ *  推断用的后缀
+ */
 static NSDictionary<NSString*,NSString*>* _assumeMap;
 +(NSDictionary<NSString*,NSString*>*)assumeMap
 {
@@ -153,14 +144,17 @@ static NSDictionary<NSString*,NSString*>* _assumeMap;
 	return _assumeMap;
 }
 
-static NSDictionary<NSString*,NSString*>* _anonymousMap;
-+(NSDictionary<NSString*,NSString*>*)anonymousMap
+/**
+ *  自定义的别名
+ */
+static NSDictionary<NSString*,NSString*>* _aliasMap;
++(NSDictionary<NSString*,NSString*>*)aliasMap
 {
-	if (_anonymousMap ==nil)
-		_anonymousMap
+	if (_aliasMap ==nil)
+		_aliasMap
 		= @{
 			@"MainTabBarController":@"UITabBarController"
 		  };
-	return _anonymousMap;
+	return _aliasMap;
 }
 @end
