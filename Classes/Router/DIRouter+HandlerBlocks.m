@@ -8,18 +8,16 @@
 
 #import "DIRouter+HandlerBlocks.h"
 #import "DIContainer.h"
-@interface DIRouter()
-
-@end
 
 @implementation DIRouter (HandlerBlocks)
-
+static NSDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*_realizeMap;
 +(NSDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*)realizeMap
 {
 	//["super"=>["child"=>handlerBlock]]
-	return  @{
+	if(_realizeMap==nil)
+		_realizeMap = @{
 			  @"UITabBarController":@{
-					@"UIViewController":self.realizeTabbarControllerToViewController,
+					  @"UIViewController":self.realizeTabBarControllerToViewController,
 					},
 			  @"UINavigationController":@{
 					  @"UIViewController":self.realizeNavigationControllerToViewController,
@@ -33,6 +31,8 @@
 					  @"UIView":self.realizeViewToView
 					  }
 			  };;
+	
+	return _realizeMap;
 }
 
 +(RealizeHandlerBlock)realizeViewControllerToView
@@ -97,7 +97,7 @@
 	};
 }
 
-+(RealizeHandlerBlock)realizeTabbarControllerToViewController
++(RealizeHandlerBlock)realizeTabBarControllerToViewController
 {
 	return ^void(NSString* parentName,NSString* childName)
 	{
