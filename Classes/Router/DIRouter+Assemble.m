@@ -41,6 +41,7 @@
 	}
 	
 	Class currentClazz = NSClassFromString(element);
+	
 	NSString* elementRealizeName = element;
 	if(currentClazz == nil)
 	{
@@ -78,17 +79,16 @@
 					isSlove = true;
 					break;
 				}
-				superCurrentClazz = [superCurrentClazz superclass];
-				
 				//因为superCurrent有初始值（匿名的情况），所以最后才更新。
 				superCurrentName = NSStringFromClass(superCurrentClazz);
+				
+				superCurrentClazz = [superCurrentClazz superclass];
 			}
 		}
-		
-		superLastClazz = [superLastClazz superclass];
-		
 		//因为superLastName有初始值，所以最后才更新
 		superLastName = NSStringFromClass(superLastClazz);
+		
+		superLastClazz = [superLastClazz superclass];
 	}
 	WarnLogWhile(!isSlove, @"Add %@ to %@ Failed.",element,lastElement);
 
@@ -117,7 +117,7 @@
 		}
 	}	
 	
-	if(![DIContainer isBind:realizeName])
+	if(![DIContainer isBind:anonymous])
 	{
 		//尚未注册过
 		Class realizeClazz = NSClassFromString(realizeName);
@@ -140,6 +140,7 @@ static NSDictionary<NSString*,NSString*>* _assumeMap;
 	if(_assumeMap==nil)
 		_assumeMap=@{
 					 //Controller结尾中，
+					 @"NavigationController":@"UINavigationController",
 					 @"TabBarController":@"UITabBarController",
 					 @"ViewController":@"UIViewController",
 					 
