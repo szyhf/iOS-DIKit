@@ -17,7 +17,6 @@
 +(NSDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*)realizeMap
 {
 	//["super"=>["child"=>handlerBlock]]
-	//使用时因为使用遍历测试的方案，所以，越是高层的类型应越处于优先。
 	return  @{
 			  @"UITabBarController":@{
 					@"UIViewController":self.realizeTabbarControllerToViewController,
