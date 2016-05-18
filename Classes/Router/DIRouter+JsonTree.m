@@ -61,6 +61,12 @@
 						
 				}
 			}
+			else if([nodeValue isKindOfClass:[NSString class]])
+			{
+				//这是叶子节点=。=
+				NSString* childElement = (NSString*)nodeValue;
+				[self addElement:childElement toParent:nodeKey];
+			}
 		}
 	}	
 }
