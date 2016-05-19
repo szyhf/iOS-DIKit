@@ -158,14 +158,12 @@
  *  设置别名
  *
  *  @param alias 别名
- *  @param clazz 指定类型
+ *  @param ins 指定类型
  */
 +(void)setAlias:(NSString*)alias forInstance:(id)ins
 {
 	DIContainer* shared = [DIContainer Instance];
-	NSString* className = NSStringFromClass([ins class]);
-	[DIContainer bindInstance:ins];
-	[[shared aliasMap]setValue:className forKey:alias];
+	shared.instanceMap[alias]=ins;
 }
 
 
