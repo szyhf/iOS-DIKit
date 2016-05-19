@@ -103,7 +103,6 @@ static NSDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*_rea
 	{
 		UIViewController* childIns = [DIContainer getInstanceByName:childName];
 		UITabBarController* superIns = [DIContainer getInstanceByName:parentName];
-		
 		if(![superIns.childViewControllers containsObject:childIns])
 		{
 			[superIns addChildViewController:childIns];
