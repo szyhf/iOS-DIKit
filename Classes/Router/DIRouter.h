@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DITools.h"
 @interface DIRouter : NSObject
-//+(void)AutoRouter:(UIViewController*)controller;
++(DIRouter*)Instance;
 +(void)init;
 +(void)autoPathRegister:(UIViewController*)child;
 /**
