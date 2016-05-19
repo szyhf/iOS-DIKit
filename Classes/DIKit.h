@@ -12,4 +12,8 @@ FOUNDATION_EXPORT const unsigned char DIKitVersionString[];
 
 #import <DIKit/DITools.h>
 #import <DIKit/DIContainer.h>
+
+//Router系列
 #import <DIKit/DIRouter.h>
+#import <DIKit/DIRouter+Xml.h>
+#import <DIKit/DIRouter+Assemble.h>
