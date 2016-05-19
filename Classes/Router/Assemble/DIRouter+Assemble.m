@@ -43,7 +43,7 @@
 	
 	//回溯父控件的类，直到找到最接近的被注册过的类型。
 	while (superLastClazz!=nil
-		   && blockMap == nil
+		   //&& blockMap == nil
 		   && !isSlove )
 	{
 		blockMap = [[self realizeMap]objectForKey:superLastName];
@@ -57,8 +57,7 @@
 			
 			NSString* superCurrentName = elementRealizeName;
 			//回溯当前类，直到找到最近被注册的处理器
-			while (superCurrentClazz!=nil
-				   && handlerBlock==nil)
+			while (superCurrentClazz!=nil)
 			{
 				handlerBlock = [blockMap objectForKey:superCurrentName];
 				if(handlerBlock!=nil)
@@ -78,8 +77,8 @@
 		
 		superLastClazz = [superLastClazz superclass];
 	}
+	
 	WarnLogWhile(!isSlove, @"Add %@ to %@ Failed.",element,lastElement);
-
 }
 
 /**
@@ -103,7 +102,10 @@
 				break;
 			}
 		}
-	}	
+		
+		//记录下来。
+		[self aliasMap][aliasName]=realizeName;
+	}
 	
 	if(![DIContainer isBind:aliasName])
 	{
@@ -116,18 +118,19 @@
 			[DIContainer bindClassName:aliasName withInstance:ins];
 		}
 		WarnLogWhile(realizeClazz==nil, @"Using anonymousMap as %@ => %@, but origin class is not exit.",aliasName,realizeName);
+		
+		InfoLogWhile(aliasName!=realizeName, @"Assume %@ as %@",aliasName,realizeName);
 	}
 	
-	NoticeLogWhile(aliasName!=realizeName, @"Assume %@ as %@",aliasName,realizeName);
 	return realizeName;
 }
 
 /**
  *  推断用的后缀
  */
-static NSDictionary<NSString*,NSString*>* _assumeMap;
 +(NSDictionary<NSString*,NSString*>*)assumeMap
 {
+	static NSDictionary<NSString*,NSString*>* _assumeMap;
 	if(_assumeMap==nil)
 		_assumeMap=@{
 					 //Controller结尾中，
@@ -136,6 +139,7 @@ static NSDictionary<NSString*,NSString*>* _assumeMap;
 					 @"ViewController":@"UIViewController",
 					 
 					 @"Label":@"UILable",
+					 @"Button":@"UIButton",
 					 
 					 //view结尾中，最原始的View要最后结尾。
 					 @"ImageView":@"UIImageView",
@@ -147,14 +151,23 @@ static NSDictionary<NSString*,NSString*>* _assumeMap;
 /**
  *  自定义的别名
  */
-static NSDictionary<NSString*,NSString*>* _aliasMap;
-+(NSDictionary<NSString*,NSString*>*)aliasMap
++(NSMutableDictionary<NSString*,NSString*>*)aliasMap
 {
+	static NSMutableDictionary<NSString*,NSString*>* _aliasMap;
 	if (_aliasMap ==nil)
 		_aliasMap
-		= @{
-			@"MainTabBarController":@"UITabBarController"
-		  };
+		= [NSMutableDictionary
+		   dictionaryWithDictionary:@{
+			  @"MainTabBarController":@"UITabBarController"
+		}];
 	return _aliasMap;
+}
+
++(NSMutableDictionary<NSString*,RealizeHandlerBlock>*)realizeBlockCache
+{
+	static NSMutableDictionary<NSString*,RealizeHandlerBlock>*_realizeBlockCached;
+	if(_realizeBlockCached==nil)
+		_realizeBlockCached = [NSMutableDictionary dictionaryWithCapacity:10];
+	return _realizeBlockCached;
 }
 @end
