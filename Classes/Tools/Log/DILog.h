@@ -46,7 +46,7 @@
 #endif
 
 #ifdef DI_ERROR //ERROR level指出虽然发生错误事件，但仍然不影响系统的继续运行。
-#define ErrorLog(format, ...) NSLog(@"%@",DILogString(ERROR,format,##__VA_ARGS__))
+#define ErrorLog(format, ...) NSLog(@"%@",DILogString(DI_ERROR,format,##__VA_ARGS__))
 #define ErrorLogWhile(assert,format,...) if(assert)NSLog(@"%@",DILogString(DI_ERROR,format,##__VA_ARGS__))
 #else
 #define ErrorLog(format, ...)
@@ -54,7 +54,7 @@
 #endif
 
 #ifdef DI_FATAL //FATAL level指出每个严重的错误事件将会导致应用程序的退出。
-#define FatalLog(format, ...) NSLog(@"%@",DILogString(FATAL,format,##__VA_ARGS__))
+#define FatalLog(format, ...) NSLog(@"%@",DILogString(DI_FATAL,format,##__VA_ARGS__))
 #define FatalLogWhile(assert,format,...) if(assert)NSLog(@"%@",DILogString(DI_FATAL,format,##__VA_ARGS__))
 #else
 #define FatalLog(format, ...)
@@ -62,7 +62,7 @@
 #endif
 
 #ifdef DI_NOTICE //NOTICE level基础消息。
-#define NoticeLog(format, ...) NSLog(@"%@",DILogString(NOTICE,format,##__VA_ARGS__))
+#define NoticeLog(format, ...) NSLog(@"%@",DILogString(DI_NOTICE,format,##__VA_ARGS__))
 #define NoticeLogWhile(assert,format,...) if(assert)NSLog(@"%@",DILogString(DI_NOTICE,format,##__VA_ARGS__))
 #else
 #define NoticeLog(format, ...)
