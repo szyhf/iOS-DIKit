@@ -9,6 +9,8 @@
 #ifndef DITools_h
 #define DITools_h
 #include "DILog.h"
+#import "DIArray.h"
 #import "DILayoutDebug.h"
 #import "NSString+DIAdd.h"
+#import "DIIO.h"
 #endif /* DITools_h */
