@@ -119,7 +119,7 @@
 		}
 		WarnLogWhile(realizeClazz==nil, @"Using anonymousMap as %@ => %@, but origin class is not exit.",aliasName,realizeName);
 		
-		InfoLogWhile(aliasName!=realizeName, @"Assume %@ as %@",aliasName,realizeName);
+		NoticeLogWhile(aliasName!=realizeName, @"Assume 😇%@😇 as ☺️%@☺️",aliasName,realizeName);
 	}
 	
 	return realizeName;
@@ -138,7 +138,10 @@
 					 @"TabBarController":@"UITabBarController",
 					 @"ViewController":@"UIViewController",
 					 
-					 @"Label":@"UILable",
+					 @"BarButtonItem":@"UIBarButtonItem",
+					 @"BarButton":@"UIBarButtonItem",
+					 
+					 @"Label":@"UILabel",
 					 @"Button":@"UIButton",
 					 
 					 //view结尾中，最原始的View要最后结尾。
