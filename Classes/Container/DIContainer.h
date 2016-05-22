@@ -125,4 +125,6 @@ typedef void(^AfterInitBlock)(id newIns);
  *  @return 对应的单例，如果不存在则返回nil
  */
 +(id)getInstance:(Class)clazz;
+
++(void)clear;
 @end

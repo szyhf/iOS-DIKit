@@ -260,6 +260,19 @@
 	DIContainer* container = [DIContainer Instance];
 	return [container initlizeInstance:ins];
 }
++(void)clear
+{
+	return [[DIContainer Instance]clear];
+}
+
+-(void)clear
+{
+	[self.instanceMap removeAllObjects];
+	[self.aliasMap removeAllObjects];
+	[self.factoryMap removeAllObjects];
+	[self.afterInitHookMap removeAllObjects];
+	[self.dependenceArray removeAllObjects];
+}
 /********* End Public Static Method ************/
 
 /**
