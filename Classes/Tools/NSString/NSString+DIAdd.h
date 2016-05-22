@@ -11,5 +11,5 @@
 #import"NSString+Json.h"
 #import"NSString+Judge.h"
 #import "NSString+Additions.h"
-
+#import "NSString+Crypto.h"
 #endif /* NSString_DIAdd_h */
