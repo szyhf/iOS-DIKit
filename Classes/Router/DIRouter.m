@@ -7,9 +7,6 @@
 //
 
 #import "DIRouter.h"
-#import "DIRouter+JsonTree.h"
-#import "DIRouter+Registry.h"
-#import "DIRouterParentViewObserver.h"
 #import "DIRouter+HandlerBlocks.h"
 #import "DIRouter+Assemble.h"
 
@@ -23,7 +20,6 @@
  */
 @property(atomic)NSDictionary* expertChildrenMap;
 
-@property(atomic)NSMutableSet* Loaded;
 @end
 
 @implementation DIRouter
@@ -33,18 +29,13 @@
  *  @return 当前容器
  */
 +(DIRouter*)Instance{
-	static DIRouter* _instance = nil;
+	static DIRouter* _instance ;
 	static dispatch_once_t routerToken ;
 	dispatch_once(&routerToken, ^{
 		_instance = [[self alloc] init] ;
 	}) ;
 	
 	return _instance ;
-}
-
-+(void)init
-{
-	[DIRouter Instance];
 }
 
 +(void)autoPathRegister:(UIViewController*)viewController
@@ -122,30 +113,6 @@
 }
 
 /**
- *  根据注册结果加载当前控制器的成员控制器（用于延迟加载）
- *
- *  @param controller
- */
-+(void)lazyLoad:(UIViewController*)controller
-{
-	DIRouter* currentRouter = [DIRouter Instance];
-	NSString* currentName = NSStringFromClass([controller class]);
-	if(![currentRouter.Loaded containsObject:currentName])
-	{
-		NSArray* children = [[currentRouter expertChildrenMap]objectForKey:currentName];
-		if (children)
-		{
-			for (NSString* child in children)
-			{
-				//调用realize方法实现加载
-				[DIRouter realizePath:[NSString stringWithFormat:@"%@/%@",currentName,child]];
-			}
-		}
-		[currentRouter.Loaded addObject:currentName];
-	}
-}
-
-/**
  *  根据输入的path组装已有的viewController
  *
  *  @param path 组装路径
@@ -165,26 +132,9 @@
 	}
 }
 
-+(void)realizeJson:(NSString*)jsonTree
++(void)clearRouterMap
 {
-	NSDictionary* tree = [jsonTree jsonDictionary];
-	if (tree==nil)
-	{
-		return;
-	}
-	[DIRouter relizeTree:tree];
-}
-
-
-+(void)printRouterMap
-{
-	NSMutableString* res = [NSMutableString stringWithCapacity:64];
-	DIRouter* current = [DIRouter Instance];
-	for (NSString* key in [current routerMap])
-	{
-		[res appendFormat:@"\r%@ => \r%@",key,(NSString*)[[current routerMap]objectForKey:key]];
-	}
-	NoticeLog(@"%@",res);
+	[DIRouter Instance].flatRouterMap = [[FlatRouterMap alloc]init];
 }
 
 -(NSObject*)init
@@ -192,7 +142,6 @@
 	self = [super init];
 	if(self)
 	{
-		[self registerViewController:[self Registry]];
 		self.routerMap = [NSMutableDictionary dictionaryWithCapacity:10];
 		self.expertChildrenMap = [NSMutableDictionary dictionaryWithCapacity:10];
 	}
@@ -200,33 +149,10 @@
 	return self;
 }
 
--(void)registerViewController:(NSArray*)views
-{
-	DIRouterParentViewObserver* observer = [[DIRouterParentViewObserver alloc]init];
-	AfterInitBlock pathRegisterBlock = ^(id ins)
-	{
-		//给view注册启动回调
-		//每当Controller的ParentController发生变化时，重置路径（包括子controler）
-		if([ins isKindOfClass:[UIViewController class]])
-		{
-			UIViewController* viewCtrl = (UIViewController*)ins;
-			[viewCtrl addObserver:observer
-					   forKeyPath:NSStringFromSelector(@selector(parentViewController))
-						  options:NSKeyValueObservingOptionNew
-						  context:nil];
-		}
-	};
-	
-	for (NSString* viewCtrlName in views)
-	{
-		[DIContainer bindClassName:viewCtrlName];
-		
-		[DIContainer hookAfterInit:pathRegisterBlock
-					  forClassName:viewCtrlName];
+-(FlatRouterMap *)flatRouterMap {
+	if(_flatRouterMap == nil) {
+		_flatRouterMap = [[FlatRouterMap alloc] init];
 	}
+	return _flatRouterMap;
 }
-
-
-
-
 @end

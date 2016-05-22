@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FlatRouterMap.h"
 
-@interface RouterXmlParser : NSObject<NSXMLParserDelegate>
-
+@interface RouterXmlParserDelegate : NSObject<NSXMLParserDelegate>
+-(void)fillToSettings:(FlatRouterMap*)flatSettings;
 @end

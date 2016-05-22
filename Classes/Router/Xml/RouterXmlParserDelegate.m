@@ -6,21 +6,20 @@
 //  Copyright © 2016年 Back. All rights reserved.
 //
 
-#import "RouterXmlParser.h"
+#import "RouterXmlParserDelegate.h"
 #import "DITools.h"
 #import "DIContainer.h"
 #import "DIRouter+Assemble.h"
 
-@interface RouterXmlParser ()
+@interface RouterXmlParserDelegate ()
+{
+	FlatRouterMap* flatRouterSettings;
+}
 @property(nonatomic)NSMutableArray<NSString*>* stack;
-@property(nonatomic)NSMutableDictionary<NSString*,NSMutableArray<NSString*>*>* nodes;
-@property(nonatomic)NSMutableDictionary<NSString*,NSDictionary<NSString *, NSString *> *>* attributes;
 @end
 
-@implementation RouterXmlParser
+@implementation RouterXmlParserDelegate
 @synthesize stack;
-@synthesize nodes;
-@synthesize attributes;
 
 - (instancetype)init
 {
@@ -28,10 +27,13 @@
 	if (self)
 	{
 		stack = [NSMutableArray arrayWithCapacity:10];
-		nodes = [NSMutableDictionary dictionaryWithCapacity:10];
-		attributes = [NSMutableDictionary dictionaryWithCapacity:10];
 	}
 	return self;
+}
+
+-(void)fillToSettings:(FlatRouterMap*)flatSettings
+{
+	self->flatRouterSettings = flatSettings;
 }
 
 // Document handling methods
@@ -110,15 +112,13 @@ didStartElement:(NSString *)elementName
 	//DebugLog(@"didStartElement:%@",elementName);
 	if([stack count]>0)
 	{
-		//[DIRouter addElement:elementName toParent:[stack lastObject]];
-		[nodes[[stack lastObject]]addObject:elementName];
+		[self->flatRouterSettings addChild:elementName
+									toNode:stack.lastObject];
 	}
 	[stack addObject:elementName];
-	nodes[elementName]=[NSMutableArray arrayWithCapacity:1];
-	if ([attributeDict count]>0)
-	{
-		attributes[elementName]=attributeDict;
-	}
+	
+	[self->flatRouterSettings addAttributes:attributeDict
+									 toNode:elementName];
 }
 
 
@@ -126,27 +126,8 @@ didStartElement:(NSString *)elementName
 didEndElement:(NSString *)elementName
  namespaceURI:(NSString *)namespaceURI
 qualifiedName:(NSString *)qName
-{
-	for (NSString* element in nodes[elementName])
-	{
-		DebugLog(@"%@",element);
-		[DIRouter addElement:element toParent:elementName];
-		
-		if(attributes[element]!=nil)
-		{
-			NSObject* elementObj = [DIContainer getInstanceByName:element];
-			NSDictionary<NSString *, NSString *> *attr =attributes[element];
-			for (NSString* keyPath in attr)
-			{
-				[elementObj setValue:attr[keyPath] forKeyPath:keyPath];
-			}
-			DebugLog(@"%@",attr);
-			[attributes removeObjectForKey:element];
-		}
-	}
+{	
 	[stack removeLastObject];
-	[nodes[elementName] removeAllObjects];
-	[nodes removeObjectForKey:elementName];
 }
 
 

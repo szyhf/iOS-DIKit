@@ -8,29 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "DITools.h"
+#import "FlatRouterMap.h"
 @interface DIRouter : NSObject
 +(DIRouter*)Instance;
-+(void)init;
-+(void)autoPathRegister:(UIViewController*)child;
 /**
  *  根据输入的path组装已有的viewController
  *
  *  @param path 组装路径
  */
 +(void)realizePath:(NSString*)path;
-+(void)realizeJson:(NSString*)jsonTree;
-/**
- *  预先记录注册路径，用于实现延迟加载
- *
- *  @param path 希望注册的路径
- */
-+(void)registerPath:(NSString*)path;
-/**
- *  根据注册结果加载当前控制器的成员控制器（用于延迟加载）
- *
- *  @param controller
- */
-+(void)lazyLoad:(UIViewController*)controller;
-+(void)printRouterMap;
-
++(void)clearRouterMap;
+@property (nonatomic) FlatRouterMap* flatRouterMap;
 @end

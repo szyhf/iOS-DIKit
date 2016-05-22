@@ -10,6 +10,7 @@
 
 @interface DIRouter (Xml)
 +(void)realizeXml:(NSString*)xmlString;
-+(void)realizeXmlFile:(NSString*)xmlFilePath;
-
++(void)registryXmlDirectory:(NSString*)directory;
++(void)registryRealizeXml:(NSString*)xmlString;
++(void)realizeNode:(NSString*)parent;
 @end
