@@ -18,13 +18,9 @@ forUndefinedKey:(NSString *)key
 	if([DILayoutKey isLayoutAttribute:key]
 	   && [value isKindOfClass:NSString.class])
 	{
-		NSLayoutConstraint* constraint =
-		[[DILayoutParser instance]constraint:value
-								 toAttribute:key
-									 forView:self];
+		NSArray<NSLayoutConstraint*>* constarints = [DILayoutParser constraints:value toAttribute:key forView:self];
 		[self setTranslatesAutoresizingMaskIntoConstraints:NO];
-		DebugLog(@"%@",constraint);
-		[self.superview addConstraint:constraint];
+		[self.superview addConstraints:constarints];
 	}
 }
 @end

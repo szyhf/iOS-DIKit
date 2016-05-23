@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface DILayoutParser : NSObject
-+(instancetype)instance;
--(void)parserFormula:(NSString*)layoutFormula;
--(NSLayoutConstraint*)constraint:(NSString*)layoutFormula
-					 toAttribute:(NSString*)attribute
-						 forView:(UIView*)view;
++(NSArray<NSLayoutConstraint*>*)constraints:(NSString*)layoutFormula
+								toAttribute:(NSString*)attribute
+									forView:(UIView*)view;
 @end

@@ -25,11 +25,26 @@
 	return parser;
 }
 
++(NSArray<NSLayoutConstraint*>*)constraints:(NSString*)layoutFormula
+								toAttribute:(NSString*)attribute
+									forView:(UIView*)view
+{
+	NSArray<NSString*>* formulas = [layoutFormula split:@";"];
+	DILayoutParser* instance = [DILayoutParser instance];
+	NSMutableArray<NSLayoutConstraint*>* constraints = [NSMutableArray arrayWithCapacity:formulas.count];
+	for (NSString* formula in formulas)
+ 	{
+		[constraints addObject:[instance constraint:formula toAttribute:attribute forView:view]];
+	}
+	return constraints;
+}
+
 -(NSLayoutConstraint*)constraint:(NSString*)layoutFormula
 					 toAttribute:(NSString*)attribute
 						 forView:(UIView*)view
 {
 	[self.parseQueue removeAllObjects];
+	
 	const char* formula = [layoutFormula UTF8String];
 	
 	NSMutableString* currentString = [NSMutableString string];
