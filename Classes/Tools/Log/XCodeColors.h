@@ -25,7 +25,7 @@
 #define XCODE_COLOR_White @"220,220,220"
 #define XCODE_COLOR_Gray @"128,128,128"
 #define XCODE_COLOR_Red @"220,0,0"
-#define XCODE_COLOR_Green @"0,220,220"
+#define XCODE_COLOR_Green @"0,220,0"
 #define XCODE_COLOR_Blue @"0,0,220"
 #define XCODE_COLOR_Cyan @"0,220,220"
 #define XCODE_COLOR_Yellow @"220,220,0"

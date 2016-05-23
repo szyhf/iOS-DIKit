@@ -12,14 +12,14 @@
 #include "XCodeColors.h"
 
 #define nsFileString [[NSString stringWithUTF8String:__FILE__] substringFromIndex:1+[[NSString stringWithUTF8String:__FILE__] rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"/"] options:NSBackwardsSearch].location]
-#define DILogString(logType,format,...) [NSString stringWithFormat:@"[%@ %d]\n%@ %@",nsStringOfYellow(nsFileString),__LINE__,logType,[NSString stringWithFormat:format, ##__VA_ARGS__]]
+#define DILogString(logType,format,...) [NSString stringWithFormat:@"[%@ %d]\n%@ %@",nsStringOfYellow(nsFileString),__LINE__,logType,nsStringOfGreen(([NSString stringWithFormat:format, ##__VA_ARGS__]))]
 
 //日志分级制度
 //#define DEBUG//XCODE默认有Debug定义，即无论是否定义DEBUG，都会输出Debug
 #define DI_INFO nsStringOfLight(@"[I]")
 #define DI_WARN nsStringOfOrange(@"[W]")
 #define DI_DEBUG nsStringOfCyan(@"[D]")
-#define DI_ERROR nsStringOfGreen(@"[E]")
+#define DI_ERROR nsStringOfMagent(@"[E]")
 #define DI_FATAL nsStringOfRed(@"[F]")
 //#define DI_NOTICE "[N]"
 
