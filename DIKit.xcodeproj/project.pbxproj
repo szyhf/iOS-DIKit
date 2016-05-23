@@ -14,8 +14,14 @@
 		<dict>
 			<key>children</key>
 			<array>
+				<string>0C279E111CF2F45400994022</string>
+				<string>0C279E121CF2F45400994022</string>
 				<string>0C1468061CF0C467001074C8</string>
 				<string>0C1468071CF0C467001074C8</string>
+				<string>0C279E001CF1FE0B00994022</string>
+				<string>0C279E011CF1FE0B00994022</string>
+				<string>0C279E041CF2028000994022</string>
+				<string>0C279E051CF2028000994022</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -222,8 +228,6 @@
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Layout</string>
 			<key>path</key>
 			<string>Layout</string>
 			<key>sourceTree</key>
@@ -246,6 +250,186 @@
 		<dict>
 			<key>fileRef</key>
 			<string>0C1468211CF1BA0F001074C8</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C279DFC1CF1ED1100994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>NSString+RegularExpression.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279DFD1CF1ED1100994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>NSString+RegularExpression.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279DFE1CF1ED1100994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279DFC1CF1ED1100994022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C279DFF1CF1ED1100994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279DFD1CF1ED1100994022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C279E001CF1FE0B00994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>UIView+DILayout.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E011CF1FE0B00994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>UIView+DILayout.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E021CF1FE0B00994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279E001CF1FE0B00994022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C279E031CF1FE0B00994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279E011CF1FE0B00994022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C279E041CF2028000994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>UIViewController+DILayout.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E051CF2028000994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>UIViewController+DILayout.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E061CF2028000994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279E041CF2028000994022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C279E071CF2028000994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279E051CF2028000994022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C279E0F1CF2F41100994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>XCodeColors.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E101CF2F41100994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279E0F1CF2F41100994022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C279E111CF2F45400994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>DILayoutKey.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E121CF2F45400994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>DILayoutKey.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E131CF2F45400994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279E111CF2F45400994022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C279E141CF2F45400994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279E121CF2F45400994022</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -448,11 +632,15 @@
 				<string>0C5277A51CEAD8F80021B477</string>
 				<string>0C5277B21CEAD8F80021B477</string>
 				<string>0C14681E1CF1A02D001074C8</string>
+				<string>0C279E071CF2028000994022</string>
 				<string>0C1468121CF19E2A001074C8</string>
 				<string>0C74BCB01CED7A090075221A</string>
+				<string>0C279E141CF2F45400994022</string>
+				<string>0C279E031CF1FE0B00994022</string>
 				<string>0C1468091CF0C467001074C8</string>
 				<string>0C5277A31CEAD8F80021B477</string>
 				<string>0C4198831CEEDD2A00EBFAA2</string>
+				<string>0C279DFF1CF1ED1100994022</string>
 				<string>0C6719DC1CEF13E500E90400</string>
 				<string>0C41988A1CEEE56200EBFAA2</string>
 				<string>0C14681A1CF19F98001074C8</string>
@@ -493,12 +681,17 @@
 				<string>0C14681D1CF1A02D001074C8</string>
 				<string>0C1468191CF19F98001074C8</string>
 				<string>0CFAC30F1CEB3C4400ABC4F5</string>
+				<string>0C279E021CF1FE0B00994022</string>
 				<string>0C6719DB1CEF13E500E90400</string>
 				<string>0C5277A81CEAD8F80021B477</string>
 				<string>0C5277AF1CEAD8F80021B477</string>
+				<string>0C279E131CF2F45400994022</string>
+				<string>0C279E101CF2F41100994022</string>
 				<string>0C5277AD1CEAD8F80021B477</string>
+				<string>0C279E061CF2028000994022</string>
 				<string>0C52777E1CEAD8BF0021B477</string>
 				<string>0C4198821CEEDD2A00EBFAA2</string>
+				<string>0C279DFE1CF1ED1100994022</string>
 				<string>0C1468111CF19E2A001074C8</string>
 				<string>0CFAC30D1CEB3C4400ABC4F5</string>
 				<string>0C5277A01CEAD8F80021B477</string>
@@ -683,7 +876,7 @@
 				<key>GCC_WARN_UNUSED_VARIABLE</key>
 				<string>YES</string>
 				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>9.3</string>
+				<string>7.0</string>
 				<key>MTL_ENABLE_DEBUG_INFO</key>
 				<string>YES</string>
 				<key>ONLY_ACTIVE_ARCH</key>
@@ -765,7 +958,7 @@
 				<key>GCC_WARN_UNUSED_VARIABLE</key>
 				<string>YES</string>
 				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>9.3</string>
+				<string>7.0</string>
 				<key>MTL_ENABLE_DEBUG_INFO</key>
 				<string>NO</string>
 				<key>SDKROOT</key>
@@ -1095,6 +1288,7 @@
 			<key>children</key>
 			<array>
 				<string>0C52779A1CEAD8F80021B477</string>
+				<string>0C279E0F1CF2F41100994022</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -1120,15 +1314,17 @@
 		<dict>
 			<key>children</key>
 			<array>
+				<string>0CFAC30A1CEB3C4400ABC4F5</string>
 				<string>0C52779C1CEAD8F80021B477</string>
 				<string>0C52779D1CEAD8F80021B477</string>
 				<string>0C6719D91CEF13E500E90400</string>
 				<string>0C6719DA1CEF13E500E90400</string>
-				<string>0CFAC30A1CEB3C4400ABC4F5</string>
 				<string>0CFAC30C1CEB3C4400ABC4F5</string>
 				<string>0CFAC30B1CEB3C4400ABC4F5</string>
 				<string>0C52779E1CEAD8F80021B477</string>
 				<string>0C52779F1CEAD8F80021B477</string>
+				<string>0C279DFC1CF1ED1100994022</string>
+				<string>0C279DFD1CF1ED1100994022</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -1742,7 +1938,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.h</string>
 			<key>path</key>
-			<string>NSString+DIAdd.h</string>
+			<string>DIString.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>

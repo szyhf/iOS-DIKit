@@ -11,6 +11,6 @@
 #include "DILog.h"
 #import "DIArray.h"
 #import "DILayoutDebug.h"
-#import "NSString+DIAdd.h"
+#import "DIString.h"
 #import "DIIO.h"
 #endif /* DITools_h */
