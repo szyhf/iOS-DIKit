@@ -8,23 +8,28 @@
 
 #import "DILayoutParser.h"
 #import "DITools.h"
+#import "DIContainer.h"
+#import "DILayoutKey.h"
 @interface DILayoutParser()
 @property (nonatomic, strong) NSMutableArray<NSString*>* parseQueue;
 @end
 
 @implementation DILayoutParser
-
--(void)parserFormula:(NSString*)layoutFormula
++(instancetype)instance
 {
-	//[NSLayoutConstraint
-	 //constraintWithItem:<#(nonnull id)#>
-	 //attribute:<#(NSLayoutAttribute)#>
-	 //relatedBy:<#(NSLayoutRelation)#>
-	 //toItem:<#(nullable id)#>
-	 //attribute:<#(NSLayoutAttribute)#>
-	 //multiplier:<#(CGFloat)#>
-	 //constant:<#(CGFloat)#>];
-	
+	static DILayoutParser* parser = nil;
+	static dispatch_once_t diLayoutParser ;
+	dispatch_once(&diLayoutParser, ^{
+		parser = [[DILayoutParser alloc]init];
+	});
+	return parser;
+}
+
+-(NSLayoutConstraint*)constraint:(NSString*)layoutFormula
+					 toAttribute:(NSString*)attribute
+						 forView:(UIView*)view
+{
+	[self.parseQueue removeAllObjects];
 	const char* formula = [layoutFormula UTF8String];
 	
 	NSMutableString* currentString = [NSMutableString string];
@@ -37,10 +42,10 @@
 			case '=':
 				
 			case ':':
-			
+				
 			case '*':
 			case '/':
-			
+				
 			case '+':
 			case '-':
 			{
@@ -52,7 +57,7 @@
 			default:
 			{
 				[currentString appendFormat:@"%c",formula[i]];
-    			break;
+				break;
 			}
 		}
 	}
@@ -61,13 +66,85 @@
 		[self.parseQueue removeFirstObject];
 	if([[self.parseQueue lastObject]isEmpty])
 		[self.parseQueue removeLastObject];
+	
+	NSLayoutRelation relation = [self parseRelation];
+	
+	NSString* targetName = [self parseTargetName];
+	
+	UIView* target;
+	if([targetName isEmpty])
+		target = view.superview;
+	else if(targetName!=nil)
+		target = (UIView*)[DIContainer getInstanceByName:targetName];
+	
+	NSString* targetAttributeName = [self parseTargetAttributeName];
+	if([targetAttributeName isEmpty])
+		targetAttributeName = attribute;
+	NSLayoutAttribute targetAttribute = [DILayoutKey layoutAttributeOf:targetAttributeName];
+	
+	CGFloat mulitply = [self parseMultiply];
+	
+	CGFloat constant = [self parseConstant];
+	
+	NSLayoutAttribute selfAttribute = [DILayoutKey layoutAttributeOf:attribute];
 
+	return [NSLayoutConstraint
+			constraintWithItem:view
+					 attribute:selfAttribute
+					 relatedBy:relation
+						toItem:target
+					 attribute:targetAttribute
+					multiplier:mulitply
+					  constant:constant
+	 ];
+}
+
+-(void)parserFormula:(NSString*)layoutFormula
+{
+	const char* formula = [layoutFormula UTF8String];
+	
+	NSMutableString* currentString = [NSMutableString string];
+	for(int i=0; i<layoutFormula.length; i++)
+	{
+		//split words: < > : + - *
+		switch (formula[i]) {
+			case '<':
+			case '>':
+			case '=':
+				
+			case ':':
+				
+			case '*':
+			case '/':
+				
+			case '+':
+			case '-':
+			{
+				[self.parseQueue addObject:[NSString stringWithString:currentString]];
+				[self.parseQueue addObject:[NSString stringWithFormat:@"%c",formula[i]]];
+				currentString=[NSMutableString string];
+				break;
+			}
+			default:
+			{
+				[currentString appendFormat:@"%c",formula[i]];
+				break;
+			}
+		}
+	}
+	[self.parseQueue addObject:[NSString stringWithString:currentString]];
+	if([[self.parseQueue firstObject]isEmpty])
+		[self.parseQueue removeFirstObject];
+	if([[self.parseQueue lastObject]isEmpty])
+		[self.parseQueue removeLastObject];
+	
 	DebugLog(@"%ld%@:%@*%.1f+%.1f"
 			 ,[self parseRelation]
 			 ,[self parseTargetName]
 			 ,[self parseTargetAttributeName]
 			 ,[self parseMultiply]
 			 ,[self parseConstant]);
+
 }
 
 -(NSLayoutRelation)parseRelation
@@ -92,9 +169,17 @@
 {
 	//:必须写，所以这里必然有targetName，哪怕省略了
 	if([self.parseQueue.head isEqualToString:@":"])
+	{
 		return @"";
+	}
 	else
-		return [self.parseQueue dequeue];
+	{
+		if(self.parseQueue.count>1)
+			return [self.parseQueue dequeue];
+		else//是数字定义
+			return nil;
+	}
+	
 }
 
 -(NSString*)parseTargetAttributeName
@@ -102,11 +187,15 @@
 	if([self.parseQueue.head isEqualToString:@":"])
 	{
 		[self.parseQueue dequeue];
+		if(self.parseQueue.count>0)
+			return [self.parseQueue dequeue];
+		else
+			return @"";
 	}
-	if(self.parseQueue.count>0)
-		return [self.parseQueue dequeue];
 	else
-		return @"";
+	{//数字定义
+		return @"not";
+	}
 }
 
 -(CGFloat)parseMultiply
@@ -141,6 +230,11 @@
 		NSString* numberString = [self.parseQueue dequeue];
 		return -1*[numberString floatValue];
 	}
+	else if([self.parseQueue.head isMatchRegular:@"\\d+"])
+	{
+		NSString* numberString = [self.parseQueue dequeue];
+		return [numberString floatValue];
+	}
 	
 	return 0.0;
 }
@@ -161,7 +255,7 @@
 	return _parseQueue;
 }
 
-+(BOOL)checkFormula:(NSString*)formula
++(BOOL)isRelationFormula:(NSString*)formula
 {
 	static NSPredicate* predicate ;
 	if (predicate==nil)
@@ -171,29 +265,15 @@
 	return [predicate evaluateWithObject:formula];
 }
 
-+(NSLayoutAttribute)layoutAttributeOf:(NSString*)attrName
++(BOOL)isFixedFormula:(NSString*)formula
 {
-	attrName = [attrName lowercaseString];
-	static NSDictionary<NSString*,NSNumber*>* _layoutAttribute;
-	if(_layoutAttribute==nil)
+	static NSPredicate* predicate ;
+	if (predicate==nil)
 	{
-		_layoutAttribute = @{
-							 @"height":[NSNumber numberWithInteger:NSLayoutAttributeHeight],
-							 @"width":[NSNumber numberWithInteger:NSLayoutAttributeWidth],
-							 
-							 @"top":[NSNumber numberWithInteger:NSLayoutAttributeTop],
-							 @"bottom":[NSNumber numberWithInteger:NSLayoutAttributeBottom],
-							 @"left":[NSNumber numberWithInteger:NSLayoutAttributeLeft],
-							 @"right":[NSNumber numberWithInteger:NSLayoutAttributeRight],
-							 
-							 @"centerx":[NSNumber numberWithInteger:NSLayoutAttributeCenterX],
-							 @"centery":[NSNumber numberWithInteger:NSLayoutAttributeCenterY],
-							 
-							 @"leading":[NSNumber numberWithInteger:NSLayoutAttributeLeading],
-							 @"trailing":[NSNumber numberWithInteger:NSLayoutAttributeTrailing],
-							 };
+		predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^\\d+$"];
 	}
-	return (NSLayoutAttribute)_layoutAttribute[attrName];
+	return [predicate evaluateWithObject:formula];
 }
+
 
 @end
