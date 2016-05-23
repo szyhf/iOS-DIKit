@@ -13,6 +13,8 @@
 #import "FlatRouterMap.h"
 #import "DIRouter+Assemble.h"
 #import "DIContainer.h"
+#import "UIView+DILayout.h"
+#import "UIViewController+DILayout.h"
 
 @interface DIRouter()
 
@@ -55,15 +57,15 @@
 	for(NSString* child in children)
 	{
 		[DIRouter addElement:child toParent:parent];
+	}
+	for(NSString* child in children)
+	{
 		NSDictionary* attr = [settings attributesOfNode:child];
 		if(attr!=nil)
 		{
 			id obj = [DIContainer getInstanceByName:child];
 			[obj setValuesForKeysWithDictionary:attr];
 		}
-	}
-	for(NSString* child in children)
-	{
 		[DIRouter realizeNode:child];
 	}
 }
