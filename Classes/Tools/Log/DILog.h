@@ -9,20 +9,22 @@
 #ifndef DILog_h
 #define DILog_h
 
+#include "XCodeColors.h"
+
 #define nsFileString [[NSString stringWithUTF8String:__FILE__] substringFromIndex:1+[[NSString stringWithUTF8String:__FILE__] rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"/"] options:NSBackwardsSearch].location]
-#define DILogString(logType,format,...) [NSString stringWithFormat:@"[%@ %d]\n%s %@\r",nsFileString,__LINE__,logType,[NSString stringWithFormat:format, ##__VA_ARGS__]]
+#define DILogString(logType,format,...) [NSString stringWithFormat:@"[%@ %d]\n%@ %@",nsStringOfYellow(nsFileString),__LINE__,logType,[NSString stringWithFormat:format, ##__VA_ARGS__]]
 
 //日志分级制度
 //#define DEBUG//XCODE默认有Debug定义，即无论是否定义DEBUG，都会输出Debug
-#define DI_INFO "[I]"
-#define DI_WARN "[W]"
-#define DI_DEBUG "[D]"
-#define DI_ERROR "[E]"
-#define DI_FATAL "[F]"
+#define DI_INFO nsStringOfLight(@"[I]")
+#define DI_WARN nsStringOfOrange(@"[W]")
+#define DI_DEBUG nsStringOfCyan(@"[D]")
+#define DI_ERROR nsStringOfGreen(@"[E]")
+#define DI_FATAL nsStringOfRed(@"[F]")
 //#define DI_NOTICE "[N]"
 
 #ifdef DI_DEBUG //DEBUG Level指出细粒度信息事件对调试应用程序是非常有帮助的。
-	#define DebugLog(format, ...) NSLog(@"%@",DILogString(DI_DEBUG,format,##__VA_ARGS__))
+	#define DebugLog(format, ...) NSLog(@"%@\n\n",DILogString(DI_DEBUG,format,##__VA_ARGS__))
 	#define DebugLogWhile(assert,format,...) if(assert)NSLog(@"%@",DILogString(DI_DEBUG,format,##__VA_ARGS__))
 #else
 	#define DebugLog(format, ...)
