@@ -1,11 +1,12 @@
 //
-//  NSUIView+layout.h
+//  UIImageView+Property.h
 //  DIKit
 //
-//  Created by Back on 16/5/22.
+//  Created by Back on 16/5/23.
 //  Copyright © 2016年 Back. All rights reserved.
 //
-#import <UIKit/UIKit.h>
 
-@interface UIView (layout)
+#import <UIKit/UIKit.h>
+@interface UIImageView (DIAttribute)
+
 @end

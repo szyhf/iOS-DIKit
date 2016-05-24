@@ -13,10 +13,10 @@
 #import "FlatRouterMap.h"
 #import "DIRouter+Assemble.h"
 #import "DIContainer.h"
-#import "UIView+DILayout.h"
-#import "UIViewController+DILayout.h"
 #import "NUISettings.h"
 #import "NSObject+Runtimes.h"
+#import "UIView+DIAttribute.h"
+#import "UIViewController+DIAttribute.h"
 
 @interface DIRouter()
 
@@ -74,7 +74,7 @@
 				}
 				@catch (NSException *exception)
 				{
-					WarnLog(@"Try to set property %@ = %@ through xml, but falied.",key,attr[key]);
+					WarnLog(@"Try to set property %@ = %@ through xml, but falied.\n%@",key,attr[key],exception);
 				}
 			}
 #else
