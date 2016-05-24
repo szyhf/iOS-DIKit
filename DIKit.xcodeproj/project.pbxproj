@@ -14,14 +14,12 @@
 		<dict>
 			<key>children</key>
 			<array>
+				<string>0C279E161CF2FA2B00994022</string>
+				<string>0C279E171CF2FA3400994022</string>
 				<string>0C279E111CF2F45400994022</string>
 				<string>0C279E121CF2F45400994022</string>
 				<string>0C1468061CF0C467001074C8</string>
 				<string>0C1468071CF0C467001074C8</string>
-				<string>0C279E001CF1FE0B00994022</string>
-				<string>0C279E011CF1FE0B00994022</string>
-				<string>0C279E041CF2028000994022</string>
-				<string>0C279E051CF2028000994022</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -433,6 +431,161 @@
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
+		<key>0C279E161CF2FA2B00994022</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0C279E001CF1FE0B00994022</string>
+				<string>0C279E011CF1FE0B00994022</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>DIVIew+Layout</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E171CF2FA3400994022</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0C279E041CF2028000994022</string>
+				<string>0C279E051CF2028000994022</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>DIViewController+Layout</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E181CF2FA4100994022</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0C279E201CF3224900994022</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>Property</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E1C1CF3223F00994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>UIImageView+Property.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E1D1CF3223F00994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>UIImageView+Property.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E1E1CF3223F00994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279E1C1CF3223F00994022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C279E1F1CF3223F00994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279E1D1CF3223F00994022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C279E201CF3224900994022</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0C279E1C1CF3223F00994022</string>
+				<string>0C279E1D1CF3223F00994022</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>UIImageView</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E211CF3775C00994022</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0C279E221CF3779200994022</string>
+				<string>0C279E231CF3779200994022</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Object</string>
+			<key>path</key>
+			<string>Object</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E221CF3779200994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>NSObject+Runtimes.h</string>
+			<key>path</key>
+			<string>NSObject+Runtimes.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E231CF3779200994022</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>NSObject+Runtimes.m</string>
+			<key>path</key>
+			<string>NSObject+Runtimes.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C279E241CF3779200994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279E221CF3779200994022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C279E251CF3779200994022</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C279E231CF3779200994022</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
 		<key>0C41987F1CEEDCF900EBFAA2</key>
 		<dict>
 			<key>children</key>
@@ -547,6 +700,8 @@
 			<array>
 				<string>0C5277F11CEAFE060021B477</string>
 				<string>0CCF07611CED72F7001998A0</string>
+				<string>38896A39E23FCCD83CC453F6</string>
+				<string>348DCC4C107AE22DCD3F5E80</string>
 				<string>0C52777B1CEAD8BF0021B477</string>
 				<string>0C5277851CEAD8C80021B477</string>
 			</array>
@@ -628,6 +783,7 @@
 			<key>files</key>
 			<array>
 				<string>0C5277B01CEAD8F80021B477</string>
+				<string>0C279E1F1CF3223F00994022</string>
 				<string>0C5277A91CEAD8F80021B477</string>
 				<string>0C5277A51CEAD8F80021B477</string>
 				<string>0C5277B21CEAD8F80021B477</string>
@@ -637,6 +793,7 @@
 				<string>0C74BCB01CED7A090075221A</string>
 				<string>0C279E141CF2F45400994022</string>
 				<string>0C279E031CF1FE0B00994022</string>
+				<string>0C279E251CF3779200994022</string>
 				<string>0C1468091CF0C467001074C8</string>
 				<string>0C5277A31CEAD8F80021B477</string>
 				<string>0C4198831CEEDD2A00EBFAA2</string>
@@ -659,7 +816,9 @@
 			<key>buildActionMask</key>
 			<string>2147483647</string>
 			<key>files</key>
-			<array/>
+			<array>
+				<string>6BD73E9C3C4DE0B9310CC07C</string>
+			</array>
 			<key>isa</key>
 			<string>PBXFrameworksBuildPhase</string>
 			<key>runOnlyForDeploymentPostprocessing</key>
@@ -685,6 +844,7 @@
 				<string>0C6719DB1CEF13E500E90400</string>
 				<string>0C5277A81CEAD8F80021B477</string>
 				<string>0C5277AF1CEAD8F80021B477</string>
+				<string>0C279E241CF3779200994022</string>
 				<string>0C279E131CF2F45400994022</string>
 				<string>0C279E101CF2F41100994022</string>
 				<string>0C5277AD1CEAD8F80021B477</string>
@@ -695,6 +855,7 @@
 				<string>0C1468111CF19E2A001074C8</string>
 				<string>0CFAC30D1CEB3C4400ABC4F5</string>
 				<string>0C5277A01CEAD8F80021B477</string>
+				<string>0C279E1E1CF3223F00994022</string>
 				<string>0C5277AC1CEAD8F80021B477</string>
 				<string>0CFAC3121CEB401700ABC4F5</string>
 				<string>0C5277A41CEAD8F80021B477</string>
@@ -721,10 +882,12 @@
 			<string>0C5277821CEAD8BF0021B477</string>
 			<key>buildPhases</key>
 			<array>
+				<string>72B9C4EBC31E5AB5B61C93E9</string>
 				<string>0C5277751CEAD8BF0021B477</string>
 				<string>0C5277761CEAD8BF0021B477</string>
 				<string>0C5277771CEAD8BF0021B477</string>
 				<string>0C5277781CEAD8BF0021B477</string>
+				<string>ABA8BC903DD9EC51A47C4309</string>
 			</array>
 			<key>buildRules</key>
 			<array/>
@@ -993,6 +1156,8 @@
 		</dict>
 		<key>0C5277831CEAD8BF0021B477</key>
 		<dict>
+			<key>baseConfigurationReference</key>
+			<string>7B413B9AE1380118ED8ED59A</string>
 			<key>buildSettings</key>
 			<dict>
 				<key>DEFINES_MODULE</key>
@@ -1004,7 +1169,7 @@
 				<key>DYLIB_INSTALL_NAME_BASE</key>
 				<string>@rpath</string>
 				<key>HEADER_SEARCH_PATHS</key>
-				<string></string>
+				<string>$(inherited)</string>
 				<key>INFOPLIST_FILE</key>
 				<string>$(SRCROOT)/Supporting Files/Info.plist</string>
 				<key>INSTALL_PATH</key>
@@ -1014,7 +1179,7 @@
 				<key>LD_RUNPATH_SEARCH_PATHS</key>
 				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
 				<key>OTHER_LDFLAGS</key>
-				<string></string>
+				<string>$(inherited)</string>
 				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
 				<string>com.liangfeng.DIKit</string>
 				<key>PRODUCT_NAME</key>
@@ -1029,6 +1194,8 @@
 		</dict>
 		<key>0C5277841CEAD8BF0021B477</key>
 		<dict>
+			<key>baseConfigurationReference</key>
+			<string>7DE48D9398AC25494765DD14</string>
 			<key>buildSettings</key>
 			<dict>
 				<key>DEFINES_MODULE</key>
@@ -1040,7 +1207,7 @@
 				<key>DYLIB_INSTALL_NAME_BASE</key>
 				<string>@rpath</string>
 				<key>HEADER_SEARCH_PATHS</key>
-				<string></string>
+				<string>$(inherited)</string>
 				<key>INFOPLIST_FILE</key>
 				<string>$(SRCROOT)/Supporting Files/Info.plist</string>
 				<key>INSTALL_PATH</key>
@@ -1050,7 +1217,7 @@
 				<key>LD_RUNPATH_SEARCH_PATHS</key>
 				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
 				<key>OTHER_LDFLAGS</key>
-				<string></string>
+				<string>$(inherited)</string>
 				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
 				<string>com.liangfeng.DIKit</string>
 				<key>PRODUCT_NAME</key>
@@ -1235,6 +1402,7 @@
 				<string>0C5277971CEAD8F80021B477</string>
 				<string>0C5277991CEAD8F80021B477</string>
 				<string>0C52779B1CEAD8F80021B477</string>
+				<string>0C279E211CF3775C00994022</string>
 				<string>0C5277961CEAD8F80021B477</string>
 			</array>
 			<key>isa</key>
@@ -1497,6 +1665,7 @@
 				<string>0C5277861CEAD8F80021B477</string>
 				<string>0C5277891CEAD8F80021B477</string>
 				<string>0C1468051CF0C426001074C8</string>
+				<string>0C279E181CF2FA4100994022</string>
 				<string>0C52778C1CEAD8F80021B477</string>
 				<string>0C5277951CEAD8F80021B477</string>
 				<string>0C52777D1CEAD8BF0021B477</string>
@@ -2028,6 +2197,137 @@
 			<string>0CFAC3111CEB401700ABC4F5</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
+		</dict>
+		<key>348DCC4C107AE22DCD3F5E80</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>7B413B9AE1380118ED8ED59A</string>
+				<string>7DE48D9398AC25494765DD14</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Pods</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>38896A39E23FCCD83CC453F6</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>ECA42E0858B453E497AE1C28</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>6BD73E9C3C4DE0B9310CC07C</key>
+		<dict>
+			<key>fileRef</key>
+			<string>ECA42E0858B453E497AE1C28</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>72B9C4EBC31E5AB5B61C93E9</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXShellScriptBuildPhase</string>
+			<key>name</key>
+			<string>&#128230; Check Pods Manifest.lock</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
+if [[ $? != 0 ]] ; then
+    cat &lt;&lt; EOM
+error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
+EOM
+    exit 1
+fi
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
+		</dict>
+		<key>7B413B9AE1380118ED8ED59A</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>name</key>
+			<string>Pods-DIKit.debug.xcconfig</string>
+			<key>path</key>
+			<string>Pods/Target Support Files/Pods-DIKit/Pods-DIKit.debug.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>7DE48D9398AC25494765DD14</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>name</key>
+			<string>Pods-DIKit.release.xcconfig</string>
+			<key>path</key>
+			<string>Pods/Target Support Files/Pods-DIKit/Pods-DIKit.release.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>ABA8BC903DD9EC51A47C4309</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXShellScriptBuildPhase</string>
+			<key>name</key>
+			<string>&#128230; Copy Pods Resources</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>"${SRCROOT}/Pods/Target Support Files/Pods-DIKit/Pods-DIKit-resources.sh"
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
+		</dict>
+		<key>ECA42E0858B453E497AE1C28</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>archive.ar</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>libPods-DIKit.a</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
 		</dict>
 	</dict>
 	<key>rootObject</key>

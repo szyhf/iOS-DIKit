@@ -15,6 +15,8 @@
 #import "DIContainer.h"
 #import "UIView+DILayout.h"
 #import "UIViewController+DILayout.h"
+#import "NUISettings.h"
+#import "NSObject+Runtimes.h"
 
 @interface DIRouter()
 
@@ -46,7 +48,6 @@
 	[xmlParser setShouldReportNamespacePrefixes:NO];
 	xmlParser =  [[NSXMLParser alloc]initWithData:xmlData];
 	xmlParser.delegate = parserFiller;
-	
 	[xmlParser parse];
 }
 
@@ -64,9 +65,36 @@
 		if(attr!=nil)
 		{
 			id obj = [DIContainer getInstanceByName:child];
+#ifdef DI_DEBUG
+			for(NSString* key in attr)
+			{
+				@try
+				{
+					[obj setValue:attr[key] forKey:key ];
+				}
+				@catch (NSException *exception)
+				{
+					WarnLog(@"Try to set property %@ = %@ through xml, but falied.",key,attr[key]);
+				}
+			}
+#else
 			[obj setValuesForKeysWithDictionary:attr];
+#endif
+			[self autoSetNUIClass:child withInstance:obj];
 		}
 		[DIRouter realizeNode:child];
+	}
+}
+
++(void)autoSetNUIClass:(NSString*)element withInstance:(id)instance
+{
+	NUISettings*nuiInstance = [NUISettings invokeMethod:@"getInstance"];
+	if(nuiInstance.styles[element]!=nil)
+	{
+		if([NSString isNilOrEmpty:[instance valueForKey:@"nuiClass"]])
+		{
+			[instance setValue:element forKey:@"nuiClass"];
+		}
 	}
 }
 

@@ -140,7 +140,7 @@ qualifiedName:(NSString *)qName
 - (void)parser:(NSXMLParser *)parser
 parseErrorOccurred:(NSError *)parseError
 {
-	
+	FatalLog(@"Parse Router Xml failed, %@",parseError);
 }
 
 // If validation is on, this will report a fatal validation error to the delegate. The parser will stop parsing.
