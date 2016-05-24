@@ -9,5 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface NSObject (Runtimes)
+#pragma mark - static
++(id)invokeStaticMethod:(NSString*)methodName;
++(id)invokeStaticMethod:(NSString*)methodName withParams:(id)param,...;
 
+#pragma mark
+-(id)invokeMethod:(NSString*)methodName;
+-(id)invokeMethod:(NSString *)methodName withParams:(id)param,...;
 @end
