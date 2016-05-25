@@ -24,7 +24,7 @@
 -(id)invokeMethod:(NSString*)methodName
 {
 	SEL selector = NSSelectorFromString(methodName);
-	if(selector==nil)return nil;
+	if(![self respondsToSelector:selector])return nil;
 	IMP imp = [self methodForSelector:selector];
 	if(imp==nil)return nil;
 	id (*func)(id, SEL) = (void *)imp;
@@ -35,7 +35,7 @@
 {
 	va_list params;
 	SEL selector = NSSelectorFromString(methodName);
-	if(selector==nil)return nil;
+	if(![self respondsToSelector:selector])return nil;
 	IMP imp = [self methodForSelector:selector];
 	if(imp==nil)return nil;
 	id (*func)(id, SEL,id,...) = (void *)imp;
