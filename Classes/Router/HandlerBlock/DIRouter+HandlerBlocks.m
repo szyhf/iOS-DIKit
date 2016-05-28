@@ -8,39 +8,49 @@
 
 #import "DIRouter+HandlerBlocks.h"
 #import "DIContainer.h"
+#import "NSObject+Runtimes.h"
 
 @implementation DIRouter (HandlerBlocks)
-static NSDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*_realizeMap;
-+(NSDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*)realizeMap
+static NSMutableDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*_realizeMap;
++(NSMutableDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*)realizeMap
 {
 	//["super"=>["child"=>handlerBlock]]
 	if(_realizeMap==nil)
-		_realizeMap = @{
+	{	id defaultMap = @{
 			  @"UITabBarController":@{
-					  @"UIViewController":self.realizeTabBarControllerToViewController,
+					  @"UIViewController":self.realizeUITabBarControllerToUIViewController,
 					},
 			  @"UINavigationController":@{
-					  @"UIViewController":self.realizeNavigationControllerToViewController,
+					  @"UITabBarItem":self.realizeUINavigationControllerToUITabBarItem,
+					  @"UIViewController":self.realizeUINavigationControllerToUIViewController,
 					  },
 			  @"UIViewController":@{
-					  @"UIViewController":self.realizeViewControllerToViewController,
-					  @"UIView":self.realizeViewControllerToView,
+					  @"UIViewController":self.realizeUIViewControllerToUIViewController,
+					  @"UIView":self.realizeUIViewControllerToUIView,
 					  },
 			  @"UIControl":@{},
 			  @"UIView":@{
-					  @"UIView":self.realizeViewToView
+					  @"UIView":self.realizeUIViewToUIView
 					  }
-			  };;
-	
+			  };
+		_realizeMap = [NSMutableDictionary dictionaryWithDictionary:defaultMap];
+
+	}
 	return _realizeMap;
 }
 
-+(RealizeHandlerBlock)realizeViewControllerToView
++(RealizeHandlerBlock)realizeUINavigationControllerToUITabBarItem
 {
-	return ^void(NSString* parentName,NSString* childName)
+	return ^void(UINavigationController* naviIns,UITabBarItem* barIns)
 	{
-		UIViewController* superIns = [DIContainer getInstanceByName:parentName];
-		UIView* childView = [DIContainer getInstanceByName:childName];
+		[naviIns setTabBarItem:barIns];
+	};
+}
+
++(RealizeHandlerBlock)realizeUIViewControllerToUIView
+{
+	return ^void(UIViewController* superIns,UIView* childView )
+	{
 		if(![superIns.view.subviews containsObject:childView])
 		{
 			[superIns.view addSubview:childView];
@@ -49,13 +59,10 @@ static NSDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*_rea
 	};
 }
 
-+(RealizeHandlerBlock)realizeViewToView
++(RealizeHandlerBlock)realizeUIViewToUIView
 {
-	return ^void(NSString* parentName,NSString* childName)
+	return ^void(UIView* parentView,UIView* childView)
 	{
-		UIView* parentView = [DIContainer getInstanceByName:parentName];
-		UIView* childView = [DIContainer getInstanceByName:childName];
-		
 		if([parentView.subviews containsObject:childView])
 		{
 			[parentView addSubview:childView];
@@ -63,13 +70,10 @@ static NSDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*_rea
 	};
 }
 
-+(RealizeHandlerBlock)realizeViewControllerToViewController
++(RealizeHandlerBlock)realizeUIViewControllerToUIViewController
 {
-	return ^void(NSString* parentName,NSString* childName)
-	{
-		UIViewController* childIns = [DIContainer getInstanceByName:childName];
-		UIViewController* superIns = [DIContainer getInstanceByName:parentName];
-		
+	return ^void(UIViewController* childIns ,UIViewController* superIns)
+	{		
 		if(![superIns.childViewControllers containsObject:childIns])
 		{
 			[superIns addChildViewController:childIns];
@@ -84,12 +88,10 @@ static NSDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*_rea
 	};
 }
 
-+(RealizeHandlerBlock)realizeNavigationControllerToViewController
++(RealizeHandlerBlock)realizeUINavigationControllerToUIViewController
 {
-	return ^void(NSString* parentName,NSString* childName)
+	return ^void(UINavigationController* superIns,UIViewController* childIns)
 	{
-		UIViewController* childIns = [DIContainer getInstanceByName:childName];
-		UINavigationController* superIns = [DIContainer getInstanceByName:parentName];
 		if(![superIns.childViewControllers containsObject:childIns])
 		{
 			[superIns pushViewController:childIns animated:YES];
@@ -97,12 +99,10 @@ static NSDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*_rea
 	};
 }
 
-+(RealizeHandlerBlock)realizeTabBarControllerToViewController
++(RealizeHandlerBlock)realizeUITabBarControllerToUIViewController
 {
-	return ^void(NSString* parentName,NSString* childName)
+	return ^void(UITabBarController* superIns,UIViewController* childIns)
 	{
-		UIViewController* childIns = [DIContainer getInstanceByName:childName];
-		UITabBarController* superIns = [DIContainer getInstanceByName:parentName];
 		if(![superIns.childViewControllers containsObject:childIns])
 		{
 			[superIns addChildViewController:childIns];

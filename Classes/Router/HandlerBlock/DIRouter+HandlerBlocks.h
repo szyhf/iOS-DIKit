@@ -8,7 +8,7 @@
 
 #import "DIRouter.h"
 
-typedef void(^RealizeHandlerBlock)(NSString*parent,NSString*child);
+typedef void(^RealizeHandlerBlock)(id parent,id child);
 @interface DIRouter (HandlerBlocks)
 +(NSDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*)realizeMap;
 @end
