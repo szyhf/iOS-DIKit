@@ -24,6 +24,17 @@ typedef void(^AfterInitBlock)(id newIns);
 +(bool)isBind:(NSString*)Clazz;
 
 /**
+ *  生成一个指定类型的实例（但不会注册于容器）
+ *
+ *  @param clazz 类型
+ *
+ *  @return <#return value description#>
+ */
++(id)makeInstance:(Class)clazz;
++(id)makeInstanceByName:(NSString*)clazzName;
+
+
+/**
  *  自动绑定一个对象到容器，设置为这个类型的单例
  *
  *  @param ins 对象

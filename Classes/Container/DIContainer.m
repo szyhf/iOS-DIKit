@@ -80,6 +80,34 @@
 	return false;
 }
 
++(id)makeInstance:(Class)clazz
+{
+	NSString* className = NSStringFromClass(clazz);
+	return [self makeInstanceByName:className];	
+}
+
++(id)makeInstanceByName:(NSString*)name
+{
+	DIContainer* shared       = [DIContainer Instance];
+	
+	id ins                  = nil;
+	//检查是否存在别名
+	NSString* className     = (NSString*)[[shared aliasMap]objectForKey:name];
+	className               = className ? className : name;
+	
+	//创建一个新的
+	ins = [NSClassFromString(className) alloc];
+	if(ins==nil)
+	{
+		WarnLog(@"Try make instance of %@ but failed.",name);
+		return nil;
+	}
+	
+	ins = [shared initlizeInstance:ins];
+	
+	return ins;
+}
+
 /**
  *  根据类型名称注册一个类型
  *
@@ -227,6 +255,11 @@
 	
 	//创建一个新的
 	ins = [NSClassFromString(className) alloc];
+	if(ins==nil)
+	{
+		WarnLog(@"Try make instance of %@ but failed.",className);
+		return nil;
+	}
 	[DIContainer bindClassName:className withInstance:ins];
 	NoticeLog(@"Make a instance of %@",className);
 	
