@@ -13,4 +13,5 @@
 #import "DILayoutDebug.h"
 #import "DIString.h"
 #import "DIIO.h"
+#import "DIObject.h"
 #endif /* DITools_h */
