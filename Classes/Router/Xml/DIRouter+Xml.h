@@ -12,5 +12,6 @@
 +(void)realizeXml:(NSString*)xmlString;
 +(void)registryXmlDirectory:(NSString*)directory;
 +(void)registryRealizeXml:(NSString*)xmlString;
-+(void)realizeNode:(NSString*)parent;
++(void)remakeRealizeXml:(NSString*)xmlString;
++(id)realizeNode:(DINode*)parent;
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "DIRouter+Xml.h"
-#import "DIRouter.h"
 #import "RouterXmlParserDelegate.h"
 #import "DITools.h"
 #import "FlatRouterMap.h"
@@ -15,11 +14,15 @@
 #import "DIContainer.h"
 #import "NUISettings.h"
 #import "NSObject+Runtimes.h"
-#import "UIView+DIAttribute.h"
-#import "UIViewController+DIAttribute.h"
+#import "DIAttribute.h"
+#import "NSObject+DIAttribute.h"
+#import "DINode+Make.h"
+#import "DIConverter.h"
 
 @interface DIRouter()
-
+{
+	
+}
 @end
 
 @implementation DIRouter (Xml)
@@ -39,50 +42,78 @@
 
 +(void)registryRealizeXml:(NSString*)xmlString
 {
-	RouterXmlParserDelegate* parserFiller =[[RouterXmlParserDelegate alloc]init];
-	[parserFiller fillToSettings:[self Instance].flatRouterMap];
-	
-	NSXMLParser* xmlParser;
-	NSData* xmlData = [xmlString dataUsingEncoding:NSUTF8StringEncoding];
-	[xmlParser setShouldProcessNamespaces:NO];
-	[xmlParser setShouldReportNamespacePrefixes:NO];
-	xmlParser =  [[NSXMLParser alloc]initWithData:xmlData];
-	xmlParser.delegate = parserFiller;
-	[xmlParser parse];
+	DIRouter* instance = [self Instance];
+	if(!instance.uiTree)
+	{
+		instance.uiTree = [[DITree alloc]initWithRootXML:xmlString];
+	}
+	else
+	{
+		[instance.uiTree updateWithXML:xmlString];
+	}
 }
 
-+(void)realizeNode:(NSString*)parent
++(void)remakeRealizeXml:(NSString*)xmlString
 {
-	FlatRouterMap* settings = [[DIRouter Instance]flatRouterMap];
-	NSArray<NSString*>* children = [settings childrenOfNode:parent];
-	for(NSString* child in children)
+	DIRouter* instance = [self Instance];
+	if(!instance.uiTree)
 	{
-		[DIRouter addElement:child toParent:parent];
+		instance.uiTree = [[DITree alloc]initWithRootXML:xmlString];
 	}
-	for(NSString* child in children)
+	else
 	{
-		NSDictionary* attr = [settings attributesOfNode:child];
-		if(attr!=nil)
+		[instance.uiTree remakeWithXML:xmlString];
+	}
+}
+
++(id)realizeNode:(DINode*)node
+{
+	id nodeInstance = [node makeInstance];
+	[node setValue:nodeInstance forKey:@"implement"];
+	
+	for (DINode* child in node.children)
+    {
+		if([child isProperty])
 		{
-			id obj = [DIContainer getInstanceByName:child];
-#ifdef DI_DEBUG
-			for(NSString* key in attr)
-			{
-				@try
-				{
-					[obj setValue:attr[key] forKey:key ];
-				}
-				@catch (NSException *exception)
-				{
-					WarnLog(@"Try to set property %@ = %@ through xml, but falied.\n%@",key,attr[key],exception);
-				}
-			}
-#else
-			[obj setValuesForKeysWithDictionary:attr];
-#endif
-			[self autoSetNUIClass:child withInstance:obj];
+			id childInstance = [self realizeValueNode:child];
+			[nodeInstance setValue:childInstance forKeyPath:child.property];
+			[child setValue:childInstance forKey:@"implement"];
 		}
-		[DIRouter realizeNode:child];
+		else
+		{
+			id childInstance = [self realizeNode:child];
+			RealizeHandlerBlock block = [DIRouter blockToAddElement:child.className toParent:node.className];
+			block(nodeInstance,childInstance);
+		}
+	}
+	
+	for(DINode* child in node.children)
+	{
+		if(![child isProperty])
+		{
+			id instance = [child valueForKey:@"implement"];
+			[instance updateByNode:child];
+			[self autoSetNUIClass:child.name withInstance:instance];
+		}
+	}
+	
+	return nodeInstance;
+}
+
+
++(id)realizeValueNode:(DINode*)node
+{
+	if([node.clazz isSubclassOfClass:NSString.class])
+	{
+		return [NSString stringWithString:node.attributes[@"init"]];
+	}
+	else if ([node.clazz isSubclassOfClass:UIImage.class])
+	{
+		return [UIImage imageNamed:node.attributes[@"name"]];
+	}
+	else if ([node.clazz isSubclassOfClass:UIColor.class])
+	{
+		return [DIConverter toColor:node.attributes[@"init"]];
 	}
 }
 
