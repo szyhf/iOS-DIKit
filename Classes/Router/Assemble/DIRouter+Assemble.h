@@ -8,6 +8,7 @@
 
 #import "DIRouter.h"
 
+#import "DIRouter+HandlerBlocks.h"
 
 @interface DIRouter (Assemble)
 /**
@@ -18,6 +19,9 @@
  */
 +(void)addElement:(NSString*)element
 		 toParent:(NSString*)lastElement;
+
++(RealizeHandlerBlock)blockToAddElement:(NSString*)element
+							   toParent:( NSString*)lastElement;
 /**
  *  尝试推断可能符合条件的element
  *

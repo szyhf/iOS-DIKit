@@ -8,11 +8,68 @@
 
 
 #import "DIRouter+Assemble.h"
-#import "DIRouter+HandlerBlocks.h"
 #import "DITools.h"
 #import "DIContainer.h"
+#import "NSObject+Runtimes.h"
 
 @implementation DIRouter (Assemble)
+
++(RealizeHandlerBlock)blockToAddElement:(NSString*)element
+		 toParent:( NSString*)lastElement
+{
+	bool isSlove = false;
+	
+	Class lastClazz = NSClassFromString(lastElement);
+	NSString* superLastName = lastElement;
+	if(lastClazz==nil)
+	{
+		//尝试匿名解决
+		superLastName =[self realizeOfAnonymous:lastElement];
+		lastClazz = NSClassFromString(superLastName);
+	}
+	
+	Class currentClazz = NSClassFromString(element);
+	
+	NSString* elementRealizeName = element;
+	if(currentClazz == nil)
+	{
+		//尝试匿名解决
+		elementRealizeName = [self realizeOfAnonymous:element];
+		currentClazz = NSClassFromString(elementRealizeName);
+	}
+	
+	Class superLastClazz = lastClazz;//纯改名，lastClazz已经没用了。
+	
+	//回溯父控件的类，直到找到最接近的被注册过的类型。
+	while (superLastClazz!=nil
+		   && !isSlove )
+	{
+		Class superCurrentClazz = currentClazz;
+		NSString* superCurrentName = elementRealizeName;
+		//回溯当前类，直到找到最近被注册的处理器
+		while (superCurrentClazz!=nil)
+		{
+			NSString* realizeName = [NSString stringWithFormat:@"realize%@To%@",superLastName,superCurrentName];
+			SEL select = NSSelectorFromString(realizeName);
+			if([(id)self.class respondsToSelector:select])
+			{
+				RealizeHandlerBlock testBlock = [self invokeStaticMethod:realizeName];
+				return testBlock;
+			}
+			//因为superCurrent有初始值（匿名的情况），所以最后才更新。
+			superCurrentName = NSStringFromClass(superCurrentClazz);
+			
+			superCurrentClazz = [superCurrentClazz superclass];
+		}
+		//因为superLastName有初始值，所以最后才更新
+		superLastName = NSStringFromClass(superLastClazz);
+		
+		superLastClazz = [superLastClazz superclass];
+	}
+	
+	WarnLogWhile(!isSlove, @"Add %@ to %@ Failed.",element,lastElement);
+	return nil;
+}
 
 +(void)addElement:(NSString* _Nonnull)element
 		 toParent:( NSString* _Nonnull )lastElement
@@ -38,39 +95,31 @@
 		currentClazz = NSClassFromString(elementRealizeName);
 	}
 	
-	NSDictionary<NSString*,RealizeHandlerBlock>* blockMap;
 	Class superLastClazz = lastClazz;//纯改名，lastClazz已经没用了。
 	
 	//回溯父控件的类，直到找到最接近的被注册过的类型。
 	while (superLastClazz!=nil
-		   //&& blockMap == nil
 		   && !isSlove )
 	{
-		blockMap = [[self realizeMap]objectForKey:superLastName];
-		
-		//如果找到了blockMap，则尝试在blockMap中继续找可能符合条件的处理器
-		//完全有可能存在blockMap，但不存在处理器的情况，此时应继续向上遍历当前父类是否还存在别的可能符合条件的处理器
-		if(blockMap!=nil)
+		Class superCurrentClazz = currentClazz;
+		NSString* superCurrentName = elementRealizeName;
+		//回溯当前类，直到找到最近被注册的处理器
+		while (superCurrentClazz!=nil)
 		{
-			Class superCurrentClazz = currentClazz;
-			RealizeHandlerBlock handlerBlock;
-			
-			NSString* superCurrentName = elementRealizeName;
-			//回溯当前类，直到找到最近被注册的处理器
-			while (superCurrentClazz!=nil)
+			NSString* realizeName = [NSString stringWithFormat:@"realize%@To%@",superLastName,superCurrentName];
+			SEL select = NSSelectorFromString(realizeName);
+			if([(id)self.class respondsToSelector:select])
 			{
-				handlerBlock = [blockMap objectForKey:superCurrentName];
-				if(handlerBlock!=nil)
-				{
-					handlerBlock(lastElement,element);
-					isSlove = true;
-					break;
-				}
-				//因为superCurrent有初始值（匿名的情况），所以最后才更新。
-				superCurrentName = NSStringFromClass(superCurrentClazz);
+				RealizeHandlerBlock testBlock = [self invokeStaticMethod:realizeName];
+				testBlock(lastElement,element);
+				isSlove = true;
+				break;
 				
-				superCurrentClazz = [superCurrentClazz superclass];
 			}
+			//因为superCurrent有初始值（匿名的情况），所以最后才更新。
+			superCurrentName = NSStringFromClass(superCurrentClazz);
+			
+			superCurrentClazz = [superCurrentClazz superclass];
 		}
 		//因为superLastName有初始值，所以最后才更新
 		superLastName = NSStringFromClass(superLastClazz);
@@ -138,6 +187,7 @@
 					 @"TabBarController":@"UITabBarController",
 					 @"ViewController":@"UIViewController",
 					 
+					 @"TabBarItem":@"UITabBarItem",
 					 @"BarButtonItem":@"UIBarButtonItem",
 					 @"BarButton":@"UIBarButtonItem",
 					 
