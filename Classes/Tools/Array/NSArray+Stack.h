@@ -1,13 +1,13 @@
 //
 //  NSArray+Stack.h
-//  DIKit
+//  Pods
 //
-//  Created by Back on 16/5/22.
-//  Copyright © 2016年 Back. All rights reserved.
+//  Created by Back on 16/5/27.
+//
 //
 
 #import <Foundation/Foundation.h>
 
-@interface NSArray<__covariant ObjectType>(Stack)
-
+@interface NSArray (Stack)
+-(id)top;
 @end

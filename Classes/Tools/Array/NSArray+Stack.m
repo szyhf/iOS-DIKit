@@ -1,14 +1,16 @@
 //
 //  NSArray+Stack.m
-//  DIKit
+//  Pods
 //
-//  Created by Back on 16/5/22.
-//  Copyright © 2016年 Back. All rights reserved.
+//  Created by Back on 16/5/27.
+//
 //
 
 #import "NSArray+Stack.h"
 
 @implementation NSArray (Stack)
-
-
+-(id)top
+{
+	return [self lastObject];
+}
 @end

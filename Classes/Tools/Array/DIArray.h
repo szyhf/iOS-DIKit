@@ -13,5 +13,5 @@
 #import "NSArray+Stack.h"
 
 #import "NSMutableArray+Queue.h"
-
+#import "NSMutableArray+Stack.h"
 #endif /* DIArray_h */
