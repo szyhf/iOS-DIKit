@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "NSObject+DIAttribute.h"
 @interface UIView (DIAttribute)
 
 @end

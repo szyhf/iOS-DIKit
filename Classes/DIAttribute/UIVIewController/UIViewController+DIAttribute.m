@@ -9,17 +9,24 @@
 #import "UIViewController+DIAttribute.h"
 #import "UndefinedKeyHandlerBlock.h"
 #import "DILayoutParser.h"
+#import "DITools.h"
+#import "DIContainer.h"
+#import "DIConverter.h"
 
 @implementation UIViewController (DIAttribute)
 -(void)setValue:(id)value
 forUndefinedKey:(NSString *)key
 {
-	//必须显式的调用UIView，否则无法正确拦截并处理子类向上传递的消息。
-	UndefinedKeyHandlerBlock block  = [UIViewController blocks:key];
+	NSString* trim_key = [key stringByDeletingPathExtension];
+	
+	//必须显式的调用当前类型，否则无法正确拦截并处理子类向上传递的消息。
+	UndefinedKeyHandlerBlock block  = [UIViewController blocks:trim_key];
 	if(block!=nil)
-		block(self,key,value);
+		block(self,trim_key,value);
+	else if(trim_key.length!=key.length)
+		return [self setValue:value forKey:trim_key];
 	else
-		[super setValue:value forUndefinedKey:key];
+		[super setValue:value forUndefinedKey:trim_key];
 }
 
 +(UndefinedKeyHandlerBlock)blocks:(NSString*)key
@@ -29,6 +36,11 @@ forUndefinedKey:(NSString *)key
 	dispatch_once(&_uiView_token,
 				  ^{
 					  _instance = @{
+									@"backgroundColor":self.colorKey,
+									@"leftBar":self.leftBarKey,
+									/**
+									 *  layout
+									 */
 									@"height":self.layoutKey,
 									@"width":self.layoutKey,
 									
@@ -50,6 +62,39 @@ forUndefinedKey:(NSString *)key
 	return _instance[key];
 }
 
++(UndefinedKeyHandlerBlock)leftBarKey
+{
+	static UndefinedKeyHandlerBlock _instance;
+	static dispatch_once_t _leftBarKey_token;
+	dispatch_once(&_leftBarKey_token,
+				  ^{
+					  _instance =  ^void(UIViewController* obj,NSString*key,id value)
+					  {
+						  NSString* name = [(NSString*)value trimStart:@"$"];
+						  id button = [DIContainer getInstanceByName:name];
+						  if ([button isKindOfClass:UIView.class])
+						  {
+							  button = [[UIBarButtonItem alloc]initWithCustomView:button];
+							  
+						  }
+						  if([button isKindOfClass:UIBarButtonItem.class])
+						  {
+							  if(obj.navigationItem.leftBarButtonItems.count>0)
+							  {
+								  obj.navigationItem.leftBarButtonItem = button;
+							  }
+							  else
+							  {
+								  NSMutableArray* tempAry = [NSMutableArray arrayWithArray:obj.navigationItem.leftBarButtonItems];
+								  obj.navigationItem.leftBarButtonItems = [tempAry arrayByAddingObject:button];
+							  }
+						  }
+						  
+					  } ;
+				  });
+	return _instance;
+}
+
 +(UndefinedKeyHandlerBlock)layoutKey
 {
 	static UndefinedKeyHandlerBlock _instance;
@@ -58,12 +103,27 @@ forUndefinedKey:(NSString *)key
 				  ^{
 					  _instance = ^void(UIViewController* obj,NSString*key,id value)
 					  {
-						  NSArray<NSLayoutConstraint*>* constarints = [DILayoutParser constraints:value toAttribute:key forView:obj.view];
-						  [obj.view setTranslatesAutoresizingMaskIntoConstraints:NO];
-						  [obj.view.superview addConstraints:constarints];
+						  [obj.view setValue:value forKey:key];
 						  
 					  } ;
 				  });
 	return _instance;
 }
+
++(UndefinedKeyHandlerBlock)colorKey
+{
+	static UndefinedKeyHandlerBlock _instance;
+	static dispatch_once_t _colorKey_token;
+	dispatch_once(&_colorKey_token,
+				  ^{
+					  _instance =  ^void(UIViewController* obj,NSString*key,id value)
+					  {
+						  //todo:prop
+						  UIColor* color = [DIConverter toColor:value];
+						  [obj.view setValue:color forKeyPath:key];
+					  };
+				  });
+	return _instance;
+}
+
 @end
