@@ -31,4 +31,7 @@
 - (void)drawInContext:(CGContextRef)context withPosition:(CGPoint)p andFont:(UIFont *)font andTextColor:(UIColor *)color andHeight:(float)height andWidth:(float)width;
 - (void)drawInContext:(CGContextRef)context withPosition:(CGPoint)p andFont:(UIFont *)font andTextColor:(UIColor *)color andHeight:(float)height;
 
+#pragma mark - di api
+-(NSString*)trimStart:(NSString*)startString;
+-(NSString*)trimEnd:(NSString*)endString;
 @end

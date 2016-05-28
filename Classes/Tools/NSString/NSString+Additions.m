@@ -8,6 +8,7 @@
 
 #import "NSString+Additions.h"
 #import <CoreText/CoreText.h>
+#include <stdlib.h>
 
 @implementation NSString (Additions)
 
@@ -184,5 +185,37 @@
 - (void)drawInContext:(CGContextRef)context withPosition:(CGPoint)p andFont:(UIFont *)font andTextColor:(UIColor *)color andHeight:(float)height{
     [self drawInContext:context withPosition:p andFont:font andTextColor:color andHeight:height andWidth:CGFLOAT_MAX];
 }
+
+-(NSString*)trimEnd:(NSString*)endString
+{
+	if([self endsWith:endString])
+	{
+		NSInteger diff = self.length-endString.length;
+		NSRange range = NSMakeRange(0,diff);
+		NSString*res = [self substringWithRange:range];
+		return res;
+	}
+	else
+	{
+		return self;
+	}
+	
+}
+
+-(NSString*)trimStart:(NSString*)startString
+{
+	if([self startsWith:startString])
+	{
+		NSRange range = NSMakeRange(startString.length,self.length-1);
+		NSString*res = [self substringWithRange:range];
+		return res;
+	}
+	else
+	{
+		return self;
+	}
+	
+}
+
 
 @end
