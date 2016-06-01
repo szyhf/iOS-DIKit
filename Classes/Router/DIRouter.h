@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "DITools.h"
-#import "FlatRouterMap.h"
 #import "DITree.h"
 @interface DIRouter : NSObject
 +(DIRouter*)Instance;
@@ -18,7 +17,4 @@
  *  @param path 组装路径
  */
 +(void)realizePath:(NSString*)path;
-+(void)clearRouterMap;
-@property (nonatomic) FlatRouterMap* flatRouterMap;
-@property (nonatomic, strong) DITree* uiTree;
 @end

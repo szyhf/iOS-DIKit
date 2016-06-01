@@ -9,7 +9,6 @@
 #import "DIRouter.h"
 
 @interface DIRouter (Xml)
-+(void)realizeXml:(NSString*)xmlString;
 +(void)registryXmlDirectory:(NSString*)directory;
 +(void)registryRealizeXml:(NSString*)xmlString;
 +(void)remakeRealizeXml:(NSString*)xmlString;

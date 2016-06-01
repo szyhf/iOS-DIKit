@@ -25,6 +25,7 @@ static NSMutableDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>
 					  @"UIViewController":self.realizeUINavigationControllerToUIViewController,
 					  },
 			  @"UIViewController":@{
+					  @"UIBarButtonItem":@"",
 					  @"UIViewController":self.realizeUIViewControllerToUIViewController,
 					  @"UIView":self.realizeUIViewControllerToUIView,
 					  },
@@ -37,6 +38,14 @@ static NSMutableDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>
 
 	}
 	return _realizeMap;
+}
+
++(RealizeHandlerBlock)realizeUIBarButtonItemToUIView
+{
+	return ^void(UIBarButtonItem* viewIns,UIView* barIns)
+	{
+		viewIns.customView = barIns;
+	};
 }
 
 +(RealizeHandlerBlock)realizeUINavigationControllerToUITabBarItem
@@ -72,7 +81,7 @@ static NSMutableDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>
 
 +(RealizeHandlerBlock)realizeUIViewControllerToUIViewController
 {
-	return ^void(UIViewController* childIns ,UIViewController* superIns)
+	return ^void(UIViewController* superIns,UIViewController* childIns)
 	{		
 		if(![superIns.childViewControllers containsObject:childIns])
 		{

@@ -132,11 +132,6 @@
 	}
 }
 
-+(void)clearRouterMap
-{
-	[DIRouter Instance].flatRouterMap = [[FlatRouterMap alloc]init];
-}
-
 -(NSObject*)init
 {
 	self = [super init];
@@ -147,12 +142,5 @@
 	}
 	
 	return self;
-}
-
--(FlatRouterMap *)flatRouterMap {
-	if(_flatRouterMap == nil) {
-		_flatRouterMap = [[FlatRouterMap alloc] init];
-	}
-	return _flatRouterMap;
 }
 @end

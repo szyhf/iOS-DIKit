@@ -7,23 +7,14 @@
 //
 
 #import "DIRouter+Xml.h"
-#import "RouterXmlParserDelegate.h"
 #import "DITools.h"
-#import "FlatRouterMap.h"
 #import "DIRouter+Assemble.h"
 #import "DIContainer.h"
 #import "NUISettings.h"
 #import "NSObject+Runtimes.h"
 #import "DIAttribute.h"
-#import "NSObject+DIAttribute.h"
 #import "DINode+Make.h"
 #import "DIConverter.h"
-
-@interface DIRouter()
-{
-	
-}
-@end
 
 @implementation DIRouter (Xml)
 
@@ -42,64 +33,76 @@
 
 +(void)registryRealizeXml:(NSString*)xmlString
 {
-	DIRouter* instance = [self Instance];
-	if(!instance.uiTree)
+	if(!DITree.instance)
 	{
-		instance.uiTree = [[DITree alloc]initWithRootXML:xmlString];
+		[DITree.instance newWithXML:xmlString];
 	}
 	else
 	{
-		[instance.uiTree updateWithXML:xmlString];
+		[DITree.instance updateWithXML:xmlString];
 	}
 }
 
 +(void)remakeRealizeXml:(NSString*)xmlString
 {
-	DIRouter* instance = [self Instance];
-	if(!instance.uiTree)
+	if(!DITree.instance)
 	{
-		instance.uiTree = [[DITree alloc]initWithRootXML:xmlString];
+		[DITree.instance newWithXML:xmlString];
 	}
 	else
 	{
-		[instance.uiTree remakeWithXML:xmlString];
+		[DITree.instance remakeWithXML:xmlString];
 	}
 }
 
 +(id)realizeNode:(DINode*)node
 {
-	id nodeInstance = [node makeInstance];
-	[node setValue:nodeInstance forKey:@"implement"];
+	[self makeLogicTree:node];
+	[self patchAttribute:node];
+	return node.Implement;
+}
+
++(DINode*)makeLogicTree:(DINode*)node
+{
+	node.Implement = [node makeInstance];
 	
 	for (DINode* child in node.children)
-    {
+	{
 		if([child isProperty])
 		{
-			id childInstance = [self realizeValueNode:child];
-			[nodeInstance setValue:childInstance forKeyPath:child.property];
-			[child setValue:childInstance forKey:@"implement"];
+			child.Implement = [self realizeValueNode:child];
+			if(!child.Implement)
+			{
+				[self makeLogicTree:child];
+			}
+			node.attributes[child.property]=child.Implement;
+			//[node.Implement setValue:child.Implement forKeyPath:child.property];
 		}
 		else
 		{
-			id childInstance = [self realizeNode:child];
+			[self makeLogicTree:child];
 			RealizeHandlerBlock block = [DIRouter blockToAddElement:child.className toParent:node.className];
-			block(nodeInstance,childInstance);
+			if(block)
+				block(node.Implement,child.Implement);
+			else
+				WarnLog(@"Add %@ to %@ failed.",child.name,node.name);
 		}
 	}
-	
-	for(DINode* child in node.children)
-	{
-		if(![child isProperty])
-		{
-			id instance = [child valueForKey:@"implement"];
-			[instance updateByNode:child];
-			[self autoSetNUIClass:child.name withInstance:instance];
-		}
-	}
-	
-	return nodeInstance;
+	return node;
 }
 
++(DINode*)patchAttribute:(DINode*)node
+{
+	for(DINode* child in node.children)
+	{
+		[self patchAttribute:child];
+	}
+	
+	[self autoSetNUIClass:node.name withInstance:node.Implement];
+	[node.Implement updateByNode:node];
+	
+	return node;
+}
 
 +(id)realizeValueNode:(DINode*)node
 {
@@ -115,6 +118,7 @@
 	{
 		return [DIConverter toColor:node.attributes[@"init"]];
 	}
+	return nil;
 }
 
 +(void)autoSetNUIClass:(NSString*)element withInstance:(id)instance
@@ -128,19 +132,4 @@
 		}
 	}
 }
-
-+(void)realizeXml:(NSString*)xmlString
-{
-	RouterXmlParserDelegate* parserDelegate =[[RouterXmlParserDelegate alloc]init];
-	
-	NSXMLParser* xmlParser;
-	NSData* xmlData = [xmlString dataUsingEncoding:NSUTF8StringEncoding];
-	xmlParser = [[NSXMLParser alloc]initWithData:xmlData];
-	[xmlParser setShouldProcessNamespaces:NO];
-	[xmlParser setShouldReportNamespacePrefixes:NO];
-	xmlParser.delegate = parserDelegate;
-	
-	[xmlParser parse];
-}
-
 @end
