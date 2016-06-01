@@ -66,8 +66,6 @@
 		
 		superLastClazz = [superLastClazz superclass];
 	}
-	
-	WarnLogWhile(!isSlove, @"Add %@ to %@ Failed.",element,lastElement);
 	return nil;
 }
 

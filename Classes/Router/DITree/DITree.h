@@ -11,7 +11,8 @@
 
 @interface DITree : NSObject
 @property (nonatomic, readonly) DINode* root;
--(instancetype)initWithRootXML:(NSString*)xmlString;
++(instancetype)instance;
+-(void)newWithXML:(NSString*)xmlString;
 -(void)updateWithXML:(NSString*)xmlString;
 -(void)remakeWithXML:(NSString*)xmlString;
 @end

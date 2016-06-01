@@ -25,26 +25,31 @@ typedef NS_ENUM(NSInteger,ParseStatus)
 @end
 
 @implementation DITree
-
--(instancetype)initWithRootXML:(NSString*)xmlString
++(instancetype)instance
 {
-	self = [super init];
-	if(self)
-	{
-		[self parseXML:xmlString for:ParseStatusNew];
-	}
-	return self;
+	static DITree *_instance;
+	static dispatch_once_t _tree_token;
+	dispatch_once(&_tree_token,
+				  ^{
+					  _instance = [[DITree alloc]init] ;
+				  });
+	return _instance;
+}
+
+-(void)newWithXML:(NSString*)xmlString
+{
+	[self parseXML:xmlString status:ParseStatusNew];
 }
 
 -(void)updateWithXML:(NSString*)xmlString
 {
-	[self parseXML:xmlString for:ParseStatusUpdate];
+	[self parseXML:xmlString status:ParseStatusUpdate];
 }
 -(void)remakeWithXML:(NSString*)xmlString
 {
-	[self parseXML:xmlString for:ParseStatusRemake];
+	[self parseXML:xmlString status:ParseStatusRemake];
 }
--(void)parseXML:(NSString*)xmlString for:(ParseStatus)status
+-(void)parseXML:(NSString*)xmlString status:(ParseStatus)status
 {
 	self->parseStatus = status;
 	
@@ -121,6 +126,11 @@ qualifiedName:(NSString *)qName
 			break;
 		}
 	}
+}
+
+-(void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
+{
+	FatalLog(@"%@",parseError);
 }
 
 - (NSMutableDictionary<NSString*,DINode*> *)nameToNode

@@ -11,6 +11,8 @@
 #import "DITools.h"
 #import "NSObject+Runtimes.h"
 #import "UndefinedKeyHandlerBlock.h"
+#import "DILayoutParser.h"
+#import "DINodeLayoutConstraint.h"
 
 @interface DINode()
 {
@@ -100,6 +102,11 @@
 	return ![NSString isNilOrEmpty:self.property];
 }
 
+-(DINode*)childOfIndex:(NSInteger)index
+{
+	return self.children[index];
+}
+
 -(void)addChild:(DINode*)child
 {
 	[self.childrenStorage addObject:child];
@@ -141,6 +148,10 @@
 }
 
 #pragma mark -- property
+-(NSObject*)Implement {
+	return _Implement;
+}
+
 - (NSString *)name
 {
 	return _name;
@@ -178,6 +189,13 @@
 	
 	self->_attributes = [NSMutableDictionary dictionaryWithDictionary:attributes];
 	[self->_attributes removeObjectsForKeys:[self.class nodeKeyWord]];
+	[self->_attributes enumerateKeysAndObjectsUsingBlock:
+	 ^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop)
+	{
+		UndefinedKeyHandlerBlock block = [self.class nodeBlocks][key];
+		if(block)
+			block(self,key,obj);
+	}];
 }
 
 -(void)setValue:(id)value
@@ -207,19 +225,32 @@ forUndefinedKey:(NSString *)key
 	dispatch_once(&_uiView_token,
 				  ^{
 					  _instance = @{
-									@"height":DINode.layoutKey,
-									@"width":DINode.layoutKey,
+									//支持相对值、绝对值
+									@"height":self.layoutKey,
+									@"h":self.layoutKey,
+									@"width":self.layoutKey,
+									@"w":self.layoutKey,
 									
-									@"top":DINode.layoutKey,
-									@"bottom":DINode.layoutKey,
-									@"left":DINode.layoutKey,
-									@"right":DINode.layoutKey,
+									//支持相对值、相对绝对值
+									@"centerX":self.layoutKey,
+									@"cX":self.layoutKey,
+									@"centerY":self.layoutKey,
+									@"cY":self.layoutKey,
 									
-									@"centerX":DINode.layoutKey,
-									@"centerY":DINode.layoutKey,
+									//仅支持相对值
+									@"top":self.layoutKey,
+									@"t":self.layoutKey,
+									@"bottom":self.layoutKey,
+									@"b":self.layoutKey,
+									@"left":self.layoutKey,
+									@"l":self.layoutKey,
+									@"right":self.layoutKey,
+									@"r":self.layoutKey,
 									
-									@"leading":DINode.layoutKey,
-									@"trailing":DINode.layoutKey,
+									@"leading":self.layoutKey,
+									@"ld":self.layoutKey,
+									@"trailing":self.layoutKey,
+									@"tl":self.layoutKey,
 									} ;
 				  });
 	return _instance;
@@ -231,9 +262,19 @@ forUndefinedKey:(NSString *)key
 	static dispatch_once_t _layoutKey;
 	dispatch_once(&_layoutKey,
 				  ^{
-					  _instance = ^void(UIView* obj,NSString*key,id value)
+					  _instance = ^void(DINode* node,NSString*key,id value)
 					  {
+						  NSArray<DILayoutParser*>* res = [DILayoutParser parserResults:value attributeKey:key];
+						  NSMutableArray<DINodeLayoutConstraint*>* constraints =
+						  [NSMutableArray arrayWithCapacity:res.count];
 						  
+						  [res enumerateObjectsUsingBlock:
+						   ^(DILayoutParser * _Nonnull result, NSUInteger idx, BOOL * _Nonnull stop)
+						  {
+							  [constraints addObject:[[DINodeLayoutConstraint alloc]initWithOriNode:node parserResult:result]];
+						  }];
+						  
+						  node.attributes[key]=constraints;
 					  } ;
 				  });
 	return _instance;
