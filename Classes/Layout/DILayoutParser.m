@@ -9,7 +9,6 @@
 #import "DILayoutParser.h"
 #import "DITools.h"
 #import "DIContainer.h"
-#import "DILayoutKey.h"
 @interface DILayoutParser()
 @property (nonatomic, strong) NSMutableArray<NSString*>* parseQueue;
 @end
@@ -25,18 +24,83 @@
 	return parser;
 }
 
-+(NSArray<NSLayoutConstraint*>*)constraints:(NSString*)layoutFormula
-								toAttribute:(NSString*)attribute
-									forView:(UIView*)view
++(NSArray<DILayoutParserResult*>*)parserResults:(NSString*)layoutFormula
+								   attributeKey:(NSString*)attribute
 {
 	NSArray<NSString*>* formulas = [layoutFormula split:@";"];
-	DILayoutParser* instance = [DILayoutParser instance];
-	NSMutableArray<NSLayoutConstraint*>* constraints = [NSMutableArray arrayWithCapacity:formulas.count];
+	
+	NSMutableArray<DILayoutParserResult*>* results = [NSMutableArray arrayWithCapacity:formulas.count];
 	for (NSString* formula in formulas)
  	{
-		[constraints addObject:[instance constraint:formula toAttribute:attribute forView:view]];
+		[results addObject:[self parserWithAttribute:attribute
+												 formula:formula]];
 	}
-	return constraints;
+	return results;
+}
+
++(DILayoutParserResult*)parserWithAttribute:(NSString*)key
+									formula:(NSString*)formula
+{
+	NSScanner* scanner = [NSScanner scannerWithString:formula];
+	NSCharacterSet *relationSet = [NSCharacterSet characterSetWithCharactersInString:@">=<"];
+	NSCharacterSet *varSet = [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_0123456789#"];
+
+	static NSCharacterSet *mulitplySet;
+	if(!mulitplySet)
+		mulitplySet = [NSCharacterSet characterSetWithCharactersInString:@"*/"];
+	
+	NSString* relation = nil;
+	NSString* target = nil;
+	NSString* targetAttribute = nil;
+	CGFloat mutiply = 1;
+	CGFloat offset = 0;
+	CGFloat priority = 100000;
+	
+	DILayoutParserResult* result = [DILayoutParserResult newParserResult];
+	result.oriAttribute = key;
+	[scanner scanCharactersFromSet:relationSet intoString:&relation];
+	[scanner scanCharactersFromSet:varSet intoString:&target];
+	
+	//变量名还是数字
+	if(![target isMatchRegular:@"^\\d+$"])
+	{
+		[result setTarget:target];
+		if([scanner scanString:@":" intoString:NULL])
+		{
+			[scanner scanCharactersFromSet:[NSCharacterSet letterCharacterSet] intoString:&targetAttribute]?[result setTargetAttribute:targetAttribute]:result;
+		}
+		if([scanner scanCharactersFromSet:mulitplySet intoString:nil])
+			[scanner scanDouble:&mutiply]?[result setMutiply:mutiply]:result;
+		[scanner scanDouble:&offset]?[result setOffset:offset]:result;
+	}
+	else
+	{
+		[result setOffset:[target floatValue]];
+		result.targetAttribute = @"not";
+		result.isAbsolute = YES;
+	}
+	
+	if([scanner scanString:@"@" intoString:nil])
+		[scanner scanDouble:&priority]?[result setPriority:priority]:result;
+	
+	
+	if([relation isEqualToString:@">"])
+		[result setRelation:NSLayoutRelationGreaterThanOrEqual];
+	else if([relation isEqualToString:@"<"])
+		[result setRelation:NSLayoutRelationLessThanOrEqual];
+	
+	if([NSString isNilOrEmpty:result.targetAttribute])
+	{
+		result.targetAttribute = key;
+	}
+	
+	NoticeLog(@"%@",result);
+	return result;
+}
+
++(void)dealLayoutToNode:(DINode*)node
+{
+	
 }
 
 -(NSLayoutConstraint*)constraint:(NSString*)layoutFormula

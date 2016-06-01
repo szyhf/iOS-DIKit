@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DINode.h"
+#import "DILayoutParserResult.h"
+
+#import "DILayoutKey.h"
 
 @interface DILayoutParser : NSObject
-+(NSArray<NSLayoutConstraint*>*)constraints:(NSString*)layoutFormula
-								toAttribute:(NSString*)attribute
-									forView:(UIView*)view;
++(NSArray<DILayoutParserResult*>*)parserResults:(NSString*)layoutFormula
+			  attributeKey:(NSString*)attribute;
 @end

@@ -18,19 +18,32 @@
 	static NSDictionary<NSString*,NSNumber*>* _layoutAttribute;
 	dispatch_once(&layoutAttribute_token, ^{
 		_layoutAttribute =@{
+							//支持相对值、绝对值
 							@"height":[NSNumber numberWithInteger:NSLayoutAttributeHeight],
+							@"h":[NSNumber numberWithInteger:NSLayoutAttributeHeight],
 							@"width":[NSNumber numberWithInteger:NSLayoutAttributeWidth],
+							@"w":[NSNumber numberWithInteger:NSLayoutAttributeWidth],
 							
+							//支持相对值、相对绝对值
+							@"centerX":[NSNumber numberWithInteger:NSLayoutAttributeCenterX],
+							@"cX":[NSNumber numberWithInteger:NSLayoutAttributeCenterX],
+							@"centerY":[NSNumber numberWithInteger:NSLayoutAttributeCenterY],
+							@"cY":[NSNumber numberWithInteger:NSLayoutAttributeCenterY],
+							
+							//仅支持相对值
 							@"top":[NSNumber numberWithInteger:NSLayoutAttributeTop],
+							@"t":[NSNumber numberWithInteger:NSLayoutAttributeTop],
 							@"bottom":[NSNumber numberWithInteger:NSLayoutAttributeBottom],
+							@"b":[NSNumber numberWithInteger:NSLayoutAttributeBottom],
 							@"left":[NSNumber numberWithInteger:NSLayoutAttributeLeft],
+							@"l":[NSNumber numberWithInteger:NSLayoutAttributeLeft],
 							@"right":[NSNumber numberWithInteger:NSLayoutAttributeRight],
-							
-							@"centerx":[NSNumber numberWithInteger:NSLayoutAttributeCenterX],
-							@"centery":[NSNumber numberWithInteger:NSLayoutAttributeCenterY],
+							@"r":[NSNumber numberWithInteger:NSLayoutAttributeRight],
 							
 							@"leading":[NSNumber numberWithInteger:NSLayoutAttributeLeading],
+							@"ld":[NSNumber numberWithInteger:NSLayoutAttributeLeading],
 							@"trailing":[NSNumber numberWithInteger:NSLayoutAttributeTrailing],
+							@"tl":[NSNumber numberWithInteger:NSLayoutAttributeTrailing],
 							
 							@"not":[NSNumber numberWithInteger:NSLayoutAttributeNotAnAttribute],
 							};
@@ -39,7 +52,6 @@
 }
 +(NSLayoutAttribute)layoutAttributeOf:(NSString*)attrName
 {
-	attrName = [attrName lowercaseString];
 	return (NSLayoutAttribute)[self layoutAttribute][attrName].integerValue;
 }
 +(BOOL)isLayoutAttribute:(NSString*)attributeName
