@@ -21,7 +21,7 @@
 	   NSString * _Nonnull obj,
 	   BOOL * _Nonnull stop)
 	{
-		UndefinedKeyHandlerBlock block  = [NSObject blocks:key];
+		UndefinedKeyHandlerBlock block  = [self.class di_AttributeBlock:key];
 		if(block!=nil)
 			block(self,key,obj);
 		else
@@ -40,7 +40,7 @@ forUndefinedKey:(NSString *)key
 	return objc_getAssociatedObject(self,NSSelectorFromString(key));
 }
 
-+(UndefinedKeyHandlerBlock)blocks:(NSString*)key
++(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
 {
 	static NSDictionary<NSString*,UndefinedKeyHandlerBlock>* _instance;
 	static dispatch_once_t _uiView_token;
@@ -62,9 +62,14 @@ forUndefinedKey:(NSString *)key
 					  {
 						  if([obj respondsToSelector:@selector(setImage:)])
 						  {
-							  UIImage* image = [DIConverter toImage:value];
-							  if(image)
-								  [obj setValue:image forKey:@"image"];
+							  if([value isKindOfClass:UIImage.class])
+								 [obj setValue:value forKey:@"image"];
+							  else
+							  {
+								  UIImage* image = [DIConverter toImage:value];
+								  if(image)
+									  [obj setValue:image forKey:@"image"];
+							  }
 						  }
 					  } ;
 				  });

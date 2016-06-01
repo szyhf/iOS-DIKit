@@ -17,6 +17,7 @@
 #import "NSObject+FBKVOController.h"
 #import "DIContainer.h"
 #import <objc/runtime.h>
+#import "DINodeLayoutConstraint.h"
 
 @implementation UIView (DIAttribute)
 -(void)updateByNode:(DINode*)node
@@ -26,7 +27,7 @@
 	   NSString * _Nonnull obj,
 	   BOOL * _Nonnull stop)
 	 {
-		 UndefinedKeyHandlerBlock block  = [UIView blocks:key];
+		 UndefinedKeyHandlerBlock block  = [self.class di_AttributeBlock:key];
 		 if(block!=nil)
 			 block(self,key,obj);
 		 else
@@ -34,7 +35,7 @@
 	 }];
 }
 
-+(UndefinedKeyHandlerBlock)blocks:(NSString*)key
++(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
 {
 	static NSDictionary<NSString*,UndefinedKeyHandlerBlock>* _instance;
 	static dispatch_once_t _uiView_token;
@@ -87,9 +88,6 @@
 				  ^{
 					  _instance = ^void(UIView* view,NSString* key,NSString* value)
 					  {
-						
-						  value = [value trimStart:@"("];
-						  value = [value trimEnd:@")"];
 						  NSArray<NSString*>* parames = [value split:@","];
 						  CGFloat width = [parames[0]floatValue];
 						  CGFloat height = [parames[1]floatValue];
@@ -145,35 +143,13 @@
 				  ^{
 					  _instance = ^void(UIView* obj,NSString*key,id value)
 					  {
-						  NSArray* cons = [DILayoutParser constraints:value toAttribute:key forView:obj];
-						  [obj.superview addConstraints:cons];
-						  [obj setTranslatesAutoresizingMaskIntoConstraints:NO];
+						  NSArray<DINodeLayoutConstraint*>* nodeConstraints = value;
+						  for (DINodeLayoutConstraint* constraint in nodeConstraints)
+						  {
+							  [constraint realizeConstant];
+						  }
 					  } ;
 				  });
 	return _instance;
-}
-
-static void InstallAddSubviewListener(void (^listener)(id),id target)
-{
-	if ( listener == NULL )
-	{
-		NSLog(@"listener cannot be NULL.");
-		return;
-	}
-	NSString* methodName = @"didMoveToSuperview";
-	SEL selector = NSSelectorFromString(methodName);
-	Method oldMethod = class_getInstanceMethod(UIButton.class,selector);
-	IMP imp = [UIButton instanceMethodForSelector:selector];
-	id (*func)(id, SEL) = (void *)imp;
-
-	void (^block)(id) = ^(id _self)
-	{
-		func(_self, selector);
-		if([target isEqual:_self])
-			listener(_self);
-	};
-	
-	IMP newImp = imp_implementationWithBlock((__bridge id)((__bridge void*)block));
-	method_setImplementation(oldMethod, newImp);
 }
 @end

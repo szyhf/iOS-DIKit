@@ -12,24 +12,25 @@
 #import "DITools.h"
 #import "DIContainer.h"
 #import "DIConverter.h"
+#import "DINodeLayoutConstraint.h"
 
 @implementation UIViewController (DIAttribute)
--(void)setValue:(id)value
-forUndefinedKey:(NSString *)key
+-(void)updateByNode:(DINode*)node
 {
-	NSString* trim_key = [key stringByDeletingPathExtension];
-	
-	//必须显式的调用当前类型，否则无法正确拦截并处理子类向上传递的消息。
-	UndefinedKeyHandlerBlock block  = [UIViewController blocks:trim_key];
-	if(block!=nil)
-		block(self,trim_key,value);
-	else if(trim_key.length!=key.length)
-		return [self setValue:value forKey:trim_key];
-	else
-		[super setValue:value forUndefinedKey:trim_key];
+	[node.attributes enumerateKeysAndObjectsUsingBlock:
+	 ^(NSString * _Nonnull key,
+	   NSString * _Nonnull obj,
+	   BOOL * _Nonnull stop)
+	 {
+		 UndefinedKeyHandlerBlock block  = [self.class di_AttributeBlock:key];
+		 if(block!=nil)
+			 block(self,key,obj);
+		 else
+			 [self setValue:obj forKeyPath:key];
+	 }];
 }
 
-+(UndefinedKeyHandlerBlock)blocks:(NSString*)key
++(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
 {
 	static NSDictionary<NSString*,UndefinedKeyHandlerBlock>* _instance;
 	static dispatch_once_t _uiView_token;
@@ -37,7 +38,8 @@ forUndefinedKey:(NSString *)key
 				  ^{
 					  _instance = @{
 									@"backgroundColor":self.colorKey,
-									@"leftBar":self.leftBarKey,
+									@"leftBarButtonItems":self.leftBarKey,
+									@"rightBarButtonItems":self.rightBarKey,
 									/**
 									 *  layout
 									 */
@@ -57,6 +59,7 @@ forUndefinedKey:(NSString *)key
 									
 									@"not":self.layoutKey,
 									
+									@"di_addConstant":self.di_layoutKey
 									} ;
 				  });
 	return _instance[key];
@@ -70,30 +73,49 @@ forUndefinedKey:(NSString *)key
 				  ^{
 					  _instance =  ^void(UIViewController* obj,NSString*key,id value)
 					  {
-						  NSString* name = [(NSString*)value trimStart:@"$"];
-						  id button = [DIContainer getInstanceByName:name];
-						  if ([button isKindOfClass:UIView.class])
+						  if(obj.navigationItem.leftBarButtonItems.count>0)
 						  {
-							  button = [[UIBarButtonItem alloc]initWithCustomView:button];
-							  
+							  NSMutableArray* barArray = [NSMutableArray arrayWithCapacity:obj.navigationItem.leftBarButtonItems.count+1];
+							  [barArray addObjectsFromArray:obj.navigationItem.leftBarButtonItems];
+							  [barArray addObject:value];
+							  obj.navigationItem.leftBarButtonItems = barArray;
 						  }
-						  if([button isKindOfClass:UIBarButtonItem.class])
+						  else
 						  {
-							  if(obj.navigationItem.leftBarButtonItems.count>0)
-							  {
-								  obj.navigationItem.leftBarButtonItem = button;
-							  }
-							  else
-							  {
-								  NSMutableArray* tempAry = [NSMutableArray arrayWithArray:obj.navigationItem.leftBarButtonItems];
-								  obj.navigationItem.leftBarButtonItems = [tempAry arrayByAddingObject:button];
-							  }
+							  obj.navigationItem.leftBarButtonItem=value;
 						  }
 						  
 					  } ;
 				  });
 	return _instance;
 }
+
++(UndefinedKeyHandlerBlock)rightBarKey
+{
+	static UndefinedKeyHandlerBlock _instance;
+	static dispatch_once_t _leftBarKey_token;
+	dispatch_once(&_leftBarKey_token,
+				  ^{
+					  _instance =  ^void(UIViewController* obj,NSString*key,id value)
+					  {
+						  if(obj.navigationItem.rightBarButtonItems.count>0)
+						  {
+							  NSMutableArray* barArray = [NSMutableArray arrayWithCapacity:obj.navigationItem.rightBarButtonItems.count+1];
+							  [barArray addObjectsFromArray:obj.navigationItem.rightBarButtonItems];
+							  [barArray addObject:value];
+							  obj.navigationItem.rightBarButtonItems = barArray;
+						  }else
+						  {
+							  obj.navigationItem.rightBarButtonItem=value;
+						  }
+						  
+					  } ;
+				  });
+	return _instance;
+}
+
+
+
 
 +(UndefinedKeyHandlerBlock)layoutKey
 {
@@ -103,8 +125,24 @@ forUndefinedKey:(NSString *)key
 				  ^{
 					  _instance = ^void(UIViewController* obj,NSString*key,id value)
 					  {
-						  [obj.view setValue:value forKey:key];
-						  
+						  NSArray<DINodeLayoutConstraint*>* nodeConstraints = value;
+						  for (DINodeLayoutConstraint* constraint in nodeConstraints)
+						  {
+							  [constraint realizeConstant];
+						  }
+					  } ;
+				  });
+	return _instance;
+}
+
++(UndefinedKeyHandlerBlock)di_layoutKey
+{
+	static UndefinedKeyHandlerBlock _instance;
+	static dispatch_once_t _layoutKey;
+	dispatch_once(&_layoutKey,
+				  ^{
+					  _instance = ^void(UIViewController* obj,NSString*key,id value)
+					  {
 					  } ;
 				  });
 	return _instance;

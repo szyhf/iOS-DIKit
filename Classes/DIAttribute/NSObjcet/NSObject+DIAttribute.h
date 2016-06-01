@@ -11,5 +11,4 @@
 
 @interface NSObject (DIAttribute)
 -(void)updateByNode:(DINode*)node;
--(BOOL)hasProperty:(NSString*)propertyName;
 @end
