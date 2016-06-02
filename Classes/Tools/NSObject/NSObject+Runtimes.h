@@ -17,7 +17,7 @@
  *
  *  @return 方法的返回值
  */
-+(id)invokeStaticMethod:(NSString*)methodName;
++(id)invokeMethod:(NSString*)methodName;
 /**
  *  用方法名显式调用一个类型的静态方法（安全起见调用前应先检查方法是否存在）
  *
@@ -26,9 +26,15 @@
  *
  *  @return 方法返回值
  */
-+(id)invokeStaticMethod:(NSString*)methodName withParams:(id)param,...;
++(id)invokeMethod:(NSString*)methodName withParams:(id)param,...;
+
++(id)invokeSelector:(SEL)selector;
++(id)invokeSelector:(SEL)selector withParams:(id)param,...;
 
 #pragma mark
+
+-(id)invokeSelector:(SEL)selector;
+-(id)invokeSelector:(SEL)selector withParams:(id)param,...;
 /**
  *  用方法名显式调用一个对象的方法
  *
