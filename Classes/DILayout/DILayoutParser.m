@@ -98,11 +98,6 @@
 	return result;
 }
 
-+(void)dealLayoutToNode:(DINode*)node
-{
-	
-}
-
 -(NSLayoutConstraint*)constraint:(NSString*)layoutFormula
 					 toAttribute:(NSString*)attribute
 						 forView:(UIView*)view
