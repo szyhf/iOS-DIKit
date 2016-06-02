@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DINode.h"
 #import "DILayoutParserResult.h"
+@class DINode;
 
 @interface DINodeLayoutConstraint : NSObject
 -(instancetype)initWithOriNode:(DINode*)node

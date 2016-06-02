@@ -37,7 +37,9 @@
 -(void)realizeConstant
 {
 	DINode* parentNode = oriNode.parent;
+	
 	if(!parentNode)	return;
+	
 	if([parserResult isAbsolute])
 	{
 		targetNode = nil;
@@ -75,20 +77,22 @@
 									  constant:parserResult.offset];
 		
 		[(UIView*)constraint.firstItem setTranslatesAutoresizingMaskIntoConstraints:NO];
+		
 		if(parentNode!=targetNode)
 			[(UIView*)constraint.secondItem setTranslatesAutoresizingMaskIntoConstraints:NO];
 		
 		constraint.priority = parserResult.priority;
 		UIView* tempView;
-		if([parentNode.Implement isKindOfClass:UIView.class])
+		if([parentNode.implement isKindOfClass:UIView.class])
 		{
-			tempView = (UIView*)parentNode.Implement;
+			tempView = (UIView*)parentNode.implement;
 		}
 		
-		if([parentNode.Implement isKindOfClass:UIViewController.class])
+		if([parentNode.implement isKindOfClass:UIViewController.class])
 		{
-			tempView = [(UIViewController*)parentNode.Implement view];
+			tempView = [(UIViewController*)parentNode.implement view];
 		}
+		
 		if(tempView)
 		{
 			[tempView addConstraint:constraint];
@@ -104,14 +108,14 @@
 {
 	UIView* tempView;
 
-	if([node.Implement isKindOfClass:UIView.class])
+	if([node.implement isKindOfClass:UIView.class])
 	{
-		tempView = (UIView*)node.Implement;
+		tempView = (UIView*)node.implement;
 	}
 	
-	if([node.Implement isKindOfClass:UIViewController.class])
+	if([node.implement isKindOfClass:UIViewController.class])
 	{
-		tempView = [(UIViewController*)node.Implement view];
+		tempView = [(UIViewController*)node.implement view];
 	}
 	return tempView;
 }

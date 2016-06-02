@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DINodeLayoutConstraint.h"
+@class DINodeLayoutConstraint;
 
 @interface DINode : NSObject
 -(instancetype)initWithElement:(NSString*)element
@@ -17,7 +19,7 @@
 -(BOOL)isGlobal;
 -(BOOL)isProperty;
 
-@property (nonatomic, weak) NSObject* Implement;
+@property (nonatomic, weak) NSObject* implement;
 
 @property (nonatomic, strong) Class clazz;
 @property (nonatomic, strong) NSString* name;
@@ -29,5 +31,6 @@
 @property (nonatomic, strong) NSArray<DINode*>* children;
 
 @property (nonatomic, strong) NSMutableDictionary<NSString*,id>*attributes;
+@property (nonatomic, strong) NSMutableDictionary<NSArray<DINodeLayoutConstraint*>*,NSString*>* constraints;
 
 @end

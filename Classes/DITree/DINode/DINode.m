@@ -148,13 +148,16 @@
 }
 
 #pragma mark -- property
--(NSObject*)Implement {
-	return _Implement;
-}
+@synthesize implement;
+@synthesize name;
+@synthesize style;
+@synthesize parent;
 
-- (NSString *)name
-{
-	return _name;
+- (NSMutableDictionary<NSArray<DINodeLayoutConstraint*>*,NSString*> *)constraints {
+	if(_constraints == nil) {
+		_constraints = [[NSMutableDictionary<NSArray<DINodeLayoutConstraint*>*,NSString*> alloc] init];
+	}
+	return _constraints;
 }
 
 - (Class)clazz {
@@ -169,19 +172,9 @@
 	return NSStringFromClass(self.clazz);
 }
 
-- (NSString *)style
-{
-	return _style;
-}
-
 - (NSArray<DINode*> *)children
 {
 	return [NSArray arrayWithArray:self.childrenStorage];
-}
-
-- (DINode *)parent
-{
-	return _parent;
 }
 
 -(void)setAttributes:(NSMutableDictionary<NSString *,NSString *> *)attributes
@@ -278,8 +271,8 @@ forUndefinedKey:(NSString *)key
 						  {
 							  [constraints addObject:[[DINodeLayoutConstraint alloc]initWithOriNode:node parserResult:result]];
 						  }];
-						  
-						  node.attributes[key]=constraints;
+						  node.constraints[constraints]=key;
+						  [node.attributes removeObjectForKey:key];
 					  } ;
 				  });
 	return _instance;
@@ -343,6 +336,7 @@ forUndefinedKey:(NSString *)key
 								  break;
 							  }
 						  }
+						  [node.attributes removeObjectForKey:key];
 						  self.layoutRelativeKey(node,@"top",top);
 						  self.layoutRelativeKey(node,@"left",left);
 						  self.layoutRelativeKey(node,@"bottom",bottom);

@@ -15,4 +15,7 @@
 -(void)newWithXML:(NSString*)xmlString;
 -(void)updateWithXML:(NSString*)xmlString;
 -(void)remakeWithXML:(NSString*)xmlString;
+@property (nonatomic, strong) NSMutableDictionary<NSString*,DINode*>* pathToNode;
+@property (nonatomic, strong) NSMutableDictionary<NSString*,DINode*>* nameToNode;
+@property (nonatomic, strong) NSMutableDictionary<DINode*,NSString*>* nodeOfPath;
 @end

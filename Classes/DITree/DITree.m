@@ -19,9 +19,7 @@ typedef NS_ENUM(NSInteger,ParseStatus)
 	DINode* _root;
 	ParseStatus parseStatus;
 }
-@property (nonatomic, strong) NSMutableDictionary<NSString*,DINode*>* pathToNode;
-@property (nonatomic, strong) NSMutableDictionary<NSString*,DINode*>* nameToNode;
-@property (nonatomic, strong) NSMutableDictionary<DINode*,NSString*>* nodeOfPath;
+
 @end
 
 @implementation DITree
