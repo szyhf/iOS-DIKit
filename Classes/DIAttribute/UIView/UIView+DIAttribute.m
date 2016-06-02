@@ -13,27 +13,11 @@
 #import "DIConverter.h"
 #import "NSObject+Runtimes.h"
 #import "DITools.h"
-#import "FBKVOController.h"
-#import "NSObject+FBKVOController.h"
 #import "DIContainer.h"
 #import <objc/runtime.h>
 #import "DINodeLayoutConstraint.h"
 
 @implementation UIView (DIAttribute)
--(void)updateByNode:(DINode*)node
-{
-	[node.attributes enumerateKeysAndObjectsUsingBlock:
-	 ^(NSString * _Nonnull key,
-	   NSString * _Nonnull obj,
-	   BOOL * _Nonnull stop)
-	 {
-		 UndefinedKeyHandlerBlock block  = [self.class di_AttributeBlock:key];
-		 if(block!=nil)
-			 block(self,key,obj);
-		 else
-			 [self setValue:obj forKeyPath:key];
-	 }];
-}
 
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
 {
@@ -44,7 +28,7 @@
 					  _instance = @{
 									@"backgroundColor":self.colorKey,
 									@"image":self.imageKey,
-									@"size":self.frameKey,
+									@"fsize":self.frameKey,
 									/**
 									 *  layout
 									 */
