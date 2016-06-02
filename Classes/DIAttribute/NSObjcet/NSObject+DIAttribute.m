@@ -7,7 +7,6 @@
 //
 
 #import "NSObject+DIAttribute.h"
-#import "UndefinedKeyHandlerBlock.h"
 #import "DIConverter.h"
 #import "NSObject+Runtimes.h"
 #import <objc/runtime.h>
@@ -21,12 +20,36 @@
 	   NSString * _Nonnull obj,
 	   BOOL * _Nonnull stop)
 	{
-		UndefinedKeyHandlerBlock block  = [self.class di_AttributeBlock:key];
-		if(block!=nil)
-			block(self,key,obj);
-		else
-			[self setValue:obj forKeyPath:key];
+		@try
+		{
+			[self.class di_UpdateObject:self byKey:key value:obj];
+		}
+		@catch (NSException *exception)
+		{
+			DebugLog(@"set key(%@) catched an exception: %@",key,exception);
+		}
 	}];
+}
+
++(void)di_UpdateObject:(id)obj byKey:(NSString*)key value:(NSString*)value
+{
+	UndefinedKeyHandlerBlock block  = [self di_AttributeBlock:key];
+	if(block!=nil)
+		block(obj,key,value);
+	else
+	{
+		Class superClass = [self superclass];
+		while (superClass)
+		{
+			if([((id)superClass)respondsToSelector:@selector(di_UpdateObject:byKey:value:)])
+			{
+				return (void)[superClass di_UpdateObject:obj byKey:key value:value];
+			}
+			superClass = [superClass superclass];
+		}
+		
+		[obj setValue:value forKeyPath:key];
+	}
 }
 
 -(void)setValue:(id)value
@@ -43,8 +66,8 @@ forUndefinedKey:(NSString *)key
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
 {
 	static NSDictionary<NSString*,UndefinedKeyHandlerBlock>* _instance;
-	static dispatch_once_t _uiView_token;
-	dispatch_once(&_uiView_token,
+	static dispatch_once_t _token;
+	dispatch_once(&_token,
 				  ^{
 					  _instance = @{
 									@"image":self.imageKey
