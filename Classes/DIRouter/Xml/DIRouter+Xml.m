@@ -58,48 +58,75 @@
 +(id)realizeNode:(DINode*)node
 {
 	[self makeLogicTree:node];
-	[self patchAttribute:node];
-	return node.Implement;
+	[self delay:node];
+	return node.implement;
 }
 
 +(DINode*)makeLogicTree:(DINode*)node
 {
-	node.Implement = [node makeInstance];
-	
 	for (DINode* child in node.children)
 	{
+		//实例化全部子成员
 		if([child isProperty])
 		{
-			child.Implement = [self realizeValueNode:child];
-			if(!child.Implement)
+			child.implement = [self realizeValueNode:child];
+			if(!child.implement)
 			{
 				[self makeLogicTree:child];
 			}
-			node.attributes[child.property]=child.Implement;
-			//[node.Implement setValue:child.Implement forKeyPath:child.property];
+			node.attributes[child.property]=child.implement;
 		}
 		else
 		{
 			[self makeLogicTree:child];
+		}
+	}
+	node.implement = [node makeInstance];
+	for (DINode* child in node.children)
+	{
+		//处理默认的组装
+		if(![child isProperty])
+		{
 			RealizeHandlerBlock block = [DIRouter blockToAddElement:child.className toParent:node.className];
 			if(block)
-				block(node.Implement,child.Implement);
+			{
+				block(node.implement,child.implement);
+			}
 			else
 				WarnLog(@"Add %@ to %@ failed.",child.name,node.name);
 		}
 	}
+	
+	[self patchAttribute:node];
 	return node;
 }
 
 +(DINode*)patchAttribute:(DINode*)node
 {
+	//for(DINode* child in node.children)
+	//{
+		//[self patchAttribute:child];
+	//}
+	
+	[self autoSetNUIClass:node.name withInstance:node.implement];
+	[node.implement updateByNode:node];
+	
+	return node;
+}
+
++(DINode*)delay:(DINode*)node
+{
 	for(DINode* child in node.children)
 	{
-		[self patchAttribute:child];
+		[self delay:child];
 	}
 	
-	[self autoSetNUIClass:node.name withInstance:node.Implement];
-	[node.Implement updateByNode:node];
+	[node.constraints enumerateKeysAndObjectsUsingBlock:^(NSArray<DINodeLayoutConstraint *> * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+		for (DINodeLayoutConstraint* constraint in key)
+		{
+			[constraint realizeConstant];
+		}
+	}];
 	
 	return node;
 }

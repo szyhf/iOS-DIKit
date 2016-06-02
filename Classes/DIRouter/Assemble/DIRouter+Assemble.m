@@ -53,7 +53,7 @@
 			SEL select = NSSelectorFromString(realizeName);
 			if([(id)self.class respondsToSelector:select])
 			{
-				RealizeHandlerBlock testBlock = [self invokeStaticMethod:realizeName];
+				RealizeHandlerBlock testBlock = [self invokeMethod:realizeName];
 				return testBlock;
 			}
 			//因为superCurrent有初始值（匿名的情况），所以最后才更新。
@@ -108,7 +108,7 @@
 			SEL select = NSSelectorFromString(realizeName);
 			if([(id)self.class respondsToSelector:select])
 			{
-				RealizeHandlerBlock testBlock = [self invokeStaticMethod:realizeName];
+				RealizeHandlerBlock testBlock = [self invokeMethod:realizeName];
 				testBlock(lastElement,element);
 				isSlove = true;
 				break;
