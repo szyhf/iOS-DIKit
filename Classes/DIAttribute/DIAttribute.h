@@ -11,7 +11,5 @@
 #import "NSObject+DIAttribute.h"
 //#import "UIView+DIAttribute.h"
 #import "UIViewController+DIAttribute.h"
-#import "UITabBarItem+DIAttribute.h"
 //#import "UIImageView+DIAttribute.h"
-#import "UINavigationItem+DIAttribute.h"
 #endif /* DIAttribute_h */
