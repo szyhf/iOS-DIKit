@@ -8,6 +8,7 @@
 
 #import "DITree.h"
 #import "DITools.h"
+#import "DINodeFactory.h"
 typedef NS_ENUM(NSInteger,ParseStatus)
 {
 	ParseStatusNew,
@@ -83,8 +84,8 @@ didStartElement:(NSString *)elementName
  qualifiedName:(nullable NSString *)qName
 	attributes:(NSDictionary<NSString *, NSString *> *)attributeDict
 {
-	DINode* child = [[DINode alloc]
-					 initWithElement:elementName
+	DINode* child = [DINodeFactory
+					 newNodeWithElement:elementName
 					 andNamespaceURI:namespaceURI
 					 andAttributes:attributeDict];
 	if(onParseringNode)
