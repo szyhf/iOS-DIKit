@@ -505,6 +505,7 @@
 			<array>
 				<string>0C4013551CF45DC900787E28</string>
 				<string>0CBE5A831D00395F00082369</string>
+				<string>0CBE5A881D016F0700082369</string>
 				<string>0C1668B31CFDBA7A003DA175</string>
 				<string>0C5199121CF7286E006A8DA2</string>
 				<string>0C40134C1CF4579900787E28</string>
@@ -529,8 +530,6 @@
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>NSObject</string>
 			<key>path</key>
 			<string>NSObject</string>
 			<key>sourceTree</key>
@@ -823,46 +822,6 @@
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>0C51991B1CF822C9006A8DA2</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>DINode+Make.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>0C51991C1CF822C9006A8DA2</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>DINode+Make.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>0C51991D1CF822C9006A8DA2</key>
-		<dict>
-			<key>fileRef</key>
-			<string>0C51991B1CF822C9006A8DA2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>0C51991E1CF822C9006A8DA2</key>
-		<dict>
-			<key>fileRef</key>
-			<string>0C51991C1CF822C9006A8DA2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
 		<key>0C5199281CF83F2E006A8DA2</key>
 		<dict>
 			<key>fileEncoding</key>
@@ -1027,14 +986,17 @@
 				<string>0C279E141CF2F45400994022</string>
 				<string>0C279E251CF3779200994022</string>
 				<string>0C5199161CF7286E006A8DA2</string>
+				<string>0CBE5AAD1D01B59100082369</string>
 				<string>0C1468091CF0C467001074C8</string>
 				<string>0C5277A31CEAD8F80021B477</string>
 				<string>0C279DFF1CF1ED1100994022</string>
+				<string>0CBE5A9D1D01AB1900082369</string>
+				<string>0CBE5AB21D01B8B200082369</string>
 				<string>0C6719DC1CEF13E500E90400</string>
 				<string>0C41988A1CEEE56200EBFAA2</string>
 				<string>0C14681A1CF19F98001074C8</string>
 				<string>0C5277A11CEAD8F80021B477</string>
-				<string>0C51991E1CF822C9006A8DA2</string>
+				<string>0CBE5A8C1D016F5300082369</string>
 				<string>0CFAC3131CEB401700ABC4F5</string>
 				<string>0CFAC30E1CEB3C4400ABC4F5</string>
 				<string>0C1668C81CFEC8E8003DA175</string>
@@ -1073,25 +1035,29 @@
 				<string>0C1468081CF0C467001074C8</string>
 				<string>0CBE5A861D00398600082369</string>
 				<string>0C5277A21CEAD8F80021B477</string>
+				<string>0CBE5A9C1D01AB1900082369</string>
 				<string>0C14681D1CF1A02D001074C8</string>
 				<string>0C4013591CF45DFA00787E28</string>
 				<string>0C1468191CF19F98001074C8</string>
 				<string>0CFAC30F1CEB3C4400ABC4F5</string>
 				<string>0C6719DB1CEF13E500E90400</string>
 				<string>0C51992C1CF83F2E006A8DA2</string>
-				<string>0C51991D1CF822C9006A8DA2</string>
 				<string>0C5277A81CEAD8F80021B477</string>
 				<string>0C5277AF1CEAD8F80021B477</string>
 				<string>0C279E241CF3779200994022</string>
+				<string>0CBE5AB11D01B8B200082369</string>
+				<string>0CBE5A8B1D016F5300082369</string>
 				<string>0C5199151CF7286E006A8DA2</string>
 				<string>0C80FB0C1CF6A0A400C16176</string>
 				<string>0C279E131CF2F45400994022</string>
 				<string>0C279E101CF2F41100994022</string>
 				<string>0C1668C71CFEC8E8003DA175</string>
+				<string>0CBE5AA11D01B0C900082369</string>
 				<string>0C5277AD1CEAD8F80021B477</string>
 				<string>0C52777E1CEAD8BF0021B477</string>
 				<string>0C40134E1CF4579900787E28</string>
 				<string>0C279DFE1CF1ED1100994022</string>
+				<string>0CBE5AA51D01B2E500082369</string>
 				<string>0C1468111CF19E2A001074C8</string>
 				<string>0CFAC30D1CEB3C4400ABC4F5</string>
 				<string>0C80FB121CF6A90D00C16176</string>
@@ -2006,11 +1972,11 @@
 		<dict>
 			<key>children</key>
 			<array>
-				<string>0C1668C91D000BC8003DA175</string>
-				<string>0C51991B1CF822C9006A8DA2</string>
-				<string>0C51991C1CF822C9006A8DA2</string>
+				<string>0CBE5AAB1D01B59100082369</string>
+				<string>0CBE5AA41D01B2E500082369</string>
 				<string>0C80FB0A1CF6A0A400C16176</string>
 				<string>0C80FB0B1CF6A0A400C16176</string>
+				<string>0CBE5AA01D01B0C900082369</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -2024,6 +1990,10 @@
 			<key>children</key>
 			<array>
 				<string>0C80FB0E1CF6A8F300C16176</string>
+				<string>0CBE5AAE1D01B89900082369</string>
+				<string>0CBE5A9E1D01AB1F00082369</string>
+				<string>0CBE5A9F1D01AF3400082369</string>
+				<string>0C1668C91D000BC8003DA175</string>
 				<string>0C80FB101CF6A90D00C16176</string>
 				<string>0C80FB111CF6A90D00C16176</string>
 			</array>
@@ -2094,8 +2064,6 @@
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>UIButton</string>
 			<key>path</key>
 			<string>UIButton</string>
 			<key>sourceTree</key>
@@ -2109,8 +2077,6 @@
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>UIButton+DIAttribute.h</string>
 			<key>path</key>
 			<string>UIButton+DIAttribute.h</string>
 			<key>sourceTree</key>
@@ -2124,8 +2090,6 @@
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>UIButton+DIAttribute.m</string>
 			<key>path</key>
 			<string>UIButton+DIAttribute.m</string>
 			<key>sourceTree</key>
@@ -2142,6 +2106,239 @@
 		<dict>
 			<key>fileRef</key>
 			<string>0CBE5A851D00398600082369</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CBE5A881D016F0700082369</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0CBE5A891D016F5300082369</string>
+				<string>0CBE5A8A1D016F5300082369</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>UIScrollView</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5A891D016F5300082369</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>UIScrollView+DIAttribute.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5A8A1D016F5300082369</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>UIScrollView+DIAttribute.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5A8B1D016F5300082369</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CBE5A891D016F5300082369</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CBE5A8C1D016F5300082369</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CBE5A8A1D016F5300082369</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CBE5A9A1D01AB1900082369</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>DIPropNode.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5A9B1D01AB1900082369</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>DIPropNode.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5A9C1D01AB1900082369</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CBE5A9A1D01AB1900082369</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CBE5A9D1D01AB1900082369</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CBE5A9B1D01AB1900082369</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CBE5A9E1D01AB1F00082369</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0CBE5A9A1D01AB1900082369</string>
+				<string>0CBE5A9B1D01AB1900082369</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>DIPropNode</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5A9F1D01AF3400082369</key>
+		<dict>
+			<key>children</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>DIRefNode</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5AA01D01B0C900082369</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>DINodeAwakeProtocol.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5AA11D01B0C900082369</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CBE5AA01D01B0C900082369</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CBE5AA41D01B2E500082369</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>DINode+DIAttribute.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5AA51D01B2E500082369</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CBE5AA41D01B2E500082369</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CBE5AAB1D01B59100082369</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>DINode+Awake.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5AAD1D01B59100082369</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CBE5AAB1D01B59100082369</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CBE5AAE1D01B89900082369</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0CBE5AAF1D01B8B200082369</string>
+				<string>0CBE5AB01D01B8B200082369</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>DINodeFactory</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5AAF1D01B8B200082369</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>DINodeFactory.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5AB01D01B8B200082369</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>DINodeFactory.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0CBE5AB11D01B8B200082369</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CBE5AAF1D01B8B200082369</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CBE5AB21D01B8B200082369</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0CBE5AB01D01B8B200082369</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
