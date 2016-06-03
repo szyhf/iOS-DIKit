@@ -7,6 +7,7 @@
 //
 
 #import "NSObject+Runtimes.h"
+#import <objc/runtime.h>
 
 @implementation NSObject (Runtimes)
 #pragma mark -- static
@@ -26,8 +27,23 @@
 +(id)invokeSelector:(SEL)selector
 {
 	IMP imp = [self methodForSelector:selector];
-	id (*func)(id, SEL) = (void *)imp;
-	id res = func(self, selector);
+	id res;
+	
+	Method method = class_getClassMethod(self.class, selector);
+	char* returnType = method_copyReturnType(method);
+	//strcmp not work
+	if(returnType[0]=='v'&&returnType[1]=='\0')
+	{
+		void (*func)(id, SEL) = (void *)imp;
+		func(self, selector);
+	}
+	else
+	{
+		id (*func)(id, SEL) = (void *)imp;
+		res = func(self,selector);
+	}
+	free(returnType);
+	
 	return res;//如果返回值是void，直接返回会报错。
 }
 
@@ -35,8 +51,22 @@
 {
 	va_list params;
 	IMP imp = [self methodForSelector:selector];
-	id (*func)(id, SEL,id,...) = (void *)imp;
-	id res =  func(self, selector,param,params);
+	id res;
+	
+	Method method = class_getClassMethod(self.class, selector);
+	char* returnType = method_copyReturnType(method);
+	//strcmp not work
+	if(returnType[0]=='v'&&returnType[1]=='\0')
+	{
+		void (*func)(id, SEL,id,...) = (void *)imp;
+		func(self, selector,param,params);
+	}
+	else
+	{
+		id (*func)(id, SEL,id,...) = (void *)imp;
+		res = func(self, selector,param,params);
+	}
+	free(returnType);
 	return res;
 }
 
@@ -56,8 +86,23 @@
 -(id)invokeSelector:(SEL)selector
 {
 	IMP imp = [self methodForSelector:selector];
-	id (*func)(id, SEL) = (void *)imp;
-	id res = func(self, selector);
+	id res;
+	
+	Method method = class_getInstanceMethod(self.class, selector);
+	char* returnType = method_copyReturnType(method);
+	//strcmp not work
+	if(returnType[0]=='v'&&returnType[1]=='\0')
+	{
+		void (*func)(id, SEL) = (void *)imp;
+	 	func(self, selector);
+	}
+	else
+	{
+		id (*func)(id, SEL) = (void *)imp;
+		res = func(self,selector);
+	}
+	free(returnType);
+	
 	return res;
 }
 
@@ -65,8 +110,23 @@
 {
 	va_list params;
 	IMP imp = [self methodForSelector:selector];
-	id (*func)(id, SEL,id,...) = (void *)imp;
-	id res = func(self, selector,param,params);
+	id res;
+	
+	Method method = class_getInstanceMethod(self.class, selector);
+	char* returnType = method_copyReturnType(method);
+	//strcmp not work
+	if(returnType[0]=='v'&&returnType[1]=='\0')
+	{
+		void (*func)(id, SEL,id,...) = (void *)imp;
+		func(self, selector,param,params);
+	}
+	else
+	{
+		id (*func)(id, SEL,id,...) = (void *)imp;
+		res = func(self, selector,param,params);
+	}
+	free(returnType);
+	
 	return res;
 }
 @end
