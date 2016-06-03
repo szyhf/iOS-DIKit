@@ -39,27 +39,7 @@
 					  _instance = @{
 									@"backgroundColor":self.colorKey,
 									@"leftBarButtonItems":self.leftBarKey,
-									@"rightBarButtonItems":self.rightBarKey,
-									/**
-									 *  layout
-									 */
-									@"height":self.layoutKey,
-									@"width":self.layoutKey,
-									
-									@"top":self.layoutKey,
-									@"bottom":self.layoutKey,
-									@"left":self.layoutKey,
-									@"right":self.layoutKey,
-									
-									@"centerx":self.layoutKey,
-									@"centery":self.layoutKey,
-									
-									@"leading":self.layoutKey,
-									@"trailing":self.layoutKey,
-									
-									@"not":self.layoutKey,
-									
-									@"di_addConstant":self.di_layoutKey
+									@"rightBarButtonItems":self.rightBarKey
 									} ;
 				  });
 	return _instance[key];
@@ -109,40 +89,6 @@
 							  obj.navigationItem.rightBarButtonItem=value;
 						  }
 						  
-					  } ;
-				  });
-	return _instance;
-}
-
-
-
-
-+(UndefinedKeyHandlerBlock)layoutKey
-{
-	static UndefinedKeyHandlerBlock _instance;
-	static dispatch_once_t _layoutKey;
-	dispatch_once(&_layoutKey,
-				  ^{
-					  _instance = ^void(UIViewController* obj,NSString*key,id value)
-					  {
-						  NSArray<DINodeLayoutConstraint*>* nodeConstraints = value;
-						  for (DINodeLayoutConstraint* constraint in nodeConstraints)
-						  {
-							  [constraint realizeConstant];
-						  }
-					  } ;
-				  });
-	return _instance;
-}
-
-+(UndefinedKeyHandlerBlock)di_layoutKey
-{
-	static UndefinedKeyHandlerBlock _instance;
-	static dispatch_once_t _layoutKey;
-	dispatch_once(&_layoutKey,
-				  ^{
-					  _instance = ^void(UIViewController* obj,NSString*key,id value)
-					  {
 					  } ;
 				  });
 	return _instance;

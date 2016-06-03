@@ -40,6 +40,25 @@ static NSMutableDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>
 	return _realizeMap;
 }
 
++(RealizeHandlerBlock)realizeUITableViewCellToUIView
+{
+	return ^void(UITableViewCell* cell,UIView* view)
+	{
+		[cell.contentView addSubview:view];
+	};
+}
+
++(RealizeHandlerBlock)realizeUITableViewControllerToUITableViewCell
+{
+	return ^void(UITableViewController* viewIns,UITableViewCell* cell)
+	{
+		NSString* identify = [cell valueForKey:@"identify"];
+		if([NSString isNilOrEmpty:identify])
+			identify = NSStringFromClass(cell.class);
+		[viewIns.tableView registerClass:cell.class forCellReuseIdentifier:identify];
+	};
+}
+
 +(RealizeHandlerBlock)realizeUIBarButtonItemToUIView
 {
 	return ^void(UIBarButtonItem* viewIns,UIView* barIns)

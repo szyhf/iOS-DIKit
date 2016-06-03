@@ -9,7 +9,6 @@
 #import "UIButton+DIAttribute.h"
 #import "UIView+DIAttribute.h"
 #import "DITree.h"
-#import <objc/objc-runtime.h>
 
 @implementation UIButton (DIAttribute)
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
@@ -36,21 +35,29 @@
 
 +(void)tap:(UIButton*)button
 {
-	NSString*command = [button valueForKey:@"di_tap"];
-	NSScanner* scanner = [NSScanner scannerWithString:command];
-	NSString* targetName;
-	NSString* methodName;
-	[scanner scanUpToString:@"." intoString:&targetName];
-	[scanner scanString:@"." intoString:nil];
-	[scanner scanUpToString:@"" intoString:&methodName];
-	DINode* targetNode = [DITree instance].nameToNode[targetName];
-	SEL action = NSSelectorFromString(methodName);
-	if([targetNode.implement respondsToSelector:action])
+	id tap_value = [button valueForKey:@"di_tap"];
+	if([tap_value isKindOfClass:NSString.class])
 	{
-		//[targetNode.implement  performSelector:action withObject:button];
-		[targetNode.implement invokeSelector:action];
-		
-		//DebugLog(@"%@",res);
+		NSScanner* scanner = [NSScanner scannerWithString:tap_value];
+		NSString* targetName;
+		NSString* methodName;
+		[scanner scanUpToString:@"." intoString:&targetName];
+		[scanner scanString:@"." intoString:nil];
+		[scanner scanUpToString:@"" intoString:&methodName];
+		DINode* targetNode = [DITree instance].nameToNode[targetName];
+		SEL action = NSSelectorFromString(methodName);
+		if([targetNode.implement respondsToSelector:action])
+		{
+			tap_value =^void()
+			{
+				[targetNode.implement invokeSelector:action];
+			};
+			[button setValue:tap_value forKey:@"di_tap"];
+		}
 	}
+	void(^tapBlock)() = tap_value;
+	if(tapBlock)
+		return tapBlock();
+	
 }
 @end

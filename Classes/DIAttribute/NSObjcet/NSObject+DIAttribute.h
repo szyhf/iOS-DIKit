@@ -10,6 +10,7 @@
 #import "DINode.h"
 #import "UndefinedKeyHandlerBlock.h"
 #import "DITools.h"
+@class DINode;
 
 @interface NSObject (DIAttribute)
 -(void)updateByNode:(DINode*)node;

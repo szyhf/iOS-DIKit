@@ -29,39 +29,9 @@
 									@"backgroundColor":self.colorKey,
 									@"image":self.imageKey,
 									@"fsize":self.frameKey,
-									/**
-									 *  layout
-									 */
-									@"height":self.layoutKey,
-									@"width":self.layoutKey,
-									
-									@"top":self.layoutKey,
-									@"bottom":self.layoutKey,
-									@"left":self.layoutKey,
-									@"right":self.layoutKey,
-									
-									@"centerX":self.layoutKey,
-									@"centerY":self.layoutKey,
-									
-									@"leading":self.layoutKey,
-									@"trailing":self.layoutKey,
 									} ;
 				  });
 	return _instance[key];
-}
-
-+(NSString*)alias:(NSString*)alias
-{
-	static NSDictionary<NSString*,NSString*>* _instance;
-	static dispatch_once_t _alias_token;
-	dispatch_once(&_alias_token,
-				  ^{
-					  _instance =
-					  @{
-						@"style":@"nuiClass"
-						};
-				  });
-	return _instance[alias];
 }
 
 +(UndefinedKeyHandlerBlock)frameKey
@@ -114,24 +84,6 @@
 								  [obj setValue:image forKey:@"image"];
 						  }
 						  
-					  } ;
-				  });
-	return _instance;
-}
-
-+(UndefinedKeyHandlerBlock)layoutKey
-{
-	static UndefinedKeyHandlerBlock _instance;
-	static dispatch_once_t _layoutKey;
-	dispatch_once(&_layoutKey,
-				  ^{
-					  _instance = ^void(UIView* obj,NSString*key,id value)
-					  {
-						  NSArray<DINodeLayoutConstraint*>* nodeConstraints = value;
-						  for (DINodeLayoutConstraint* constraint in nodeConstraints)
-						  {
-							  [constraint realizeConstant];
-						  }
 					  } ;
 				  });
 	return _instance;
