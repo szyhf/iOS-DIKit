@@ -91,7 +91,7 @@ static NSMutableDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>
 {
 	return ^void(UIView* parentView,UIView* childView)
 	{
-		if([parentView.subviews containsObject:childView])
+		if(![parentView.subviews containsObject:childView])
 		{
 			[parentView addSubview:childView];
 		}
