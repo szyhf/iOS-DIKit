@@ -143,7 +143,7 @@
 		//尝试根据名称进行推测
 		for (NSString* suffix in [DIRouter assumeMap])
 		{
-			if([aliasName endsWith:suffix])
+			if([aliasName hasSuffix:suffix])
 			{
 				realizeName = [DIRouter assumeMap][suffix];
 				break;
