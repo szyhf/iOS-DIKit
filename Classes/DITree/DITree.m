@@ -40,6 +40,7 @@ typedef NS_ENUM(NSInteger,ParseStatus)
 	[self.pathToNode removeAllObjects];
 	[self.nameToNode removeAllObjects];
 	[self.nodeOfPath removeAllObjects];
+	onParseringNode = nil;
 	self->_root = nil;
 }
 
@@ -54,7 +55,6 @@ typedef NS_ENUM(NSInteger,ParseStatus)
 }
 -(void)remakeWithXML:(NSString*)xmlString
 {
-	[self clear];
 	[self parseXML:xmlString status:ParseStatusRemake];
 }
 -(void)parseXML:(NSString*)xmlString status:(ParseStatus)status
@@ -94,14 +94,11 @@ didStartElement:(NSString *)elementName
 	}
 	else if(self->parseStatus != ParseStatusUpdate)
 	{
-		self->_root = child;
+		self.nameToNode[child.name] = child;
 	}
 	onParseringNode = child;
 	
-	if(onParseringNode.isGlobal)
-	{
-		[self autoSetNameToNode:onParseringNode];
-	}
+	//[self autoSetNameToNode:onParseringNode];
 }
 
 -(void)parser:(NSXMLParser *)parser
@@ -114,6 +111,8 @@ qualifiedName:(NSString *)qName
 
 -(void)autoSetNameToNode:(DINode*)node
 {
+	if(!node.isGlobal)
+		return;
 	switch (parseStatus)
 	{
 		case ParseStatusUpdate:
