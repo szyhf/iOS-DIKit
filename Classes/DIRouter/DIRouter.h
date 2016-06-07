@@ -18,3 +18,9 @@
  */
 +(void)realizePath:(NSString*)path;
 @end
+
+@interface DIRouter (Xml)
++(void)registryXmlDirectory:(NSString*)directory;
++(void)registryRealizeXml:(NSString*)xmlString;
++(void)remakeRealizeXml:(NSString*)xmlString;
+@end
