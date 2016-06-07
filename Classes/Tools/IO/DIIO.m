@@ -32,4 +32,27 @@
 	NSPredicate *fltr = [NSPredicate predicateWithFormat:predicateFormat];
 	return [dirContents filteredArrayUsingPredicate:fltr];
 }
++(NSArray<NSString*>*)recurFullPathFilesWithSuffix:(NSString*)suffix
+							   inDirectory:(NSString*)path
+{
+	NSFileManager *fm = [NSFileManager defaultManager];
+	NSArray *dirContents = [fm contentsOfDirectoryAtPath:path error:nil];
+	NSMutableArray* res = [NSMutableArray arrayWithCapacity:0];
+	for (NSString* dirContent in dirContents)
+	{
+		BOOL isDir;
+		NSString* filePath = [path stringByAppendingPathComponent:dirContent];
+		[fm fileExistsAtPath:filePath isDirectory:&isDir];
+		if(isDir)
+		{
+			[res addObjectsFromArray:[self recurFullPathFilesWithSuffix:suffix inDirectory:filePath]];
+		}else
+		{
+			[res addObject:filePath];
+		}
+	}
+	NSString* predicateFormat = [NSString stringWithFormat:@"self ENDSWITH '%@'",suffix];
+	NSPredicate *fltr = [NSPredicate predicateWithFormat:predicateFormat];
+	return [res filteredArrayUsingPredicate:fltr];
+}
 @end
