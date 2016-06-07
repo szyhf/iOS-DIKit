@@ -23,9 +23,12 @@
 				  andNamespaceURI:(NSString *)namespaceURI
 				 andAttributes:(NSDictionary<NSString*,NSString*>*)attributes;
 -(void)addChild:(DINode*)child;
+-(void)removeChild:(DINode*)child;
 -(DINode*)childOfIndex:(NSInteger)index;
 
 -(BOOL)isGlobal;
+-(BOOL)isError;
+-(NSException*)exception;
 
 @property (nonatomic, weak) id implement;
 
@@ -37,11 +40,16 @@
 @property (nonatomic, strong) DINode* parent;
 @property (nonatomic, strong) NSArray<DINode*>* children;
 
-@property (nonatomic, strong) NSMutableDictionary<NSString*,id>*attributes;
 @property (nonatomic, strong) NSMutableArray<void(^)()>*delayBlocks;
+-(NSMutableDictionary<NSString*,id>*)attributes;
 @end
 
 @interface DINode (Awake)<DINodeAwakeProtocol>
 -(void)awake;
--(void)assemblyTo:(DINode*)parent;
+-(void)assemblyTo:(DINode*)parentNode;
+@end
+
+@interface DINode (DIAttribute)
++(NSDictionary<NSString*,UndefinedKeyHandlerBlock>*)nodeBlocks;
+-(void)setAttributes:(NSMutableDictionary<NSString *,NSString *> *)attributes;
 @end

@@ -12,12 +12,15 @@
 @interface DINode()
 {
 	BOOL _isGlobal;
+	NSException* _exception;
+	NSMutableDictionary<NSString *,id> *_attributes;
 }
 @property (nonatomic, strong) NSMutableArray<DINode*>* childrenStorage;
 @end
 
-@interface DINode (DIAttribute)
-+(NSDictionary<NSString*,UndefinedKeyHandlerBlock>*)nodeBlocks;
+@interface DINode (Assume)
++(NSDictionary<NSString*,Class>*)assumeMap;
+-(Class)asumeByName:(NSString*)elementName;
 @end
 
 @implementation DINode
@@ -81,6 +84,21 @@
 	return self;
 }
 
+-(BOOL)isError
+{
+	return self->_exception!=nil;
+}
+
+-(NSException*)exception
+{
+	return _exception;
+}
+
+-(NSMutableDictionary<NSString*,id>*)attributes
+{
+	return self->_attributes;
+}
+
 -(BOOL)isGlobal
 {
 	return self->_isGlobal;
@@ -98,6 +116,12 @@
 	child.parent = self;
 }
 
+-(void)removeChild:(DINode*)child
+{
+	[self.childrenStorage removeObject:child];
+	child.parent = nil;
+}
+
 -(void)addChildren:(NSArray<DINode*>*)children
 {
 	[self.childrenStorage addObjectsFromArray:children];
@@ -106,17 +130,6 @@
 	{
 		child.parent = self;
 	}
-}
--(Class)asumeByName:(NSString*)elementName
-{
-	for (NSString* suffix in [self.class assumeMap])
-	{
-		if([elementName hasSuffix:suffix])
-		{
-			return [self.class assumeMap][suffix];
-		}
-	}
-	return nil;
 }
 -(NSString*)description
 {
@@ -132,7 +145,6 @@
 }
 
 #pragma mark -- property
-@synthesize implement;
 @synthesize name;
 @synthesize style;
 @synthesize parent;
@@ -161,20 +173,6 @@
 	return self.childrenStorage;
 }
 
--(void)setAttributes:(NSMutableDictionary<NSString *,NSString *> *)attributes
-{
-	
-	self->_attributes = [NSMutableDictionary dictionaryWithDictionary:attributes];
-	[self->_attributes removeObjectsForKeys:[self.class nodeKeyWord]];
-	[self->_attributes enumerateKeysAndObjectsUsingBlock:
-	 ^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop)
-	{
-		UndefinedKeyHandlerBlock block = [self.class nodeBlocks][key];
-		if(block)
-			block(self,key,obj);
-	}];
-}
-
 -(void)setValue:(id)value
 forUndefinedKey:(NSString *)key
 {
@@ -194,49 +192,8 @@ forUndefinedKey:(NSString *)key
 	return _childrenStorage;
 }
 
-#pragma mark -- static
-
-
-+(NSArray<NSString*>*)nodeKeyWord
+- (id)implement
 {
-	static NSArray* _instance;
-	static dispatch_once_t _nodeAttribute_token;
-	dispatch_once(&_nodeAttribute_token,
-				  ^{
-					  //保留字
-					  _instance = @[
-									@"prop",
-									@"id",];
-				  });
-	return _instance;
+	return _implement;
 }
-
-/**
- *  推断用的后缀
- */
-+(NSDictionary<NSString*,Class>*)assumeMap
-{
-	static NSDictionary<NSString*,Class>* _assumeMap;
-	if(_assumeMap==nil)
-		_assumeMap=@{
-					 //Controller结尾中，
-					 @"NavigationController":UINavigationController.class,
-					 @"TabBarController":UITabBarController.class,
-					 @"ViewController":UIViewController.class,
-					 
-					 @"TabBarItem":UITabBarItem.class,
-					 @"BarButtonItem":UIBarButtonItem.class,
-					 @"BarButton":UIBarButtonItem.class,
-					 
-					 @"Label":UILabel.class,
-					 @"Button":UIButton.class,
-					 
-					 //view结尾中，最原始的View要最后结尾。
-					 @"ImageView":UIImageView.class,
-					 @"View":UIView.class,
-					 };
-	return _assumeMap;
-}
-
-
 @end
