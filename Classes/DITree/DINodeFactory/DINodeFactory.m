@@ -8,6 +8,7 @@
 
 #import "DINodeFactory.h"
 #import "DIPropNode.h"
+#import "DITemplateNode.h"
 
 @implementation DINodeFactory
 +(DINode*)newNodeWithElement:(NSString*)element
@@ -16,7 +17,7 @@
 {
 	//判断template属性
 	if(attributes[@"template"])
-		return nil;
+		return [[DITemplateNode alloc]initWithElement:element andNamespaceURI:namespaceURI andAttributes:attributes];
 	
 	//判断prop属性
 	if(attributes[@"prop"])
