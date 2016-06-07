@@ -17,16 +17,16 @@
 {
 	[node.attributes enumerateKeysAndObjectsUsingBlock:
 	 ^(NSString * _Nonnull key,
-	   NSString * _Nonnull obj,
+	   NSString * _Nonnull value,
 	   BOOL * _Nonnull stop)
 	{
 		@try
 		{
-			[self.class di_UpdateObject:self byKey:key value:obj];
+			[self.class di_UpdateObject:self byKey:key value:value];
 		}
 		@catch (NSException *exception)
 		{
-			DebugLog(@"set key(%@) catched an exception: %@",key,exception);
+			WarnLog(@"set <%@ %p> attribute[%@ => %@] failed\nException:%@",node.name,self,key,value,exception);
 		}
 	}];
 }
@@ -63,6 +63,20 @@ forUndefinedKey:(NSString *)key
 	return objc_getAssociatedObject(self,NSSelectorFromString(key));
 }
 
++(UndefinedKeyHandlerBlock)styleKey
+{
+	static UndefinedKeyHandlerBlock _instance;
+	static dispatch_once_t _leftBarKey_token;
+	dispatch_once(&_leftBarKey_token,
+				  ^{
+					  _instance =  ^void(UIViewController* obj,NSString*key,id value)
+					  {
+						  [obj setValue:value forKey:@"nuiClass"];
+					  } ;
+				  });
+	return _instance;
+}
+
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
 {
 	static NSDictionary<NSString*,UndefinedKeyHandlerBlock>* _instance;
@@ -70,32 +84,9 @@ forUndefinedKey:(NSString *)key
 	dispatch_once(&_token,
 				  ^{
 					  _instance = @{
-									@"image":self.imageKey
+									@"style":self.styleKey,
 									} ;
 				  });
 	return _instance[key];
-}
-+(UndefinedKeyHandlerBlock)imageKey
-{
-	static UndefinedKeyHandlerBlock _instance;
-	static dispatch_once_t _imageKey;
-	dispatch_once(&_imageKey,
-				  ^{
-					  _instance = ^void(NSObject* obj,NSString*key,id value)
-					  {
-						  if([obj respondsToSelector:@selector(setImage:)])
-						  {
-							  if([value isKindOfClass:UIImage.class])
-								 [obj setValue:value forKey:@"image"];
-							  else
-							  {
-								  UIImage* image = [DIConverter toImage:value];
-								  if(image)
-									  [obj setValue:image forKey:@"image"];
-							  }
-						  }
-					  } ;
-				  });
-	return _instance;
 }
 @end
