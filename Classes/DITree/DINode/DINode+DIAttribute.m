@@ -7,6 +7,12 @@
 //
 
 #import "DINode.h"
+@interface DINode()
+{
+	NSException* __weak _exception;
+	NSMutableDictionary<NSString *,NSString *> *_attributes;
+}
+@end
 
 @implementation DINode (DIAttribute)
 +(NSDictionary<NSString*,UndefinedKeyHandlerBlock>*)nodeBlocks
@@ -24,16 +30,15 @@
 									
 									//支持相对值、相对绝对值（转化为相对值）
 									@"centerX":self.layoutRelativeKey,
-									@"cX":self.layoutRelativeKey,
+									@"x":self.layoutRelativeKey,
 									@"centerY":self.layoutRelativeKey,
-									@"cY":self.layoutRelativeKey,
-									
-									//仅支持相对值
+									@"y":self.layoutRelativeKey,
 									@"top":self.layoutRelativeKey,
 									@"t":self.layoutRelativeKey,
 									@"bottom":self.layoutRelativeKey,
 									@"b":self.layoutRelativeKey,
 									@"left":self.layoutRelativeKey,
+									@"leftMargin":self.layoutRelativeKey,
 									@"l":self.layoutRelativeKey,
 									@"right":self.layoutRelativeKey,
 									@"r":self.layoutRelativeKey,
@@ -45,9 +50,26 @@
 									
 									//扩展属性
 									@"edges":self.layoutEdgesKey,
-									//@"size":@"",
+									@"size":self.sizeKey,
 									//@"center":@"",
 									} ;
+				  });
+	return _instance;
+}
+
++(NSArray<NSString*>*)nodeKeyWord
+{
+	static NSArray* _instance;
+	static dispatch_once_t _nodeAttribute_token;
+	dispatch_once(&_nodeAttribute_token,
+				  ^{
+					  //保留字
+					  _instance = @[
+									@"prop",
+									@"id",
+									@"ref",
+									@"template",
+									];
 				  });
 	return _instance;
 }
@@ -85,7 +107,7 @@
 					  _instance = ^void(DINode* node,NSString*key,NSString* value)
 					  {
 						  //如果是绝对值或者为空，自动补:号
-						  if([value isMatchRegular:@"^\\d*;?$"])
+						  if([value isMatchRegular:@"^[>=<]?\\d*;?$"])
 						  {
 							  value = [@":" stringByAppendingString:value];
 						  }
@@ -142,6 +164,49 @@
 					  } ;
 				  });
 	return _instance;
+}
+
+
++(UndefinedKeyHandlerBlock)sizeKey
+{
+	static UndefinedKeyHandlerBlock _instance;
+	static dispatch_once_t _layoutKey;
+	dispatch_once(&_layoutKey,
+				  ^{
+					  _instance = ^void(DINode* node,NSString*key,NSString* value)
+					  {
+						  value = [value trimEnd:@")"];
+						  value = [value trimStart:@"("];
+						  NSArray<NSString*>* sizeAry = [value componentsSeparatedByString:@","];
+						  self.layoutKey(node,@"width",sizeAry[0]);
+						  self.layoutKey(node,@"height",sizeAry[1]);
+						  
+						  [node.attributes removeObjectForKey:key];
+					  } ;
+				  });
+	return _instance;
+}
+
+-(void)setAttributes:(NSMutableDictionary<NSString *,NSString *> *)attributes
+{
+	self->_attributes = [NSMutableDictionary dictionaryWithDictionary:attributes];
+	
+	[self->_attributes removeObjectsForKeys:[self.class nodeKeyWord]];
+	[self->_attributes enumerateKeysAndObjectsUsingBlock:
+	 ^(NSString * _Nonnull key, NSString * _Nonnull value, BOOL * _Nonnull stop)
+	 {
+		 @try
+		 {
+			 UndefinedKeyHandlerBlock block = [self.class nodeBlocks][key];
+			 if(block)
+				 block(self,key,value);
+		 }
+		 @catch (NSException *exception)
+		 {
+			 WarnLog(@"set node<%@ %p> attribute[%@ => %@] failed\nException:%@",key,value,self.name,self,exception);
+			 self->_exception=exception;
+		 }
+	 }];
 }
 
 @end
