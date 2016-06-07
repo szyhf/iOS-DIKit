@@ -7,7 +7,6 @@
 //
 
 #import "UIButton+DIAttribute.h"
-#import "UIView+DIAttribute.h"
 #import "DITree.h"
 
 @implementation UIButton (DIAttribute)
@@ -18,10 +17,19 @@
 	dispatch_once(&_token,
 				  ^{
 					  _instance = @{
-						@"tap":self.tapKey
+						@"tap":self.tapKey,
+						@"title":self.titleKey
 									} ;
 				  });
 	return _instance[key];
+}
+
++(UndefinedKeyHandlerBlock)titleKey
+{
+	return ^void(UIButton* button,NSString*key,id value)
+	{
+		[button setTitle:value forState:UIControlStateNormal];
+	};
 }
 
 +(UndefinedKeyHandlerBlock)tapKey
