@@ -17,3 +17,7 @@ FOUNDATION_EXPORT const unsigned char DIKitVersionString[];
 #import <DIKit/DIRouter.h>
 #import <DIKit/DIRouter+Xml.h>
 #import <DIKit/DIRouter+Assemble.h>
+
+//NUI相关
+#import "NUISettings.h"
+#import "NUIFileMonitor.h"
