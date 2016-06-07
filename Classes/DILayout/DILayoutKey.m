@@ -26,17 +26,16 @@
 							
 							//支持相对值、相对绝对值
 							@"centerX":[NSNumber numberWithInteger:NSLayoutAttributeCenterX],
-							@"cX":[NSNumber numberWithInteger:NSLayoutAttributeCenterX],
+							@"x":[NSNumber numberWithInteger:NSLayoutAttributeCenterX],
 							@"centerY":[NSNumber numberWithInteger:NSLayoutAttributeCenterY],
-							@"cY":[NSNumber numberWithInteger:NSLayoutAttributeCenterY],
-							
-							//仅支持相对值
+							@"y":[NSNumber numberWithInteger:NSLayoutAttributeCenterY],
 							@"top":[NSNumber numberWithInteger:NSLayoutAttributeTop],
 							@"t":[NSNumber numberWithInteger:NSLayoutAttributeTop],
 							@"bottom":[NSNumber numberWithInteger:NSLayoutAttributeBottom],
 							@"b":[NSNumber numberWithInteger:NSLayoutAttributeBottom],
 							@"left":[NSNumber numberWithInteger:NSLayoutAttributeLeft],
 							@"l":[NSNumber numberWithInteger:NSLayoutAttributeLeft],
+							@"leftMargin":[NSNumber numberWithInteger:NSLayoutAttributeLeftMargin],
 							@"right":[NSNumber numberWithInteger:NSLayoutAttributeRight],
 							@"r":[NSNumber numberWithInteger:NSLayoutAttributeRight],
 							

@@ -7,7 +7,7 @@
 //
 
 #import "UIScrollView+DIAttribute.h"
-#import "UIView+DIAttribute.h"
+#import "NSObject+DIAttribute.h"
 
 @implementation UIScrollView (DIAttribute)
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key

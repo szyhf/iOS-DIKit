@@ -43,7 +43,7 @@
 {
 	NSScanner* scanner = [NSScanner scannerWithString:formula];
 	NSCharacterSet *relationSet = [NSCharacterSet characterSetWithCharactersInString:@">=<"];
-	NSCharacterSet *varSet = [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_0123456789#"];
+	NSCharacterSet *varSet = [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_0123456789#$"];
 
 	static NSCharacterSet *mulitplySet;
 	if(!mulitplySet)
@@ -54,7 +54,7 @@
 	NSString* targetAttribute = nil;
 	CGFloat mutiply = 1;
 	CGFloat offset = 0;
-	CGFloat priority = 100000;
+	CGFloat priority = 1000;
 	
 	DILayoutParserResult* result = [DILayoutParserResult newParserResult];
 	result.oriAttribute = key;
