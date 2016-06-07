@@ -48,7 +48,20 @@
 
 -(void)assemblyTo:(DINode *)parentNode
 {
-	parentNode.attributes[self.property]=self.implement;
+	id current = parentNode.attributes[self.property];
+	if(!current)
+	{
+		parentNode.attributes[self.property]=self.implement;
+	}
+	else if([current isKindOfClass:NSMutableArray.class])
+	{
+		[((NSMutableArray*)current) addObject:self.implement];
+	}
+	else
+	{
+		NSMutableArray* ary = [NSMutableArray arrayWithObjects:current,self.implement,nil];
+		parentNode.attributes[self.property]=ary;
+	}
 }
 
 -(id)realizeValueNode
