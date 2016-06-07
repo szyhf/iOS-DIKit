@@ -5,17 +5,12 @@
 //  Created by Back on 16/5/24.
 //
 //
-
-#import "UIView+DIAttribute.h"
-#import "UndefinedKeyHandlerBlock.h"
-#import "DILog.h"
-#import "DILayoutParser.h"
+#import <UIKit/UIKit.h>
+#import "NSObject+DIAttribute.h"
 #import "DIConverter.h"
-#import "NSObject+Runtimes.h"
 #import "DITools.h"
 #import "DIContainer.h"
-#import <objc/runtime.h>
-#import "DINodeLayoutConstraint.h"
+
 
 @implementation UIView (DIAttribute)
 
@@ -29,9 +24,24 @@
 									@"backgroundColor":self.colorKey,
 									@"image":self.imageKey,
 									@"fsize":self.frameKey,
+									@"style":self.styleKey,								
 									} ;
 				  });
 	return _instance[key];
+}
+
++(UndefinedKeyHandlerBlock)styleKey
+{
+	static UndefinedKeyHandlerBlock _instance;
+	static dispatch_once_t _frameKey_token;
+	dispatch_once(&_frameKey_token,
+				  ^{
+					  _instance = ^void(UIView* view,NSString* key,NSString* value)
+					  {
+						  [view setValue:key forKey:@"nuiClass"];
+					  };
+				  });
+	return _instance;
 }
 
 +(UndefinedKeyHandlerBlock)frameKey

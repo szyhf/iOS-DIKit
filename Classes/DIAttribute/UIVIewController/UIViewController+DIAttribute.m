@@ -37,12 +37,27 @@
 	dispatch_once(&_uiView_token,
 				  ^{
 					  _instance = @{
+									@"style":self.styleKey,
 									@"backgroundColor":self.colorKey,
 									@"leftBarButtonItems":self.leftBarKey,
 									@"rightBarButtonItems":self.rightBarKey
 									} ;
 				  });
 	return _instance[key];
+}
+
++(UndefinedKeyHandlerBlock)styleKey
+{
+	static UndefinedKeyHandlerBlock _instance;
+	static dispatch_once_t _leftBarKey_token;
+	dispatch_once(&_leftBarKey_token,
+				  ^{
+					  _instance =  ^void(UIViewController* obj,NSString*key,id value)
+					  {
+						  [obj.view setValue:value forKey:@"nuiClass"];
+					  } ;
+				  });
+	return _instance;
 }
 
 +(UndefinedKeyHandlerBlock)leftBarKey
