@@ -31,16 +31,6 @@
     return range.location != NSNotFound;
 }
 
-- (bool) endsWith: (NSString*) substring {
-    NSRange range = [self rangeOfString:substring];
-    return range.location == [self length] - [substring length];
-}
-
-- (bool) startsWith: (NSString*) substring {
-    NSRange range = [self rangeOfString:substring];
-    return range.location == 0;
-}
-
 - (NSUInteger) indexOf: (NSString*) substring {
     NSRange range = [self rangeOfString:substring options:NSCaseInsensitiveSearch];
     return range.location == NSNotFound ? -1 : range.location;
@@ -188,7 +178,7 @@
 
 -(NSString*)trimEnd:(NSString*)endString
 {
-	if([self endsWith:endString])
+	if([self hasSuffix:endString])
 	{
 		NSInteger diff = self.length-endString.length;
 		NSRange range = NSMakeRange(0,diff);
@@ -204,7 +194,7 @@
 
 -(NSString*)trimStart:(NSString*)startString
 {
-	if([self startsWith:startString])
+	if([self hasPrefix:startString])
 	{
 		NSRange range = NSMakeRange(startString.length,self.length-1);
 		NSString*res = [self substringWithRange:range];

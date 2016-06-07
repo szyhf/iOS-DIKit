@@ -14,8 +14,6 @@
 - (NSUInteger) compareTo: (NSString*) comp;
 - (NSUInteger) compareToIgnoreCase: (NSString*) comp;
 - (bool) contains: (NSString*) substring;
-- (bool) endsWith: (NSString*) substring;
-- (bool) startsWith: (NSString*) substring;
 - (NSUInteger) indexOf: (NSString*) substring;
 - (NSUInteger) indexOf:(NSString *)substring startingFrom: (NSUInteger) index;
 - (NSUInteger) lastIndexOf: (NSString*) substring;
