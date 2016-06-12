@@ -10,5 +10,4 @@
 
 typedef void(^RealizeHandlerBlock)(id parent,id child);
 @interface DIRouter (HandlerBlocks)
-+(NSDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*)realizeMap;
 @end

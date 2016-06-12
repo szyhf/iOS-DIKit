@@ -11,34 +11,18 @@
 #import "NSObject+Runtimes.h"
 
 @implementation DIRouter (HandlerBlocks)
-static NSMutableDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*_realizeMap;
-+(NSMutableDictionary<NSString*,NSDictionary<NSString*,RealizeHandlerBlock>*>*)realizeMap
-{
-	//["super"=>["child"=>handlerBlock]]
-	if(_realizeMap==nil)
-	{	id defaultMap = @{
-			  @"UITabBarController":@{
-					  @"UIViewController":self.realizeUITabBarControllerToUIViewController,
-					},
-			  @"UINavigationController":@{
-					  @"UITabBarItem":self.realizeUINavigationControllerToUITabBarItem,
-					  @"UIViewController":self.realizeUINavigationControllerToUIViewController,
-					  },
-			  @"UIViewController":@{
-					  @"UIBarButtonItem":@"",
-					  @"UIViewController":self.realizeUIViewControllerToUIViewController,
-					  @"UIView":self.realizeUIViewControllerToUIView,
-					  },
-			  @"UIControl":@{},
-			  @"UIView":@{
-					  @"UIView":self.realizeUIViewToUIView
-					  }
-			  };
-		_realizeMap = [NSMutableDictionary dictionaryWithDictionary:defaultMap];
 
-	}
-	return _realizeMap;
++(RealizeHandlerBlock)realizeUIViewToUIViewController
+{
+	return ^void(UIView* view,UIViewController* viewCtrl)
+	{
+		if(![view.subviews containsObject:viewCtrl.view])
+		{
+			[view addSubview:viewCtrl.view];
+		}
+	};
 }
+
 
 +(RealizeHandlerBlock)realizeUITableViewCellToUIView
 {
