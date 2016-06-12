@@ -82,8 +82,7 @@
 	{
 		block();
 	}
-	
-	[self.delayBlocks removeAllObjects];//释放。。
+	//block不能随意释放。。否则想重用同一个node的时候会出错。
 }
 -(void)assemblyTo:(DINode*)parentNode
 {
@@ -124,21 +123,21 @@
 	{
 		self.attributes[@"style"] = self.className;
 	}
-	else
-	{
-		//递归监测是否存在父类的定义
-		Class currentClass = self.clazz;
-		while(currentClass!=nil)
-		{
-			NSString* currentClassName = NSStringFromClass(currentClass);
-			if(nuiInstance.styles[currentClassName])
-			{
-				self.attributes[@"style"] = currentClassName;
-				break;
-			}
-			currentClass = [currentClass superclass];
-		}
-	}
+	//else
+	//{
+		////递归监测是否存在父类的定义（这样做会严重影响第三方控件的自定义样式 废弃）
+		//Class currentClass = self.clazz;
+		//while(currentClass!=nil)
+		//{
+			//NSString* currentClassName = NSStringFromClass(currentClass);
+			//if(nuiInstance.styles[currentClassName])
+			//{
+				//self.attributes[@"style"] = currentClassName;
+				//break;
+			//}
+			//currentClass = [currentClass superclass];
+		//}
+	//}
 	//如果还配不到就按NUI的默认处理。
 	return;
 }
