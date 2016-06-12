@@ -35,7 +35,7 @@
 	
 	if([self isGlobal])
 	{
-		nodeInstance = [DIContainer getInstance:self.clazz];
+		nodeInstance = [DIContainer makeInstance:self.clazz];
 		[DIContainer setAlias:self.name forInstance:nodeInstance];
 	}
 	else
