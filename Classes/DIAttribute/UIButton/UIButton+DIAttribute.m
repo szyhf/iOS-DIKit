@@ -8,6 +8,7 @@
 
 #import "UIButton+DIAttribute.h"
 #import "DITree.h"
+#import "DIContainer.h"
 
 @implementation UIButton (DIAttribute)
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
@@ -18,10 +19,31 @@
 				  ^{
 					  _instance = @{
 						@"tap":self.tapKey,
-						@"title":self.titleKey
+						@"title":self.titleKey,
+						@"image":self.imageKey
 									} ;
 				  });
 	return _instance[key];
+}
+
++(UndefinedKeyHandlerBlock)imageKey
+{
+	return ^void(UIButton* button,NSString*key,id value)
+	{
+		UIImage* image;
+		if([value isKindOfClass:UIImage.class])
+		{
+			image = value;
+		}else if([value isKindOfClass:NSString.class])
+		{
+			NSString*imageStr = value;
+			image = [UIImage imageNamed:imageStr];
+			//网址暂不支持= =以后再说
+		}
+		
+		if(image)
+			[button setImage:image forState:UIControlStateNormal];
+	};
 }
 
 +(UndefinedKeyHandlerBlock)titleKey
@@ -44,6 +66,7 @@
 +(void)tap:(UIButton*)button
 {
 	id tap_value = [button valueForKey:@"di_tap"];
+	void(^tapBlock)() ;
 	if([tap_value isKindOfClass:NSString.class])
 	{
 		NSScanner* scanner = [NSScanner scannerWithString:tap_value];
@@ -52,18 +75,29 @@
 		[scanner scanUpToString:@"." intoString:&targetName];
 		[scanner scanString:@"." intoString:nil];
 		[scanner scanUpToString:@"" intoString:&methodName];
-		DINode* targetNode = [DITree instance].nameToNode[targetName];
+		id target = [DIContainer getInstanceByName:targetName];
 		SEL action = NSSelectorFromString(methodName);
-		if([targetNode.implement respondsToSelector:action])
+		if([target respondsToSelector:action])
 		{
 			tap_value =^void()
 			{
-				[targetNode.implement invokeSelector:action];
+				if([methodName hasSuffix:@":"])
+				{
+					[target invokeSelector:action withParams:button];
+				}
+				else
+				{
+					[target invokeSelector:action];
+				}
 			};
+			tapBlock = tap_value;
 			[button setValue:tap_value forKey:@"di_tap"];
 		}
 	}
-	void(^tapBlock)() = tap_value;
+	else
+	{
+		tapBlock = tap_value;
+	}
 	if(tapBlock)
 		return tapBlock();
 	
