@@ -107,7 +107,7 @@
 					  _instance = ^void(DINode* node,NSString*key,NSString* value)
 					  {
 						  //如果是绝对值或者为空，自动补:号
-						  if([value isMatchRegular:@"^[>=<]?\\d*;?$"])
+						  if([value isMatchRegular:@"^[>=<]?[\\+-]?\\d*\\.?\\d*;?$"])
 						  {
 							  value = [@":" stringByAppendingString:value];
 						  }
@@ -137,30 +137,54 @@
 							  case 4:
 							  {
 								  right = [edges[3] stringByTrimmingCharactersInSet:trimSet];
-								  right=![right isEmpty]?[@"-" stringByAppendingString:right]:@"0";
+								  if(![right isEmpty])
+								  {
+									  if([right isMatchRegular:@"^[\\+-]?\\d*;?$"])
+									  {
+										  right = [NSString stringWithFormat:@"%f",[right doubleValue]*-1];
+									  }
+									  self.layoutRelativeKey(node,@"right",right);
+								  }
 							  }
 							  case 3:
 							  {
 								  bottom = [edges[2] stringByTrimmingCharactersInSet:trimSet];
-								  bottom=![bottom isEmpty]?[@"-"stringByAppendingString:bottom]:@"0";
+								  if(![bottom isEmpty])
+								  {
+									  if([bottom isMatchRegular:@"^[\\+-]?\\d*;?$"])
+									  {
+										  bottom = [NSString stringWithFormat:@"%f",[bottom doubleValue]*-1];
+									  }
+									  self.layoutRelativeKey(node,@"bottom",bottom);
+								  }
 							  }
 							  case 2:
 							  {
 								  left = [edges[1] stringByTrimmingCharactersInSet:trimSet];
-								  left=![left isEmpty]?left:@"0";
+								  if(![left isEmpty])
+								  {
+									  if([left isMatchRegular:@"^[\\+-]?\\d*;?$"])
+									  {
+										  left = [NSString stringWithFormat:@"%f",[left doubleValue]];
+									  }
+									  self.layoutRelativeKey(node,@"left",left);
+								  }
 							  }
 							  case 1:
 							  {
 								  top = [edges[0] stringByTrimmingCharactersInSet:trimSet];
-								  top=![top isEmpty]?top:@"0";
+								  if(![top isEmpty])
+								  {
+									  if([top isMatchRegular:@"^[\\+-]?\\d*;?$"])
+									  {
+										  top = [NSString stringWithFormat:@"%f",[top doubleValue]];
+									  }
+									  self.layoutRelativeKey(node,@"top",top);
+								  }
 								  break;
 							  }
 						  }
 						  [node.attributes removeObjectForKey:key];
-						  self.layoutRelativeKey(node,@"top",top);
-						  self.layoutRelativeKey(node,@"left",left);
-						  self.layoutRelativeKey(node,@"bottom",bottom);
-						  self.layoutRelativeKey(node,@"right",right);
 					  } ;
 				  });
 	return _instance;
