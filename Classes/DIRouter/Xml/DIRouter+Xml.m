@@ -17,59 +17,66 @@
 #import "NUIFileMonitor.h"
 
 @implementation DIRouter (Xml)
-+(NSMutableArray<NSString*>*)dirFiles
-{
-	static NSMutableArray<NSString*>* _instance;
-	static dispatch_once_t _token;
-	dispatch_once(&_token,
-				  ^{
-					  _instance = [NSMutableArray arrayWithCapacity:10];
-				  });
-	return _instance;
-}
-+(void)registryXmlDirectory:(NSString*)dirPath
+static NSString* dirPath;
++(void)registryXmlDirectory:(NSString*)dir
 {
 	// Override point for customization after application launch.
 	UIWindow* window = [[UIWindow alloc]
 						initWithFrame:[[UIScreen mainScreen]bounds]];
 	[window makeKeyAndVisible];
 	[[UIApplication sharedApplication].delegate setWindow:window];
+	dirPath = dir;
 	
-	NSArray* filesPaths = [DIIO recurFullPathFilesWithSuffix:@"xml" inDirectory:dirPath];
-	for (NSString* xmlFilePath in filesPaths)
- 	{
-		[self addFileWatch:xmlFilePath];
-		[self.dirFiles addObject:xmlFilePath];
-	}
 	[self reload];
 }
 
+static NSMutableArray<NSString*>* watchedFiles;
 +(void)addFileWatch:(NSString*)filePath
 {
-	[NUIFileMonitor watch:filePath withCallback:
-	 ^{
-		 [self.class performSelectorOnMainThread:@selector(reload) withObject:nil waitUntilDone:YES];
-	}];
+	if(!watchedFiles)
+		watchedFiles = [NSMutableArray arrayWithCapacity:10];
+	if(![watchedFiles containsObject:filePath])
+	{
+		[watchedFiles addObject:filePath];
+		[NUIFileMonitor watch:filePath withCallback:
+		 ^{
+			 [self.class performSelectorOnMainThread:@selector(reload) withObject:nil waitUntilDone:YES];
+		 }];
+	}
 }
 
 +(void)reload
 {
-	[[UIApplication sharedApplication].delegate.window setRootViewController:nil];
-	[DIContainer clear];
-	[DITree.instance clear];
-	for (NSString* path in self.dirFiles)
+	UIViewController* rootCtrl;
+	@try
+ 	{
+		[[UIApplication sharedApplication].delegate.window setRootViewController:nil];
+		[DIContainer clear];
+		[DITree.instance clear];
+		NSArray* filesPaths = [DIIO recurFullPathFilesWithSuffix:@"xml" inDirectory:dirPath];
+		for (NSString* path in filesPaths)
+ 		{
+			[self addFileWatch:path];
+			NSString* content =
+			[NSString stringWithContentsOfFile:path
+								  usedEncoding:nil
+										 error:nil];
+			[DIRouter remakeRealizeXml:content];
+		}
+		
+		DINode* root = DITree.instance.nameToNode[@"root"];
+		[root awake];
+		
+		rootCtrl = root.implement;
+	}@catch(NSException* ex)
 	{
-		NSString* content =
-		[NSString stringWithContentsOfFile:path
-							  usedEncoding:nil
-									 error:nil];
-		[DIRouter remakeRealizeXml:content];
+		rootCtrl = [UIViewController alloc];
 	}
-	
-	DINode* root = DITree.instance.nameToNode[@"root"];
-	[root awake];
-	UIViewController* rootCtrl = root.implement;
-	[[UIApplication sharedApplication].delegate.window setRootViewController:rootCtrl];
+	@finally
+ 	{
+		[[UIApplication sharedApplication].delegate.window setRootViewController:rootCtrl];
+	}
+	DebugLog(@"Reload view.");
 }
 
 +(NSString*)resourceRealPathOfDirectory:(NSString*)directory
