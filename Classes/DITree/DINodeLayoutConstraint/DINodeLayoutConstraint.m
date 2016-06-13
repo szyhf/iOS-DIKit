@@ -142,15 +142,8 @@
 			parentNode = oriNode;
 		}
 		
-		if([parentNode.implement isKindOfClass:UIView.class])
-		{
-			tempView = (UIView*)parentNode.implement;
-		}
+		tempView = [self layoutItem:parentNode];
 		
-		if([parentNode.implement isKindOfClass:UIViewController.class])
-		{
-			tempView = [(UIViewController*)parentNode.implement view];
-		}
 		if(tempView)
 		{
 			[tempView addConstraint:constraint];
@@ -158,9 +151,28 @@
 	}
 	@catch (NSException *exception)
 	{
-		WarnLog(@"%@",exception);
-		WarnLog(@"%@",self);
+		WarnLog(@"%@\n%@",self,exception);
 	}
+}
+
+
+-(id)layoutItem:(DINode*)node
+{
+	UIView* tempView;
+	if([node.implement isKindOfClass:UITableViewCell.class])
+	{
+		UITableViewCell* cell = node.implement;
+		tempView = cell.contentView;
+	}
+	else if([node.implement isKindOfClass:UIView.class])
+	{
+		tempView = (UIView*)node.implement;
+	}
+	else if([node.implement isKindOfClass:UIViewController.class])
+	{
+		tempView = [(UIViewController*)node.implement view];
+	}
+	return tempView;
 }
 
 -(NSString*)description
@@ -184,22 +196,6 @@
 	[description appendFormat:@"%@<%p #%lu>.%@ %@ %@<%p #%lu>.%@",oriNode.name,oriNode.implement,(unsigned long)[oriNode.parent.children indexOfObject:oriNode],parserResult.oriAttribute,relate,targetNode.name,targetNode.implement,(unsigned long)[targetNode.parent.children indexOfObject:targetNode],parserResult.targetAttribute];
 	
 	return description;
-}
-
--(id)layoutItem:(DINode*)node
-{
-	UIView* tempView;
-	
-	if([node.implement isKindOfClass:UIView.class])
-	{
-		tempView = (UIView*)node.implement;
-	}
-	
-	if([node.implement isKindOfClass:UIViewController.class])
-	{
-		tempView = [(UIViewController*)node.implement view];
-	}
-	return tempView;
 }
 
 @end
