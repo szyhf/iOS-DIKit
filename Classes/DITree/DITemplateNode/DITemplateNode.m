@@ -36,15 +36,9 @@
 
 -(void)awake
 {
-	//[self beforeImply];
-	//[self implying];
-	//[self afterImply];
-	
-	//if(!self.parent)
-	//{
-		//[self finishAll];
-	//}
+
 }
+
 -(id)newImplement
 {
 	[super awake];

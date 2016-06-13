@@ -9,17 +9,5 @@
 #import "DITemplateNode.h"
 
 @implementation DITemplateNode (DIAttribute)
-//+(UndefinedKeyHandlerBlock)layoutKey
-//{
-	//static UndefinedKeyHandlerBlock _instance;
-	//static dispatch_once_t _layoutKey;
-	//dispatch_once(&_layoutKey,
-				  //^{
-					  //_instance = ^void(DINode* node,NSString*key,id value)
-					  //{
-						  ////模板未实例化，不做布局处理
-					  //} ;
-				  //});
-	//return _instance;
-//}
+
 @end
