@@ -43,6 +43,7 @@
 
 @interface DINode (Awake)<DINodeAwakeProtocol>
 -(void)awake;
+-(void)packInstance:(id)instance;
 -(void)assemblyTo:(DINode*)parentNode;
 @end
 

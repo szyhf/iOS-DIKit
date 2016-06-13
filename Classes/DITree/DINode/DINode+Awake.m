@@ -32,6 +32,23 @@
 	}
 }
 
+-(void)packInstance:(id)instance
+{
+	if([instance isKindOfClass:self.clazz])
+	{
+		self.implement = instance;
+		
+		[self beforeImply];
+		[self packing];
+		[self afterImply];
+		
+		if(!self.parent)
+		{
+			[self finishAll];
+		}
+	}
+}
+
 -(void)beforeImply
 {
 	for (DINode* child in self.children)
@@ -53,7 +70,16 @@
 	{
 		self.implement = [self makeInstance];
 	}
-		
+}
+
+-(void)packing
+{
+	DINode* detailRootNode = DITree.instance.nameToNode[self.name];
+	if(detailRootNode && self!=detailRootNode )
+	{
+		//如果当前节点有细化的实现，则以细化实现为基础更新
+		[detailRootNode packInstance:self.implement];
+	}
 }
 
 -(void)afterImply
@@ -147,8 +173,15 @@
 	id nodeInstance;
 	if([self isGlobal])
 	{
-		nodeInstance = [DIContainer makeInstance:self.clazz];
-		[DIContainer setAlias:self.name forInstance:nodeInstance];
+		if([DIContainer isBind:self.name])
+		{
+			nodeInstance = [DIContainer getInstanceByName:self.name];
+		}
+		else
+		{
+			nodeInstance = [DIContainer makeInstance:self.clazz];
+			[DIContainer setAlias:self.name forInstance:nodeInstance];
+		}
 	}
 	else
 	{
