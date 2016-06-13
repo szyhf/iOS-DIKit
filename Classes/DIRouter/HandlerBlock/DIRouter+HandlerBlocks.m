@@ -23,6 +23,29 @@
 	};
 }
 
++(RealizeHandlerBlock)realizeUIViewControllerToUITableViewCell
+{
+	return ^void(UIViewController*viewCtrl ,UITableViewCell* cell)
+	{
+		if(![viewCtrl.view.subviews containsObject:cell.contentView]
+		   && ![viewCtrl.view.subviews containsObject:cell])
+		{
+			[viewCtrl.view addSubview:cell.contentView];
+		}
+	};
+}
+
++(RealizeHandlerBlock)realizeUIViewToUITableViewCell
+{
+	return ^void(UIView*view ,UITableViewCell* cell)
+	{
+		if(![view.subviews containsObject:cell.contentView]
+		   && ![view.subviews containsObject:cell])
+		{
+			[view addSubview:cell.contentView];
+		}
+	};
+}
 
 +(RealizeHandlerBlock)realizeUITableViewCellToUIView
 {
