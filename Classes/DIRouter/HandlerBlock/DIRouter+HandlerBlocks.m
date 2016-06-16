@@ -12,6 +12,38 @@
 
 @implementation DIRouter (HandlerBlocks)
 
++(RealizeHandlerBlock)realizeUIViewControllerToUICollectionViewCell
+{
+	return ^void(UIViewController*viewCtrl ,UICollectionViewCell* cell)
+	{
+		if(![viewCtrl.view.subviews containsObject:cell.contentView]
+		   && ![viewCtrl.view.subviews containsObject:cell])
+		{
+			[viewCtrl.view addSubview:cell.contentView];
+		}
+	};
+}
+
++(RealizeHandlerBlock)realizeUIViewToUICollectionViewCell
+{
+	return ^void(UIView*view ,UICollectionViewCell* cell)
+	{
+		if(![view.subviews containsObject:cell.contentView]
+		   && ![view.subviews containsObject:cell])
+		{
+			[view addSubview:cell.contentView];
+		}
+	};
+}
+
++(RealizeHandlerBlock)realizeUICollectionViewCellToUIView
+{
+	return ^void(UICollectionViewCell* cell,UIView* view)
+	{
+		[cell.contentView addSubview:view];
+	};
+}
+
 +(RealizeHandlerBlock)realizeUIViewToUIViewController
 {
 	return ^void(UIView* view,UIViewController* viewCtrl)
@@ -52,17 +84,6 @@
 	return ^void(UITableViewCell* cell,UIView* view)
 	{
 		[cell.contentView addSubview:view];
-	};
-}
-
-+(RealizeHandlerBlock)realizeUITableViewControllerToUITableViewCell
-{
-	return ^void(UITableViewController* viewIns,UITableViewCell* cell)
-	{
-		NSString* identify = [cell valueForKey:@"identify"];
-		if([NSString isNilOrEmpty:identify])
-			identify = NSStringFromClass(cell.class);
-		[viewIns.tableView registerClass:cell.class forCellReuseIdentifier:identify];
 	};
 }
 
