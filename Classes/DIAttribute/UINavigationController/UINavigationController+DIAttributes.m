@@ -19,10 +19,18 @@
 	dispatch_once(&_token,
 				  ^{
 					  _instance = @{
-									@"push":self.pushKey
+									@"push":self.pushKey,
+									@"navigationBarHidden":self.NavigationBarHiddenKey
 									} ;
 				  });
 	return _instance[key];
+}
++(UndefinedKeyHandlerBlock)NavigationBarHiddenKey
+{
+	return ^void(UINavigationController* _self,NSString*key,NSString* value)
+	{
+		[_self setValue:[NSNumber numberWithBool:[value boolValue]] forKey:key];
+	};
 }
 +(UndefinedKeyHandlerBlock)pushKey
 {
@@ -63,5 +71,9 @@
 		UIViewController* ctrl =targetNode.newImplement;
 		[self pushViewController:ctrl animated:YES];
 	}
+}
+-(void)pop
+{
+	[self popViewControllerAnimated:YES];
 }
 @end
