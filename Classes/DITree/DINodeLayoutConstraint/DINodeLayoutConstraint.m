@@ -164,6 +164,11 @@
 		UITableViewCell* cell = node.implement;
 		tempView = cell.contentView;
 	}
+	else if([node.implement isKindOfClass:UICollectionViewCell.class])
+	{
+		UICollectionViewCell* cell = node.implement;
+		tempView = cell.contentView;
+	}
 	else if([node.implement isKindOfClass:UIView.class])
 	{
 		tempView = (UIView*)node.implement;
