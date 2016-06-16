@@ -81,7 +81,7 @@
 	dispatch_once(&_layoutKey,
 				  ^{
 					  _instance = ^void(DINode* node,NSString*key,id value)
-					  {
+					  {						 
 						  NSArray<DILayoutParserResult*>* res = [DILayoutParser parserResults:value attributeKey:key];
 						  for (DILayoutParserResult* result in res)
 						  {
@@ -107,9 +107,13 @@
 					  _instance = ^void(DINode* node,NSString*key,NSString* value)
 					  {
 						  //如果是绝对值或者为空，自动补:号
-						  if([value isMatchRegular:@"^[>=<]?[\\+-]?\\d*\\.?\\d*;?$"])
+						  if([value isMatchRegular:@"^[\\+-]?\\d*\\.?\\d*;?$"])
 						  {
 							  value = [@":" stringByAppendingString:value];
+						  }
+						  else if ([value isMatchRegular:@"^[>=<][\\+-]?\\d*\\.?\\d*;?$"])
+						  {
+							  value = [value insert:@":" at:1];
 						  }
 						  self.layoutKey(node,key,value);
 					  } ;
