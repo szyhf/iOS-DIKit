@@ -7,7 +7,7 @@
 //
 
 #import "DINode.h"
-
+#import "DITree.h"
 
 @interface DINode()
 {
@@ -32,12 +32,6 @@
 	self = [super init];
 	if(self)
 	{
-		/**
-		 *  类型推导优先级（失败自动尝试）：
-		 *  1、attribute[@"class"]
-		 *  2、element name
-		 *  3、suffix by assume map。
-		 */
 		self.clazz = NSClassFromString(attributes[@"class"]);
 		if(!self.clazz)
 		{
@@ -47,7 +41,6 @@
 		{
 			self.clazz = [self asumeByName:element];
 		}
-		WarnLogWhile(self.clazz==nil, @"node named %@ where class = %@ can't not implememnted",element,attributes[@"class"]);
 		
 		//处理id和访问性
 		self.name = attributes[@"id"];
@@ -59,7 +52,9 @@
 			if([self.clazz isSubclassOfClass:UIViewController.class])
 			{
 				//未定义id的情况下，仅将Controller处理为Global。
-				self->_isGlobal = true;
+				if(![self.name isEqualToString:@"UIViewController"])
+					self->_isGlobal = true;
+				//特例允许设置匿名的UIViewController用于布局和管理嵌套关系
 			}
 		}
 		else
@@ -157,8 +152,14 @@
 }
 
 - (Class)clazz {
-	if(!_clazz) {
-		_clazz = 0;
+	if(!_clazz)
+	{
+		DINode* realizeNode = [DITree instance].nameToNode[self.name];
+		//tips:如果没正确定义或者推断出class的话会出现递归错误.
+		if(realizeNode!=self)
+		{
+			_clazz = realizeNode.clazz;
+		}
 	}
 	return _clazz;
 }
@@ -195,5 +196,9 @@ forUndefinedKey:(NSString *)key
 - (id)implement
 {
 	return _implement;
+}
+-(void)dealloc
+{
+	DebugLog(@"Node %@ dealloc",self.name);
 }
 @end
