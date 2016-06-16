@@ -32,4 +32,5 @@
 #pragma mark - di api
 -(NSString*)trimStart:(NSString*)startString;
 -(NSString*)trimEnd:(NSString*)endString;
+-(NSString*)insert:(NSString*)insert at:(NSUInteger)index;
 @end

@@ -207,5 +207,9 @@
 	
 }
 
+-(NSString*)insert:(NSString*)insert at:(NSUInteger)index
+{
+	return [NSString stringWithFormat:@"%@%@%@",[self substringToIndex:index],insert,[self substringFromIndex:index]];
+}
 
 @end
