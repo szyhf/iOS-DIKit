@@ -8,14 +8,57 @@
 
 #import "DIConverter.h"
 #import "NUIConverter.h"
+#import "NSObject+Runtimes.h"
+#import "DITools.h"
+#import "DIIO.h"
 
 @implementation DIConverter
+
++(UIEdgeInsets)toEdgeInsets:(NSString*)string
+{
+	[string stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"[](){}<>"]];
+	NSArray<NSString*>* parames = [string componentsSeparatedByString:@","];
+	
+	return UIEdgeInsetsMake([parames[0] floatValue], [parames[1] floatValue], [parames[2] floatValue], [parames[3] floatValue]);
+}
+
++(NSValue*)toEdgeInsetsValue:(NSString*)string
+{
+	return [NSValue valueWithUIEdgeInsets:[self toEdgeInsets:string]];
+}
+
++(CGSize)toSize:(NSString*)string
+{
+	[string stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"[](){}<>"]];
+	NSArray<NSString*>* parames = [string componentsSeparatedByString:@","];
+	CGFloat width = [parames[0]floatValue];
+	CGFloat height = [parames[1]floatValue];
+	return CGSizeMake(width, height);
+}
+
++(NSValue*)toSizeValue:(NSString*)string
+{
+	return [NSValue valueWithCGSize:[self toSize:string]];
+}
+
++(NSString*)imageFilePathNamed:(NSString*)imageName
+{
+	return [DIIO recurFullPathFilesWithSuffix:[NSString stringWithFormat:@"/%@.png",imageName] inDirectory:@"/Users/back/Documents/IOS/Liangfeng/Liangfeng/Resources"].firstObject;
+}
+
 +(UIImage*)toImage:(NSString*)string
 {
 	//尝试根据Named获取
 	UIImage* res = [UIImage imageNamed:string];
 	if(res)
 		return res;
+	
+	//尝试从临时素材路径获取
+	NSString* path = [self imageFilePathNamed:string];
+	res = [UIImage imageWithContentsOfFile:path];
+	if(res)
+		return res;
+	
 	//尝试从路径获取
 	res = [UIImage imageWithContentsOfFile:string];
 	if(res)
@@ -27,6 +70,15 @@
 }
 +(UIColor*)toColor:(NSString*)string
 {
-	return [NUIConverter toColor:string];	
+	UIColor* color = [NUIConverter toColor:string];
+	if(!color)
+	{
+		SEL selector = NSSelectorFromString(string);
+		if([[UIColor class]respondsToSelector:selector])
+		{
+			color = [UIColor invokeSelector:selector];
+		}
+	}
+	return color;
 }
 @end

@@ -11,4 +11,10 @@
 @interface DIConverter : NSObject
 +(UIImage*)toImage:(NSString*)string;
 +(UIColor*)toColor:(NSString*)string;
+
++(CGSize)toSize:(NSString*)string;
++(NSValue*)toSizeValue:(NSString*)string;
+
++(UIEdgeInsets)toEdgeInsets:(NSString*)string;
++(NSValue*)toEdgeInsetsValue:(NSString*)string;
 @end
