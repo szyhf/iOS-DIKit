@@ -27,11 +27,13 @@
 					 @"BarButtonItem":UIBarButtonItem.class,
 					 @"BarButton":UIBarButtonItem.class,
 					 
+					 @"CollectionViewCell":UICollectionViewCell.class,
 					 @"TableViewCell":UITableViewCell.class,
 					 @"Label":UILabel.class,
 					 @"Button":UIButton.class,
 					 
 					 //view结尾中，最原始的View要最后结尾。
+					 @"CollectionView":NSClassFromString(@"DICollectionView"),
 					 @"TableView":NSClassFromString(@"DITableView"),
 					 @"ImageView":UIImageView.class,
 					 @"View":UIView.class,
