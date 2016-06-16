@@ -20,11 +20,10 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 									   configuration:nil
 		 ];
 }
+
 -		(void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	//	DebugLog(@"select %ld",indexPath.row);
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-	//[DIRouter realizePath:@"CircleNavigationController/TextDetailViewController"];
 }
 @end
