@@ -38,7 +38,7 @@
 				  ^{
 					  _instance = ^void(UIView* view,NSString* key,NSString* value)
 					  {
-						  [view setValue:key forKey:@"nuiClass"];
+						  [view setValue:value forKey:@"nuiClass"];
 					  };
 				  });
 	return _instance;
