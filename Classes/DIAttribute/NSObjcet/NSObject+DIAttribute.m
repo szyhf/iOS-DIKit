@@ -31,6 +31,30 @@
 	}];
 }
 
++(id)di_assumeValue:(id)value byKey:(NSString*)key
+{
+	if(![value isKindOfClass:NSString.class])
+		return value;
+	NSString* lowerKey = [key lowercaseString];
+	if([lowerKey hasSuffix:@"color"])
+	{
+		return [DIConverter toColor:value];
+	}
+	if([lowerKey hasSuffix:@"image"])
+	{
+		return [DIConverter toImage:value];
+	}
+	if([lowerKey hasSuffix:@"size"])
+	{
+		return [DIConverter toSizeValue:value];
+	}
+	if([lowerKey hasSuffix:@"inset"])
+	{
+		return [DIConverter toEdgeInsetsValue:value];
+	}
+	return value;
+}
+
 +(void)di_UpdateObject:(id)obj byKey:(NSString*)key value:(NSString*)value
 {
 	UndefinedKeyHandlerBlock block  = [self di_AttributeBlock:key];
@@ -47,8 +71,19 @@
 			}
 			superClass = [superClass superclass];
 		}
-		
-		[obj setValue:value forKeyPath:key];
+#ifndef DI_DEBUG
+		@try
+		{
+			[obj setValue:value forKeyPath:key];
+		}
+		@catch (NSException *exception)
+		{
+#endif
+			value = [self di_assumeValue:value byKey:key];
+			[obj setValue:value forKeyPath:key];
+#ifndef DI_DEBUG
+		}
+#endif
 	}
 }
 
