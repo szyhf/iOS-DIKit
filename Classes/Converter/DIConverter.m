@@ -41,10 +41,12 @@
 	return [NSValue valueWithCGSize:[self toSize:string]];
 }
 
+#if TARGET_OS_SIMULATOR
 +(NSString*)imageFilePathNamed:(NSString*)imageName
 {
 	return [DIIO recurFullPathFilesWithSuffix:[NSString stringWithFormat:@"/%@.png",imageName] inDirectory:@"/Users/back/Documents/IOS/Liangfeng/Liangfeng/Resources"].firstObject;
 }
+#endif
 
 +(UIImage*)toImage:(NSString*)string
 {
@@ -52,12 +54,14 @@
 	UIImage* res = [UIImage imageNamed:string];
 	if(res)
 		return res;
-	
+#if TARGET_OS_SIMULATOR
 	//尝试从临时素材路径获取
 	NSString* path = [self imageFilePathNamed:string];
 	res = [UIImage imageWithContentsOfFile:path];
 	if(res)
 		return res;
+	
+#endif
 	
 	//尝试从路径获取
 	res = [UIImage imageWithContentsOfFile:string];
