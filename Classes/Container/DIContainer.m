@@ -302,7 +302,7 @@
 {
 	[self.instanceMap removeAllObjects];
 	[self.aliasMap removeAllObjects];
-	[self.factoryMap removeAllObjects];
+	//[self.factoryMap removeAllObjects];
 	[self.afterInitHookMap removeAllObjects];
 	[self.dependenceArray removeAllObjects];
 }
