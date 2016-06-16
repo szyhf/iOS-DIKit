@@ -8,7 +8,7 @@
 
 #ifndef DITools_h
 #define DITools_h
-#include "DILog.h"
+#import "DILog.h"
 #import "DIArray.h"
 #import "DILayoutDebug.h"
 #import "DIString.h"
