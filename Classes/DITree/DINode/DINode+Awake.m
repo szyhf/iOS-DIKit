@@ -25,11 +25,6 @@
 	[self beforeImply];
 	[self implying];
 	[self afterImply];
-	
-	if(!self.parent)
-	{
-		[self finishAll];
-	}
 }
 
 -(void)packInstance:(id)instance
@@ -41,11 +36,6 @@
 		[self beforeImply];
 		[self packing];
 		[self afterImply];
-		
-		if(!self.parent)
-		{
-			[self finishAll];
-		}
 	}
 }
 
@@ -90,11 +80,11 @@
 	}
 	
 	[self patchAttribute];
-}
-
--(void)finishAll
-{
-	[self delay];
+	
+	if(!self.parent)
+	{
+		[self delay];
+	}
 }
 
 -(void)delay
@@ -103,7 +93,6 @@
 	{
 		[child delay];
 	}
-	
 	for (void (^ _Nonnull block)() in self.delayBlocks)
 	{
 		block();
@@ -130,14 +119,33 @@
 
 -(void)autoSetNUIClass
 {
+	//优先级：代理节点配置<实例配置<默认
+	
+	//代理节点配置即当前节点的Attribute.style属性或者nui属性
+	//实例节点配置即implement的nui属性
+	
 	//如果已经手动设置了则跳过。
-	if([[self.implement valueForKeyPath:@"style"] isKindOfClass:NSString.class])
-		return;
+	
+	//因为支持直接对viewcontroller配置，所以要区分处理
+	//检查是否存在实例配置（Style在实际执行时被转成了nuiClass）
+	if([self.implement isKindOfClass:UIViewController.class])
+	{
+		UIViewController* ctrl = self.implement;
+		if([[ctrl.view valueForKeyPath:@"nuiClass"] isKindOfClass:NSString.class])
+			return;
+	}
+	else
+	{
+		if([[self.implement valueForKeyPath:@"nuiClass"] isKindOfClass:NSString.class])
+			return;
+	}
+	
 	
 	//如果节点中已经设置则跳过
 	if(self.attributes[@"style"])
 		return;
 	
+	//当且仅当上述配置不存在时，尝试执行默认配置。
 	//优先按照name匹配，匹配失败则尝试使用classname匹配。
 	NUISettings*nuiInstance = [NUISettings invokeMethod:@"getInstance"];
 
