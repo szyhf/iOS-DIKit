@@ -9,6 +9,7 @@
 #import "UIButton+DIAttribute.h"
 #import "DITree.h"
 #import "DIContainer.h"
+#import "DIConverter.h"
 
 @implementation UIButton (DIAttribute)
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
@@ -34,13 +35,10 @@
 		if([value isKindOfClass:UIImage.class])
 		{
 			image = value;
-		}else if([value isKindOfClass:NSString.class])
+		}else
 		{
-			NSString*imageStr = value;
-			image = [UIImage imageNamed:imageStr];
-			//网址暂不支持= =以后再说
+			image = [DIConverter toImage:value];
 		}
-		
 		if(image)
 			[button setImage:image forState:UIControlStateNormal];
 	};
