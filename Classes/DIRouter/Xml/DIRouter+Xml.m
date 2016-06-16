@@ -56,7 +56,9 @@ static NSMutableArray<NSString*>* watchedFiles;
 		NSArray* filesPaths = [DIIO recurFullPathFilesWithSuffix:@"xml" inDirectory:dirPath];
 		for (NSString* path in filesPaths)
  		{
+#if TARGET_OS_SIMULATOR
 			[self addFileWatch:path];
+#endif
 			NSString* content =
 			[NSString stringWithContentsOfFile:path
 								  usedEncoding:nil
@@ -68,12 +70,17 @@ static NSMutableArray<NSString*>* watchedFiles;
 		[root awake];
 		
 		rootCtrl = root.implement;
-	}@catch(NSException* ex)
+	}
+	@catch(NSException* ex)
 	{
-		rootCtrl = [UIViewController alloc];
+		WarnLog(@"Reload view failed: %@",ex);
 	}
 	@finally
  	{
+		if(!rootCtrl)
+		{
+			rootCtrl = [UIViewController alloc];
+		}
 		[[UIApplication sharedApplication].delegate.window setRootViewController:rootCtrl];
 	}
 	DebugLog(@"Reload view.");

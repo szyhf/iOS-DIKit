@@ -125,7 +125,7 @@
 	NSString* lastElement;
 	for (NSString* element in elements)
 	{
-		[self addElement:element toParent:lastElement];
+		//[self addElement:element toParent:lastElement];
 		
 		lastElement = element;
 
