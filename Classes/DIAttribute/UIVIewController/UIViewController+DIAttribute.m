@@ -40,10 +40,20 @@
 									@"style":self.styleKey,
 									@"backgroundColor":self.colorKey,
 									@"leftBarButtonItems":self.leftBarKey,
-									@"rightBarButtonItems":self.rightBarKey
+									@"rightBarButtonItems":self.rightBarKey,
+									@"navigationBarHidden":self.navigationBarHiddenKey
 									} ;
 				  });
 	return _instance[key];
+}
+
++(UndefinedKeyHandlerBlock)navigationBarHiddenKey
+{
+	return ^void(UIViewController* obj,NSString*key,NSString* value)
+	{
+		//配合DINavigationControllerDelegate可以实现动态控制bar hidden。
+		[obj setValue:value forKey:key];
+	};
 }
 
 +(UndefinedKeyHandlerBlock)styleKey
@@ -123,6 +133,16 @@
 					  };
 				  });
 	return _instance;
+}
+
+-(void)di_viewDidAppear:(BOOL)animated
+{
+	[self viewDidAppear:animated];
+}
+
+-(void)pushNext
+{
+	[self.navigationController pushNext];
 }
 
 @end
