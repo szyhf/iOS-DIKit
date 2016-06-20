@@ -12,6 +12,14 @@
 
 @implementation DIRouter (HandlerBlocks)
 
++(RealizeHandlerBlock)realizeUIViewControllerToUITabBarItem
+{
+	return ^void(UIViewController*viewCtrl ,UITabBarItem* tabBarItem)
+	{
+		viewCtrl.tabBarItem = tabBarItem;
+	};
+}
+
 +(RealizeHandlerBlock)realizeUIViewControllerToUICollectionViewCell
 {
 	return ^void(UIViewController*viewCtrl ,UICollectionViewCell* cell)

@@ -20,7 +20,4 @@
 @property (nonatomic, assign) CGFloat mutiply;
 @property (nonatomic, assign) CGFloat offset;
 @property (nonatomic, assign) CGFloat priority;
-
-
-
 @end
