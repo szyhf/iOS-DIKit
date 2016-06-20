@@ -31,6 +31,8 @@
 					 @"TableViewCell":UITableViewCell.class,
 					 @"Label":UILabel.class,
 					 @"Button":UIButton.class,
+					 @"TextField":UITextField.class,
+					 @"TabBar":UITabBar.class,
 					 
 					 //view结尾中，最原始的View要最后结尾。
 					 @"CollectionView":NSClassFromString(@"DICollectionView"),
