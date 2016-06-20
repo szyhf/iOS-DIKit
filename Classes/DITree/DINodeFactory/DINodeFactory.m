@@ -9,6 +9,7 @@
 #import "DINodeFactory.h"
 #import "DIPropNode.h"
 #import "DITemplateNode.h"
+#import "DIRegisterNode.h"
 
 @implementation DINodeFactory
 +(DINode*)newNodeWithElement:(NSString*)element
@@ -28,8 +29,8 @@
 		return nil;
 	
 	//判断reg属性
-	if(attributes[@"template"])
-		return nil;
+	if(attributes[@"reg"])
+		return [[DIRegisterNode alloc]initWithElement:element andNamespaceURI:namespaceURI andAttributes:attributes];
 	
 	//普通的node
 	return [[DINode alloc]initWithElement:element andNamespaceURI:namespaceURI andAttributes:attributes];

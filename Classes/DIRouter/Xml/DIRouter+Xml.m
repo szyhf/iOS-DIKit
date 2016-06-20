@@ -65,7 +65,6 @@ static NSMutableArray<NSString*>* watchedFiles;
 										 error:nil];
 			[DIRouter remakeRealizeXml:content];
 		}
-		
 		DINode* root = DITree.instance.nameToNode[@"root"];
 		[root awake];
 		
