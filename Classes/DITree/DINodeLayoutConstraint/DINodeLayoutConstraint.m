@@ -124,16 +124,6 @@
 		if(parentNode!=targetNode)
 			[(UIView*)constraint.secondItem setTranslatesAutoresizingMaskIntoConstraints:NO];
 		
-		//测试Compression
-		//if([(UIView*)constraint.firstItem isKindOfClass:UIButton.class])
-		//{
-			//[(UIView*)constraint.firstItem setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-		//}
-		//if([(UIView*)constraint.secondItem isKindOfClass:UIButton.class])
-		//{
-			//[(UIView*)constraint.secondItem setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-		//}
-		
 		constraint.priority = parserResult.priority;
 		UIView* tempView;
 		if(oriNode==targetNode)
