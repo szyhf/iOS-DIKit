@@ -55,6 +55,8 @@
 		//如果当前节点有细化的实现，则以细化实现为基础更新
 		[detailRootNode awake];
 		self.implement = detailRootNode.implement;
+		//以细化节点的类型取代当前的类型。
+		self.clazz = detailRootNode.clazz;
 	}
 	else
 	{
@@ -99,6 +101,7 @@
 	}
 	//block不能随意释放。。否则想重用同一个node的时候会出错。
 }
+
 -(void)assemblyTo:(DINode*)parentNode
 {
 	//处理默认的组装
@@ -128,7 +131,7 @@
 	
 	//因为支持直接对viewcontroller配置，所以要区分处理
 	//检查是否存在实例配置（Style在实际执行时被转成了nuiClass）
-	if([self.implement isKindOfClass:UIViewController.class])
+	if([self.clazz isKindOfClass:UIViewController.class])
 	{
 		UIViewController* ctrl = self.implement;
 		if([[ctrl.view valueForKeyPath:@"nuiClass"] isKindOfClass:NSString.class])
@@ -153,10 +156,10 @@
 	{
 		self.attributes[@"style"] = self.name;
 	}
-	else if(nuiInstance.styles[self.className])
-	{
-		self.attributes[@"style"] = self.className;
-	}
+	//else if(nuiInstance.styles[self.className])
+	//{
+		//self.attributes[@"style"] = self.className;
+	//}
 	//else
 	//{
 		////递归监测是否存在父类的定义（这样做会严重影响第三方控件的自定义样式 废弃）
