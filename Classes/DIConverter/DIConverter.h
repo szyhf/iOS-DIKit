@@ -17,4 +17,6 @@
 
 +(UIEdgeInsets)toEdgeInsets:(NSString*)string;
 +(NSValue*)toEdgeInsetsValue:(NSString*)string;
+
++(NSString*)toString:(id)obj;
 @end

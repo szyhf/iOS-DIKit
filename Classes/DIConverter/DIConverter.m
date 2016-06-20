@@ -18,8 +18,20 @@
 {
 	[string stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"[](){}<>"]];
 	NSArray<NSString*>* parames = [string componentsSeparatedByString:@","];
-	
-	return UIEdgeInsetsMake([parames[0] floatValue], [parames[1] floatValue], [parames[2] floatValue], [parames[3] floatValue]);
+	UIEdgeInsets res ;
+	@try
+	{
+		UIEdgeInsets res = UIEdgeInsetsMake([parames[0] floatValue], [parames[1] floatValue], [parames[2] floatValue], [parames[3] floatValue]);
+	}
+	@catch (NSException *exception)
+	{
+		WarnLog(@"Converter to Insets failed: %@",string);
+		res = UIEdgeInsetsZero;
+	}
+ 	@finally
+ 	{
+		return res;
+	}
 }
 
 +(NSValue*)toEdgeInsetsValue:(NSString*)string
@@ -60,29 +72,31 @@
 	res = [UIImage imageWithContentsOfFile:path];
 	if(res)
 		return res;
-	
 #endif
-	
-	//尝试从路径获取
-	res = [UIImage imageWithContentsOfFile:string];
-	if(res)
-		return res;
-	//todo:尝试从网络下载
-	
-	
 	return res;
 }
-+(UIColor*)toColor:(NSString*)string
++(UIColor*)toColor:(id)colorObj
 {
-	UIColor* color = [NUIConverter toColor:string];
+	if([colorObj isKindOfClass:UIColor.class])
+		return colorObj;
+	UIColor* color = [NUIConverter toColor:colorObj];
 	if(!color)
 	{
-		SEL selector = NSSelectorFromString(string);
+		SEL selector = NSSelectorFromString(colorObj);
 		if([[UIColor class]respondsToSelector:selector])
 		{
 			color = [UIColor invokeSelector:selector];
 		}
 	}
 	return color;
+}
+
++(NSString*)toString:(id)obj
+{
+	if([obj isKindOfClass:[NSString class]])
+	{
+		return obj;
+	}
+	return [obj description];
 }
 @end
