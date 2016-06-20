@@ -72,7 +72,7 @@
 	}
 	else if ([self.clazz isSubclassOfClass:UIImage.class])
 	{
-		return [UIImage imageNamed:self.attributes[@"name"]];
+		return [DIConverter toImage:self.attributes[@"init"]];
 	}
 	else if ([self.clazz isSubclassOfClass:UIColor.class])
 	{
