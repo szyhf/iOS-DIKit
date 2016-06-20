@@ -15,21 +15,6 @@
 #import "DINodeLayoutConstraint.h"
 
 @implementation UIViewController (DIAttribute)
--(void)updateByNode:(DINode*)node
-{
-	[node.attributes enumerateKeysAndObjectsUsingBlock:
-	 ^(NSString * _Nonnull key,
-	   NSString * _Nonnull obj,
-	   BOOL * _Nonnull stop)
-	 {
-		 UndefinedKeyHandlerBlock block  = [self.class di_AttributeBlock:key];
-		 if(block!=nil)
-			 block(self,key,obj);
-		 else
-			 [self setValue:obj forKeyPath:key];
-	 }];
-}
-
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
 {
 	static NSDictionary<NSString*,UndefinedKeyHandlerBlock>* _instance;
@@ -41,10 +26,23 @@
 									@"backgroundColor":self.colorKey,
 									@"leftBarButtonItems":self.leftBarKey,
 									@"rightBarButtonItems":self.rightBarKey,
-									@"navigationBarHidden":self.navigationBarHiddenKey
+									@"navigationBarHidden":self.navigationBarHiddenKey,
+									@"viewModel":self.viewModelKey,
 									} ;
 				  });
 	return _instance[key];
+}
+
++(UndefinedKeyHandlerBlock)viewModelKey
+{
+	return ^void(UIViewController* obj,NSString*key,NSString* value)
+	{
+		Class viewModleClass = NSClassFromString(value);
+		if(viewModleClass!=nil)
+		{
+			[viewModleClass invokeSelector:@selector(bindController:) withParams:obj];
+		}
+	};
 }
 
 +(UndefinedKeyHandlerBlock)navigationBarHiddenKey
@@ -127,7 +125,6 @@
 				  ^{
 					  _instance =  ^void(UIViewController* obj,NSString*key,id value)
 					  {
-						  //todo:prop
 						  UIColor* color = [DIConverter toColor:value];
 						  [obj.view setValue:color forKeyPath:key];
 					  };
