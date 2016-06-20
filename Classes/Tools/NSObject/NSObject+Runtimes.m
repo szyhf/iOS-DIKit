@@ -200,7 +200,11 @@
 -(id)invokeSelector:(SEL)selector withParams:(id)param,...
 {
 	va_list params;
-	NSMethodSignature *sig= [self methodSignatureForSelector:selector];
+	NSString* cacheKey = [NSString stringWithFormat:@"%@*%@",NSStringFromClass(self.class),NSStringFromSelector(selector)];
+	
+	NSMethodSignature *sig= [self.class di_signatureCache][cacheKey];
+	if(!sig)
+		sig = [self methodSignatureForSelector:selector];
 	NSInvocation* invo = [NSInvocation invocationWithMethodSignature:sig];
 	invo.target = self;
 	invo.selector = selector;
@@ -308,5 +312,15 @@
 	}
 	
 	return res;
+}
+
++(NSMutableDictionary<NSString*,NSMethodSignature*>*)di_signatureCache
+{
+	static NSMutableDictionary<NSString*,NSMethodSignature*>* cache;
+	if(!cache)
+	{
+		cache = [NSMutableDictionary dictionary];
+	}
+	return cache;
 }
 @end
