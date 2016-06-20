@@ -24,10 +24,55 @@
 									@"backgroundColor":self.colorKey,
 									@"image":self.imageKey,
 									@"fsize":self.frameKey,
-									@"style":self.styleKey,								
+									@"style":self.styleKey,
+									@"intrinsic":self.intrinsicKey
 									} ;
 				  });
 	return _instance[key];
+}
+
++(UndefinedKeyHandlerBlock)intrinsicKey
+{
+	static UndefinedKeyHandlerBlock _instance;
+	static dispatch_once_t _token;
+	dispatch_once(&_token,
+				  ^{
+					  _instance = ^void(UIView* view,NSString* key,NSString* value)
+					  {
+						  //cv 纵向压缩阻力
+						  //ch 横向压缩阻力
+						  //hv 纵向拉伸阻力
+						  //hh 横向拉伸阻力
+						  NSArray<NSString*>* pritAry = [value componentsSeparatedByString:@","];
+						  
+						  for (NSString* prit in pritAry)
+						  {
+							  NSScanner* scanner = [NSScanner scannerWithString:prit];
+							  double priority;
+							  NSString*type;
+							  [scanner scanCharactersFromSet:[NSCharacterSet letterCharacterSet] intoString:&type];
+							  [scanner scanDouble:&priority];
+							  if([type isEqualToString:@"cv"])
+							  {
+								  [view setContentCompressionResistancePriority:priority forAxis:UILayoutConstraintAxisVertical];
+							  }
+							  else if ([type isEqualToString:@"ch"])
+							  {
+								   [view setContentCompressionResistancePriority:priority forAxis:UILayoutConstraintAxisHorizontal];
+							  }
+							  else if ([type isEqualToString:@"hv"])
+							  {
+								   [view setContentHuggingPriority:priority forAxis:UILayoutConstraintAxisVertical];
+							  }
+							  else if ([type isEqualToString:@"hh"])
+							  {
+								  [view setContentHuggingPriority:priority forAxis:UILayoutConstraintAxisHorizontal];
+							  }
+						  }
+						  
+					  };
+				  });
+	return _instance;
 }
 
 +(UndefinedKeyHandlerBlock)styleKey
