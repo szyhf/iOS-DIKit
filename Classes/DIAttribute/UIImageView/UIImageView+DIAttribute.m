@@ -9,6 +9,7 @@
 #import "UIImageView+DIAttribute.h"
 #import "NSObject+DIAttribute.h"
 #import "DIConverter.h"
+#import <YYWebImage/YYWebImage.h>
 
 @implementation UIImageView (DIAttribute)
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
@@ -18,10 +19,25 @@
 	dispatch_once(&_token,
 				  ^{
 					  _instance = @{
-									@"image":self.imageKey
+									@"image":self.imageKey,
+									@"url":self.urlKey
 									} ;
 				  });
 	return _instance[key];
+}
+
++(UndefinedKeyHandlerBlock)urlKey
+{
+	static UndefinedKeyHandlerBlock _instance;
+	static dispatch_once_t _token;
+	dispatch_once(&_token,
+				  ^{
+					  _instance = ^void(UIImageView* imageView,NSString*key,id value)
+					  {
+						  
+					  } ;
+				  });
+	return _instance;
 }
 
 +(UndefinedKeyHandlerBlock)imageKey
@@ -30,7 +46,7 @@
 	static dispatch_once_t _imageKey;
 	dispatch_once(&_imageKey,
 				  ^{
-					  _instance = ^void(NSObject* obj,NSString*key,id value)
+					  _instance = ^void(UIImageView* obj,NSString*key,id value)
 					  {
 						  if([obj respondsToSelector:@selector(setImage:)])
 						  {
@@ -41,6 +57,8 @@
 								  UIImage* image = [DIConverter toImage:value];
 								  if(image)
 									  [obj setValue:image forKey:@"image"];
+								  else
+									  [obj yy_setImageWithURL:value options:(YYWebImageOptionProgressiveBlur|YYWebImageOptionSetImageWithFadeAnimation)];
 							  }
 						  }
 					  } ;
