@@ -12,6 +12,63 @@
 #import <objc/runtime.h>
 
 @implementation NSObject (DIAttribute)
++(void)load
+{
+	Method oldSetValue = class_getInstanceMethod(self, @selector(setValue:forKey:));
+	Method newSetValue = class_getInstanceMethod(self, @selector(di_setValue:forKey:));
+	method_exchangeImplementations(oldSetValue, newSetValue);
+}
+-(void)di_setValue:(id)value forKey:(NSString*)key
+{
+	static NSMutableArray* _dependencyArray;
+	if(!_dependencyArray)
+	{
+		_dependencyArray = [NSMutableArray array];
+	}
+	
+	Class superClass = self.class;
+	//[_dependencyArray push:self.class];
+	while (superClass)
+	{
+		if([((id)superClass)respondsToSelector:@selector(di_AttributeBlock:)])
+		{
+			UndefinedKeyHandlerBlock block  = [superClass di_AttributeBlock:key];
+			if(block!=nil)
+			{
+				if ([[_dependencyArray top]isEqual:superClass])
+				{
+					[_dependencyArray pop];
+					return [self di_setValue:value forKey:key];
+				}
+				[_dependencyArray push:superClass];
+				if(_dependencyArray.count>100)
+				{
+					DebugLog(@"");
+				}
+				block(self,key,value);
+				[_dependencyArray pop];
+				return;
+			}
+		}
+		superClass = [superClass superclass];
+	}
+	
+	[_dependencyArray push:self.class];
+	//@try
+	//{
+		//[self di_setValue:value forKey:key];
+	//}
+	//@catch (NSException *exception)
+	//{
+		value = [self.class di_assumeValue:value byKey:key];
+		[self di_setValue:value forKey:key];
+	//}
+	//@finally
+	//{
+		[_dependencyArray pop];
+	//}
+
+}
 
 -(void)updateByNode:(DINode*)node
 {
@@ -22,7 +79,8 @@
 	{
 		@try
 		{
-			[self.class di_UpdateObject:self byKey:key value:value];
+			//[self.class di_UpdateObject:self byKey:key value:value];
+			[self setValue:value forKeyPath:key];
 		}
 		@catch (NSException *exception)
 		{
@@ -35,7 +93,14 @@
 {
 	if(![value isKindOfClass:NSString.class])
 		return value;
+	NSString* lowerValue = [value lowercaseString];
+	if([lowerValue isEqualToString:@"true"] || [lowerValue isEqualToString:@"yes"])
+		return [NSNumber numberWithBool:YES];
+	if([lowerValue isEqualToString:@"false"] || [lowerValue isEqualToString:@"no"])
+		return [NSNumber numberWithBool:NO];
+	
 	NSString* lowerKey = [key lowercaseString];
+	
 	if([lowerKey hasSuffix:@"color"])
 	{
 		return [DIConverter toColor:value];
@@ -47,6 +112,10 @@
 	if([lowerKey hasSuffix:@"size"])
 	{
 		return [DIConverter toSizeValue:value];
+	}
+	if([lowerKey hasSuffix:@"insets"])
+	{
+		return [DIConverter toEdgeInsetsValue:value];
 	}
 	if([lowerKey hasSuffix:@"inset"])
 	{
@@ -90,7 +159,7 @@
 -(void)setValue:(id)value
 forUndefinedKey:(NSString *)key
 {
-	objc_setAssociatedObject(self, NSSelectorFromString(key), value, OBJC_ASSOCIATION_RETAIN);
+	objc_setAssociatedObject(self, NSSelectorFromString(key), value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(id)valueForUndefinedKey:(NSString *)key
