@@ -69,6 +69,7 @@
 									@"id",
 									@"ref",
 									@"template",
+									@"reg",
 									];
 				  });
 	return _instance;
