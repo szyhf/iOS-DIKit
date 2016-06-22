@@ -7,6 +7,7 @@
 //
 
 #import "DITableView+DIAttribute.h"
+#import "DITableViewSection.h"
 
 @implementation DITableView (DIAttribute)
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
@@ -17,9 +18,27 @@
 				  ^{
 					  _instance = @{
 									@"cell":self.cellKey,
+									@"section":self.sectionKey,
 									} ;
 				  });
 	return _instance[key];
+}
+
++(UndefinedKeyHandlerBlock)sectionKey
+{
+	return ^void(DITableView* view,NSString*key,id value)
+	{
+		NSMutableArray<DITableViewSection*>* values ;
+		if([value isKindOfClass:DITableViewSection.class])
+		{
+			values = [NSMutableArray arrayWithObject:value];
+		}
+		else
+		{
+			values = value;
+		}
+		[view setDi_section:values];
+	};
 }
 
 +(UndefinedKeyHandlerBlock)cellKey

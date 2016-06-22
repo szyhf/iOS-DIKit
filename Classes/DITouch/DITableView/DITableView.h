@@ -12,4 +12,8 @@
 @interface DITableView : UITableView
 -(void)registerCellNode:(DITemplateNode*)templateNode;
 -(UITableViewCell*)dequeueDefaultCell;
+
+
+//配置section命令
+@property (nonatomic, strong) id di_section;
 @end

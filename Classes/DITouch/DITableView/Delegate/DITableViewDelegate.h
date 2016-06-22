@@ -9,4 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface DITableViewDelegate : NSObject<UITableViewDelegate>
+@property (nonatomic, strong) id di_select;
 @end

@@ -9,5 +9,4 @@
 #import "DITableView.h"
 
 @interface DITableView (DIAttribute)
-
 @end
