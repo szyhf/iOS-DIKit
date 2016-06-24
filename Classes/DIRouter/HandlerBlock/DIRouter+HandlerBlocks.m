@@ -9,8 +9,16 @@
 #import "DIRouter+HandlerBlocks.h"
 #import "DIContainer.h"
 #import "NSObject+Runtimes.h"
+#import "DITableView.h"
 
 @implementation DIRouter (HandlerBlocks)
++(RealizeHandlerBlock)realizeDITableViewToDITableViewSection
+{
+	return ^void(DITableView*tableView ,DITableViewSection* tableViewSection)
+	{
+		[tableView addSectionsObject:tableViewSection];
+	};
+}
 
 +(RealizeHandlerBlock)realizeUIViewControllerToUITabBarItem
 {
