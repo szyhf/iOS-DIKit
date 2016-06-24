@@ -26,6 +26,7 @@
 					 @"TabBarItem":UITabBarItem.class,
 					 @"BarButtonItem":UIBarButtonItem.class,
 					 @"BarButton":UIBarButtonItem.class,
+					 @"TableViewSection":NSClassFromString(@"DITableViewSection"),
 					 
 					 @"CollectionViewCell":UICollectionViewCell.class,
 					 @"TableViewCell":UITableViewCell.class,
