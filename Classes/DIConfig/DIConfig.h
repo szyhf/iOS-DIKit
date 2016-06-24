@@ -11,4 +11,6 @@
 @interface DIConfig : UIViewController
 -(bool)parseBool:(id)obj;
 -(void)set:(id)value forKey:(NSString*)key;
++(NSString*(^)(NSString*))getNSString;
++(BOOL(^)(NSString*))getBool;
 @end

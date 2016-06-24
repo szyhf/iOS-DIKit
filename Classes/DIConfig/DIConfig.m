@@ -8,6 +8,7 @@
 
 #import "DIConfig.h"
 #import "DILog.h"
+#import "DITools.h"
 
 @interface DIConfig()
 @property(atomic)NSMutableDictionary* storage;
@@ -21,8 +22,28 @@
 	self = [super init];
 	if (self) {
 		storage = [NSMutableDictionary dictionaryWithCapacity:0];
+		NSString* confPath = [[NSBundle mainBundle]pathForResource:@"AppConfig" ofType:@"json"];
+		NSString* jsonConf = [NSString stringWithContentsOfFile:confPath
+												   usedEncoding:nil
+														  error:nil];
+		if(![NSString isNilOrEmpty:jsonConf])
+		{
+			[storage addEntriesFromDictionary:[jsonConf jsonDictionary]];
+		}
+		
 	}
 	return self;
+}
+
++(instancetype)instance
+{
+	static DIConfig* _instance;
+	static dispatch_once_t _token;
+	dispatch_once(&_token,
+				  ^{
+					  _instance = [[DIConfig alloc]init] ;
+				  });
+	return _instance;
 }
 
 -(void)set:(id)value
@@ -83,7 +104,8 @@
 {
 	return ^NSString*(NSString*key)
 	{
-		return @"";
+		DIConfig* instance = [DIConfig instance];
+		return [instance.storage[key]description];
 	};
 }
 
