@@ -13,10 +13,10 @@
 	   didShowViewController:(UIViewController *)viewController
 					animated:(BOOL)animated
 {
-	NSString* hidden = [[navigationController visibleViewController]valueForKey:@"navigationBarHidden"];
-	if(hidden)
+	NSNumber* hiddenValue = [[navigationController visibleViewController]valueForKey:@"navigationBarHidden"];
+	if(hiddenValue.boolValue)
 	{
-		[navigationController setNavigationBarHidden:[hidden boolValue] animated:YES];
+		[navigationController setNavigationBarHidden:hiddenValue.boolValue animated:YES];
 	}
 }
 @end
