@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UIButton (DIAttribute)
-
+//单击命令
+@property (nonatomic, strong) id di_tap;
 @end
