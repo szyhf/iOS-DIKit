@@ -23,12 +23,12 @@
 	
 	if(fromTime>toTime)
 	{
-		suffix = @"后";
+		suffix = @"前";
 		diff = fromTime-toTime;
 	}
 	else
 	{
-		suffix = @"前";
+		suffix = @"后";
 		diff = toTime-fromTime;
 	}
 	
@@ -48,7 +48,7 @@
 	if(!formatter)
 	{
 		formatter = [[NSDateFormatter alloc] init];
-		[formatter dateFromString:@"YYYY-MM-DD HH:mm:ss"];
+		[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
 	}
 	
 	

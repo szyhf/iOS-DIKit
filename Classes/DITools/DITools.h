@@ -14,4 +14,5 @@
 #import "DIString.h"
 #import "DIIO.h"
 #import "DIObject.h"
+#import "DIImage.h"
 #endif /* DITools_h */
