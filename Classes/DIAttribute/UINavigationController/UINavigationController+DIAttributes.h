@@ -10,5 +10,6 @@
 #import "NSObject+DIAttribute.h"
 
 @interface UINavigationController (DIAttributes)
-
+//入栈命令
+@property (nonatomic, strong) id di_push;
 @end

@@ -12,6 +12,7 @@
 #import "DITemplateNode.h"
 
 @implementation UINavigationController (DIAttributes)
+@dynamic di_push;
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
 {
 	static NSDictionary<NSString*,UndefinedKeyHandlerBlock>* _instance;
@@ -20,12 +21,12 @@
 				  ^{
 					  _instance = @{
 									@"push":self.pushKey,
-									@"navigationBarHidden":self.NavigationBarHiddenKey
+									@"navigationBarHidden":self.navigationBarHiddenKey
 									} ;
 				  });
 	return _instance[key];
 }
-+(UndefinedKeyHandlerBlock)NavigationBarHiddenKey
++(UndefinedKeyHandlerBlock)navigationBarHiddenKey
 {
 	return ^void(UINavigationController* _self,NSString*key,NSString* value)
 	{
@@ -75,5 +76,10 @@
 -(void)pop
 {
 	[self popViewControllerAnimated:YES];
+}
+
+-(void)setDi_push:(id)di_push
+{
+	objc_setAssociatedObject(self, NSSelectorFromString(@"di_push"),di_push, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 @end
