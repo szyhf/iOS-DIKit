@@ -174,17 +174,6 @@
 	return self.childrenStorage;
 }
 
--(void)setValue:(id)value
-forUndefinedKey:(NSString *)key
-{
-	return objc_setAssociatedObject(self, NSSelectorFromString(key), value, OBJC_ASSOCIATION_RETAIN);
-}
-
--(id)valueForUndefinedKey:(NSString *)key
-{
-	return objc_getAssociatedObject(self, NSSelectorFromString(key));
-}
-
 - (NSMutableArray<DINode*> *)childrenStorage {
 	if(_childrenStorage == nil)
 	{
