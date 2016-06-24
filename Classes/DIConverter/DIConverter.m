@@ -21,7 +21,7 @@
 	UIEdgeInsets res ;
 	@try
 	{
-		UIEdgeInsets res = UIEdgeInsetsMake([parames[0] floatValue], [parames[1] floatValue], [parames[2] floatValue], [parames[3] floatValue]);
+		res = UIEdgeInsetsMake([parames[0] floatValue], [parames[1] floatValue], [parames[2] floatValue], [parames[3] floatValue]);
 	}
 	@catch (NSException *exception)
 	{
