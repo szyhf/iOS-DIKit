@@ -14,7 +14,7 @@
 #import "NSObject+Runtimes.h"
 #import "DIAttribute.h"
 #import "DIConverter.h"
-#import "NUIFileMonitor.h"
+#import "DIWatcher.h"
 
 @implementation DIRouter (Xml)
 static NSString* dirPath;
@@ -38,7 +38,7 @@ static NSMutableArray<NSString*>* watchedFiles;
 	if(![watchedFiles containsObject:filePath])
 	{
 		[watchedFiles addObject:filePath];
-		[NUIFileMonitor watch:filePath withCallback:
+		[DIWatcher watch:filePath withCallback:
 		 ^{
 			 [self.class performSelectorOnMainThread:@selector(reload) withObject:nil waitUntilDone:YES];
 		 }];
