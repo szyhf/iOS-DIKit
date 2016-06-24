@@ -70,6 +70,7 @@
 									@"ref",
 									@"template",
 									@"reg",
+									@"class",
 									];
 				  });
 	return _instance;
