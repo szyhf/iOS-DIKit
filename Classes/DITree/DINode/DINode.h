@@ -27,7 +27,13 @@
 -(BOOL)isError;
 -(NSException*)exception;
 
+#if TARGET_OS_SIMULATOR
+//严格来说应该是strong然后要递归清理，但真机调试的时候暂时不涉及重置，所以就无所谓了。
+//先这样处理着
 @property (nonatomic, weak) id implement;
+#else
+@property (nonatomic, strong) id implement;
+#endif
 
 @property (nonatomic, strong) Class clazz;
 @property (nonatomic, strong) NSString* name;
