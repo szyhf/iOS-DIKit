@@ -7,9 +7,6 @@
 //
 
 #import "DITabBarController.h"
-#import "UIColor+Wonderful.h"
-#import "Masonry.h"
-#import "UILabel+Wonderful.h"
 #import "UIImage+Resize.h"
 @interface DITabBarController()
 @end
