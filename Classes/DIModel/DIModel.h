@@ -9,5 +9,15 @@
 #import <Foundation/Foundation.h>
 
 @interface DIModel : NSObject
+@end
 
+@interface DIModel(Watch)
+-(void)startWatching;
+-(void)watchModel:(NSObject*)model named:(NSString*)modelName;
+-(void)watchModel:(NSObject*)model;
+-(void)watchModelClass:(Class)modelClass;
+
+@property (nonatomic, strong, readonly) NSMutableDictionary<NSString*,NSObject*>*watchMap;
+
+@property (nonatomic, strong, readonly) NSDictionary<NSString*,NSString*>* bindingMap;
 @end

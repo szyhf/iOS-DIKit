@@ -10,6 +10,7 @@
 #import "DIWatcher.h"
 #import "NSObject+YYModel.h"
 #import "DIConfig.h"
+#import "NSObject+Runtimes.h"
 
 @implementation DIModel
 - (instancetype)init
@@ -17,6 +18,7 @@
 	self = [super init];
 	if (self)
 	{
+		//模拟数据源
 #if TARGET_OS_SIMULATOR
 		NSString* dataPath = [NSString stringWithFormat:@"%@%@.json",DIConfig.getNSString(@"LocalDataDirectory"),self.class];
 		[DIWatcher watch:dataPath withCallback:
@@ -33,6 +35,11 @@
 											   usedEncoding:nil
 													  error:nil];
 		[self performSelectorOnMainThread:@selector(yy_modelSetWithJSON:) withObject:json waitUntilDone:YES];
+		
+		
+		//正式
+		[self watchModel:self named:@"self"];
+		//[self invokeMethod:@"startWatching"];
 	}
 	return self;
 }
