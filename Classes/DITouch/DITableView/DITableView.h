@@ -8,12 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "DITemplateNode.h"
+#import "DITableViewSection.h"
 
 @interface DITableView : UITableView
 -(void)registerCellNode:(DITemplateNode*)templateNode;
 -(UITableViewCell*)dequeueDefaultCell;
 
+@property (nonatomic, strong,readonly) NSArray<DITableViewSection*>* sections;
+-(DITableViewSection*)objectInSectionsAtIndex:(NSUInteger)index;
+-(void)addSectionsObject:(DITableViewSection *)section;
+-(void)addSections:(NSSet *)objects;
+@end
 
-//配置section命令
-@property (nonatomic, strong) id di_section;
+@interface DITableView(Layout)
+-(CGSize)contentViewFittingSize:(UIView*)contentView;
+
 @end

@@ -12,12 +12,16 @@ FOUNDATION_EXPORT const unsigned char DIKitVersionString[];
 
 #import <DIKit/DITools.h>
 #import <DIKit/DIContainer.h>
-
+#import <DIKit/DIConfig.h>
+#import <DIKit/DIWatcher.h>
 //Router系列
 #import <DIKit/DIRouter.h>
 #import <DIKit/DIRouter+Xml.h>
 #import <DIKit/DIRouter+Assemble.h>
 
+//Model和ViewModel
+#import "DIViewModel.h"
+#import "DIModel.h"
+
 //NUI相关
 #import "NUISettings.h"
-#import "NUIFileMonitor.h"
