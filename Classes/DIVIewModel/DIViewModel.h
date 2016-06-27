@@ -7,12 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DIModel.h"
 
-@interface DIViewModel : NSObject
--(void)registryModel:(NSObject*)model named:(NSString*)modelName;
--(void)registryModel:(NSObject*)model;
--(void)registryModelClass:(Class)modelClass;
--(void)unbinding;
+@interface DIViewModel : DIModel
 @property (nonatomic, weak) NSObject* bindingInstance;
-@property (nonatomic, readonly) NSMutableDictionary<NSString*,NSObject*>*modelsMap;
 @end
