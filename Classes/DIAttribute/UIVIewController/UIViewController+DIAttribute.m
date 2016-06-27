@@ -13,8 +13,11 @@
 #import "DIContainer.h"
 #import "DIConverter.h"
 #import "DINodeLayoutConstraint.h"
+#import "DIViewModel.h"
 
 @implementation UIViewController (DIAttribute)
+@dynamic navigationBarHidden;
+
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
 {
 	static NSDictionary<NSString*,UndefinedKeyHandlerBlock>* _instance;
@@ -27,22 +30,9 @@
 									@"leftBarButtonItems":self.leftBarKey,
 									@"rightBarButtonItems":self.rightBarKey,
 									@"navigationBarHidden":self.navigationBarHiddenKey,
-									@"viewModel":self.viewModelKey,
 									} ;
 				  });
 	return _instance[key];
-}
-
-+(UndefinedKeyHandlerBlock)viewModelKey
-{
-	return ^void(UIViewController* obj,NSString*key,NSString* value)
-	{
-		Class viewModleClass = NSClassFromString(value);
-		if(viewModleClass!=nil)
-		{
-			[viewModleClass invokeSelector:@selector(bindController:) withParams:obj];
-		}
-	};
 }
 
 +(UndefinedKeyHandlerBlock)navigationBarHiddenKey
@@ -50,7 +40,7 @@
 	return ^void(UIViewController* obj,NSString*key,NSString* value)
 	{
 		//配合DINavigationControllerDelegate可以实现动态控制bar hidden。
-		[obj setValue:value forKey:key];
+		[obj setValue:[NSNumber numberWithBool:[value boolValue]] forKey:key];
 	};
 }
 
@@ -142,4 +132,8 @@
 	[self.navigationController pushNext];
 }
 
+-(void)setNavigationBarHidden:(BOOL)navigationBarHidden
+{
+	objc_setAssociatedObject(self, NSSelectorFromString(@"navigationBarHidden"),[NSNumber numberWithBool:navigationBarHidden], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
 @end

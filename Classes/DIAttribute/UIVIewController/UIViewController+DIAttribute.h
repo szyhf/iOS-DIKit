@@ -10,5 +10,5 @@
 #import "NSObject+DIAttribute.h"
 
 @interface UIViewController (DIAttribute)
-
+@property (nonatomic, assign) BOOL navigationBarHidden;
 @end
