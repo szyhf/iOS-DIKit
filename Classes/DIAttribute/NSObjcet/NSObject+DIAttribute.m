@@ -10,8 +10,11 @@
 #import "DIConverter.h"
 #import "NSObject+Runtimes.h"
 #import <objc/runtime.h>
+#import "DIViewModel.h"
+#import "DIContainer.h"
 
 @implementation NSObject (DIAttribute)
+
 +(void)load
 {
 	Method oldSetValue = class_getInstanceMethod(self, @selector(setValue:forKey:));
@@ -84,7 +87,7 @@
 		}
 		@catch (NSException *exception)
 		{
-			WarnLog(@"set <%@ %p> attribute[%@ => %@] failed\nException:%@",node.name,self,key,value,exception);
+			WarnLog(@"set <%@ %p> attribute[%@ => %@] failed\nException:%@\n%@",node.name,self,key,value,exception,[exception callStackSymbols]);
 		}
 	}];
 }
@@ -156,10 +159,15 @@
 	}
 }
 
--(void)setValue:(id)value
-forUndefinedKey:(NSString *)key
+@dynamic init;
+-(void)setInit:(NSString *)init
 {
-	objc_setAssociatedObject(self, NSSelectorFromString(key), value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	objc_setAssociatedObject(self, NSSelectorFromString(@"init"), init, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+@dynamic viewModel;
+-(void)setViewModel:(DIViewModel *)viewModel
+{
+	objc_setAssociatedObject(self, NSSelectorFromString(@"viewModel"), viewModel, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(id)valueForUndefinedKey:(NSString *)key
@@ -189,8 +197,22 @@ forUndefinedKey:(NSString *)key
 				  ^{
 					  _instance = @{
 									@"style":self.styleKey,
+									@"viewModel":self.viewModelKey,
 									} ;
 				  });
 	return _instance[key];
+}
+
++(UndefinedKeyHandlerBlock)viewModelKey
+{
+	return ^void(NSObject* obj,NSString*key,NSString* value)
+	{
+		DIViewModel* viewModel = [DIContainer makeInstanceByName:value];
+		if(viewModel!=nil)
+		{
+			[viewModel setBindingInstance:obj];
+		}
+		[obj setValue:viewModel forKey:key];
+	};
 }
 @end
