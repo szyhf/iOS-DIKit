@@ -62,6 +62,8 @@
 
 +(UIImage*)toImage:(NSString*)string
 {
+	if(!string)
+		return nil;
 	//尝试根据Named获取
 	UIImage* res = [UIImage imageNamed:string];
 	if(res)
