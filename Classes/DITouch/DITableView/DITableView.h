@@ -10,17 +10,28 @@
 #import "DITemplateNode.h"
 #import "DITableViewSection.h"
 
+@class DITableViewSection;
+
 @interface DITableView : UITableView
+
+@property (nonatomic, strong,readonly) NSArray<DITableViewSection*>* sections;
+
 -(void)registerCellNode:(DITemplateNode*)templateNode;
 -(UITableViewCell*)dequeueDefaultCell;
 
-@property (nonatomic, strong,readonly) NSArray<DITableViewSection*>* sections;
 -(DITableViewSection*)objectInSectionsAtIndex:(NSUInteger)index;
 -(void)addSectionsObject:(DITableViewSection *)section;
 -(void)addSections:(NSSet *)objects;
 @end
 
+#pragma mark - category
+
 @interface DITableView(Layout)
 -(CGSize)contentViewFittingSize:(UIView*)contentView;
+@end
 
+@interface DITableView (SectionDataSourceProxy)<UITableViewDataSource>
+@end
+
+@interface DITableView (SectionDelegateProxy)<UITableViewDelegate>
 @end

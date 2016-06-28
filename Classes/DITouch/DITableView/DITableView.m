@@ -39,10 +39,20 @@
 	//没有的话默认提供一个基础的
 	//还支持DI系列功能嘿嘿
 	//delegate必须有strong的持有，所以lazy加载一个
-	if(!self.delegate)
-		self.delegate = self.tableDelegate;
-	if(!self.dataSource)
-		self.dataSource = self.tableDataSource;
+	if(!self.sections.count)
+	{
+		if(!self.delegate)
+			self.delegate = self.tableDelegate;
+		if(!self.dataSource)
+			self.dataSource = self.tableDataSource;
+		
+	}else
+	{
+		if(!self.delegate)
+			self.delegate = self;
+		if(!self.dataSource)
+			self.dataSource = self;
+	}
 }
 
 -(void)registerCellNode:(DITemplateNode*)templateNode
