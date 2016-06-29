@@ -15,4 +15,5 @@
  */
 @property (nonatomic, strong) NSNumber* maxRowCount;
 @property (nonatomic, strong) NSMutableArray<DITemplateNode*>* cellTemplates;
+@property (nonatomic, strong) NSArray<DIViewModel*>* cellsViewModel;
 @end
