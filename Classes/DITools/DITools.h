@@ -15,4 +15,5 @@
 #import "DIIO.h"
 #import "DIObject.h"
 #import "DIImage.h"
+#import "DINumber.h"
 #endif /* DITools_h */
