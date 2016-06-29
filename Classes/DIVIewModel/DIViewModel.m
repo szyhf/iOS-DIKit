@@ -23,6 +23,8 @@
 
 -(void)setBindingInstance:(NSObject*)bindingInstance
 {
+	//重置观察，要不ViewModel在重用时可能无法正确更新被观察的对象
+	[self.KVOControllerNonRetaining unobserveAll];
 	[self watchModel:bindingInstance named:@"target"];
 }
 
