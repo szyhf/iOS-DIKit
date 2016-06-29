@@ -36,8 +36,10 @@
 {
 	for (NSString* key in self.bindingMap)
 	{
-		//效率和写法不理想，有空再处理
 		NSString* modelKey = self.bindingMap[key];
+		
+		//效率和写法不理想，有空再处理
+		//key映射的model可能不存在（因为modelKey被拦截了）
 		NSInteger firstDotIndex = [key indexOf:@"."];
 		if(firstDotIndex>0)
 		{
@@ -45,22 +47,37 @@
 			if(![self.watchMap.allKeys containsObject:modelName])
 			 continue;
 		}
-		firstDotIndex = [modelKey indexOf:@"."];
-		NSString* modelName = [modelKey substringToIndex:firstDotIndex];
+		
+		//modelKey映射的Model必须存在
+		NSString* modelName = [self modelNameFromKeyPath:modelKey];
 		if(![self.watchMap.allKeys containsObject:modelName])
 			continue;
 		
-		SEL selector = NSSelectorFromString([NSString stringWithFormat:@"set%@:",[modelKey stringByReplacingOccurrencesOfString:@"." withString:@"_"]]);
+		//优先支持forKeyPath的selector，没有的话则尝试调用无forKeyPath的
+		SEL selectorForKeyPath = NSSelectorFromString([NSString stringWithFormat:@"set%@:forKeyPath:",[modelKey stringByReplacingOccurrencesOfString:@"." withString:@"_"]]);
+		SEL selectorNoKeyPath = NSSelectorFromString([NSString stringWithFormat:@"set%@:",[modelKey stringByReplacingOccurrencesOfString:@"." withString:@"_"]]);
+		
+
 		FBKVONotificationBlock observerBlock;
 		
-		if([self respondsToSelector:selector])
+		if([self respondsToSelector:selectorForKeyPath])
 		{
 			observerBlock =
 			^(DIModel* observer, NSDictionary* watchMap, NSDictionary<
 			  NSString *,id> * change)
 			{
 				id newValue = [watchMap valueForKeyPath:modelKey];
-				[observer invokeSelector:selector withParams:newValue];
+				[observer invokeSelector:selectorForKeyPath withParams:newValue,modelKey];
+			};
+		}
+		else if ([self respondsToSelector:selectorNoKeyPath])
+		{
+			observerBlock =
+			^(DIModel* observer, NSDictionary* watchMap, NSDictionary<
+			  NSString *,id> * change)
+			{
+				id newValue = [watchMap valueForKeyPath:modelKey];
+				[observer invokeSelector:selectorNoKeyPath withParams:newValue];
 			};
 		}
 		else
@@ -90,13 +107,13 @@
 
 -(void)prepareBindingMap
 {
-	NSMutableDictionary* newBindingMap = [NSMutableDictionary dictionary];
-	for (NSString* key in self.bindingMap)
-	{
-		NSString* modelKey;
+	//NSMutableDictionary* newBindingMap = [NSMutableDictionary dictionary];
+	//for (NSString* key in self.bindingMap)
+	//{
+		//NSString* modelKey;
 		
 		
-	}
+	//}
 }
 
 -(NSString*)modelNameFromKeyPath:(NSString*)modelKeyPath

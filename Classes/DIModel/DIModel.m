@@ -8,9 +8,8 @@
 
 #import "DIModel.h"
 #import "DIWatcher.h"
-#import "NSObject+YYModel.h"
 #import "DIConfig.h"
-#import "NSObject+Runtimes.h"
+#import "DITools.h"
 
 @implementation DIModel
 - (instancetype)init
@@ -39,13 +38,12 @@
 		
 		//正式
 		[self watchModel:self named:@"self"];
-		//[self invokeMethod:@"startWatching"];
 	}
 	return self;
 }
 
 -(void)dealloc
 {
-	
+	DebugLog(@"Model: %@ dealloced.",self);
 }
 @end
