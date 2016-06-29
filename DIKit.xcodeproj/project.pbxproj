@@ -401,6 +401,120 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>0C1699831D22273200317C1A</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>DITableView+SectionDataSourceProxy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C1699851D22273200317C1A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C1699831D22273200317C1A</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C1699871D222A5400317C1A</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>DITableView+SectionDelegateProxy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C1699891D222A5400317C1A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C1699871D222A5400317C1A</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C1699A21D2273E800317C1A</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>DINumber.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C1699A31D2273E800317C1A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C1699A21D2273E800317C1A</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C1699B31D23C08200317C1A</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0C1699B41D23C08200317C1A</string>
+				<string>0C1699B51D23C08200317C1A</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>DIDictionaryModelProxy</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C1699B41D23C08200317C1A</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>DIDictionaryModelProxy.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C1699B51D23C08200317C1A</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>DIDictionaryModelProxy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C1699B61D23C08200317C1A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C1699B41D23C08200317C1A</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C1699B71D23C08200317C1A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C1699B51D23C08200317C1A</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
 		<key>0C26FAC31D17DCF0002DFA65</key>
 		<dict>
 			<key>children</key>
@@ -1117,6 +1231,7 @@
 				<string>0C5277A51CEAD8F80021B477</string>
 				<string>0C5277B21CEAD8F80021B477</string>
 				<string>0CAF0AE31D0DDB8A00CB826E</string>
+				<string>0C1699891D222A5400317C1A</string>
 				<string>0C40130C1CF4460200787E28</string>
 				<string>0C14681E1CF1A02D001074C8</string>
 				<string>0C1468121CF19E2A001074C8</string>
@@ -1159,8 +1274,10 @@
 				<string>0CFAC3131CEB401700ABC4F5</string>
 				<string>0CFAC30E1CEB3C4400ABC4F5</string>
 				<string>0CAF0B151D0EE37B00CB826E</string>
+				<string>0C1699B71D23C08200317C1A</string>
 				<string>0CAF0B991D127C1700CB826E</string>
 				<string>0C3C08101D15A85E0081B46B</string>
+				<string>0C1699851D22273200317C1A</string>
 				<string>0CAF0A431D06CCB800CB826E</string>
 				<string>0CE3DB611D18FF25002ACCFE</string>
 				<string>0C1668C81CFEC8E8003DA175</string>
@@ -1242,6 +1359,7 @@
 				<string>0CAF0C0A1D13A89500CB826E</string>
 				<string>0CAF0ADE1D0DDA4E00CB826E</string>
 				<string>0CBE5AA11D01B0C900082369</string>
+				<string>0C1699B61D23C08200317C1A</string>
 				<string>0C735E961D1A6FA000066F3E</string>
 				<string>0C5277AD1CEAD8F80021B477</string>
 				<string>0CAF0A421D06CCB800CB826E</string>
@@ -1257,6 +1375,7 @@
 				<string>0CFAC30D1CEB3C4400ABC4F5</string>
 				<string>0C80FB121CF6A90D00C16176</string>
 				<string>0C5277A01CEAD8F80021B477</string>
+				<string>0C1699A31D2273E800317C1A</string>
 				<string>0C40130B1CF4460200787E28</string>
 				<string>0C5277AC1CEAD8F80021B477</string>
 				<string>0CAF0A9F1D0D4A8D00CB826E</string>
@@ -2145,6 +2264,8 @@
 				<string>0C735E931D1A6F8900066F3E</string>
 				<string>0CFE94411D1B7CD000258509</string>
 				<string>0CAF0A941D0D3A8900CB826E</string>
+				<string>0CAF0AE41D0DDBA700CB826E</string>
+				<string>0CAF0AE51D0DDBB200CB826E</string>
 				<string>0C735E8E1D1A683C00066F3E</string>
 				<string>0CFE943F1D1B7CCD00258509</string>
 			</array>
@@ -2535,11 +2656,11 @@
 		<dict>
 			<key>children</key>
 			<array>
-				<string>0CAF0AE41D0DDBA700CB826E</string>
-				<string>0CAF0AE51D0DDBB200CB826E</string>
 				<string>0CAF0A9D1D0D4A8D00CB826E</string>
 				<string>0CAF0A9E1D0D4A8D00CB826E</string>
 				<string>0CBCFFA51D1D32A600640F94</string>
+				<string>0C1699831D22273200317C1A</string>
+				<string>0C1699871D222A5400317C1A</string>
 				<string>0CAF0A991D0D482500CB826E</string>
 				<string>0CAF0A9A1D0D482500CB826E</string>
 			</array>
@@ -2975,7 +3096,7 @@
 			<key>isa</key>
 			<string>PBXGroup</string>
 			<key>path</key>
-			<string>DataSource</string>
+			<string>DITableViewDataSource</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -2991,7 +3112,7 @@
 			<key>isa</key>
 			<string>PBXGroup</string>
 			<key>path</key>
-			<string>Delegate</string>
+			<string>DITableViewDelegate</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -3283,6 +3404,7 @@
 		<dict>
 			<key>children</key>
 			<array>
+				<string>0C1699A21D2273E800317C1A</string>
 				<string>0CAF0C081D13A89500CB826E</string>
 				<string>0CAF0C091D13A89500CB826E</string>
 			</array>
@@ -4080,6 +4202,7 @@
 		<dict>
 			<key>children</key>
 			<array>
+				<string>0C1699B31D23C08200317C1A</string>
 				<string>0CBCFFAF1D20D7BC00640F94</string>
 				<string>0CE3DB5E1D18FF25002ACCFE</string>
 				<string>0CE3DB5F1D18FF25002ACCFE</string>
