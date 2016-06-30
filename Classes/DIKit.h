@@ -20,8 +20,12 @@ FOUNDATION_EXPORT const unsigned char DIKitVersionString[];
 #import <DIKit/DIRouter+Assemble.h>
 
 //Model和ViewModel
-#import "DIViewModel.h"
 #import "DIModel.h"
+#import "DIDictionaryModelProxy.h"
+#import "DIArrayModel.h"
+
+#import "DIViewModel.h"
+#import "DITableViewModel.h"
 
 //NUI相关
 #import "NUISettings.h"
