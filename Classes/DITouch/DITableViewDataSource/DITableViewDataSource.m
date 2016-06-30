@@ -39,6 +39,9 @@ numberOfRowsInSection:(NSInteger)section
 		DIViewModel* cellViewModel = self.cellsViewModel[indexPath.row];
 		[cellViewModel setBindingInstance:cell];
 	}
+	
+	[cell setNeedsLayout];
+	[cell layoutIfNeeded];
 	return cell;
 }
 
