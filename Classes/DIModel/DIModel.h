@@ -11,12 +11,33 @@
 @end
 
 @interface DIModel(Watch)
+/**
+ *  当前模型监控的所有模型的列表
+ */
+@property (nonatomic, strong, readonly) NSMutableDictionary<NSString*,NSObject*>*watchMap;
+
 -(void)startWatching;
 -(void)watchModel:(NSObject*)model named:(NSString*)modelName;
 -(void)watchModel:(NSObject*)model;
 -(void)watchModelClass:(Class)modelClass;
 
-@property (nonatomic, strong, readonly) NSMutableDictionary<NSString*,NSObject*>*watchMap;
+/**
+ *  当前模型的默认绑定列表
+ *
+ *  @return
+ */
++(NSDictionary<NSString*,NSString*>*)bindingMap;
 
-@property (nonatomic, strong, readonly) NSDictionary<NSString*,NSString*>* bindingMap;
+/**
+ *  要监控的非全局唯一Model注册表
+ *
+ *  @return 非全局唯一Model数组
+ */
++(NSArray*)commonModelWatchClass;
+/**
+ *  要监控的非全局唯一Model注册表
+ *
+ *  @return 非全局唯一Model数组
+ */
++(NSArray*)uniqueModelWatchClass;
 @end

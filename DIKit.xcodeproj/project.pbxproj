@@ -496,10 +496,14 @@
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.objc</string>
+			<key>lineEnding</key>
+			<string>0</string>
 			<key>path</key>
 			<string>DIDictionaryModelProxy.m</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+			<key>xcLanguageSpecificationIdentifier</key>
+			<string>xcode.lang.objc</string>
 		</dict>
 		<key>0C1699B61D23C08200317C1A</key>
 		<dict>

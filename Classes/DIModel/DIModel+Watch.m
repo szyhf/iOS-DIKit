@@ -28,15 +28,16 @@
 
 -(void)watchModel:(NSObject*)model named:(NSString*)modelName
 {
-	self.watchMap[modelName]=model;
+	__weak NSObject* weakModel = model;
+	self.watchMap[modelName]=weakModel;
 	[self startWatching];
 }
 
 -(void)startWatching
 {
-	for (NSString* key in self.bindingMap)
+	for (NSString* key in [self.class bindingMap])
 	{
-		NSString* modelKey = self.bindingMap[key];
+		NSString* modelKey = [self.class bindingMap][key];
 		
 		//效率和写法不理想，有空再处理
 		//key映射的model可能不存在（因为modelKey被拦截了）
@@ -54,20 +55,20 @@
 			continue;
 		
 		//优先支持forKeyPath的selector，没有的话则尝试调用无forKeyPath的
-		SEL selectorForKeyPath = NSSelectorFromString([NSString stringWithFormat:@"set%@:forKeyPath:",[modelKey stringByReplacingOccurrencesOfString:@"." withString:@"_"]]);
+		SEL selectorToKeyPath = NSSelectorFromString([NSString stringWithFormat:@"set%@:toKeyPath:",[modelKey stringByReplacingOccurrencesOfString:@"." withString:@"_"]]);
 		SEL selectorNoKeyPath = NSSelectorFromString([NSString stringWithFormat:@"set%@:",[modelKey stringByReplacingOccurrencesOfString:@"." withString:@"_"]]);
 		
 
 		FBKVONotificationBlock observerBlock;
 		
-		if([self respondsToSelector:selectorForKeyPath])
+		if([self respondsToSelector:selectorToKeyPath])
 		{
 			observerBlock =
 			^(DIModel* observer, NSDictionary* watchMap, NSDictionary<
 			  NSString *,id> * change)
 			{
 				id newValue = [watchMap valueForKeyPath:modelKey];
-				[observer invokeSelector:selectorForKeyPath withParams:newValue,modelKey];
+				[observer invokeSelector:selectorToKeyPath withParams:newValue,key];
 			};
 		}
 		else if ([self respondsToSelector:selectorNoKeyPath])
@@ -99,7 +100,7 @@
 
 -(void)stopWatching
 {
-	[[self bindingMap]enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, NSString*  _Nonnull modelKey, BOOL * _Nonnull stop)
+	[[self.class bindingMap]enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, NSString*  _Nonnull modelKey, BOOL * _Nonnull stop)
 	 {
 		 [self.KVOControllerNonRetaining unobserve:self keyPath:[NSString stringWithFormat:@"watchMap.%@",modelKey]];
 	 }];
@@ -148,17 +149,8 @@
 	return watchMap;
 }
 
-@dynamic bindingMap;
--(NSDictionary<NSString*,NSString*>*)bindingMap
++(NSDictionary<NSString*,NSString*>*)bindingMap
 {
-	static NSDictionary* _instance;
-	static dispatch_once_t _token;
-	dispatch_once(&_token,
-				  ^{
-					  _instance = @{
-									//@"controllerKeyPath":@"(modelName).modelKeyPath"
-									};
-				  });
-	return _instance;
+	return @{};
 }
 @end

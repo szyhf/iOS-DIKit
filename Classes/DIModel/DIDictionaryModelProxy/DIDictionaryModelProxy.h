@@ -16,5 +16,7 @@
  *  该结构主要用于解决关联式的模型组合
  */
 @interface DIDictionaryModelProxy : DIModel
-
++(NSString*)primaryKey;
++(NSString*)collectionProperty;
++(Class)collectionClass;
 @end
