@@ -26,7 +26,7 @@
 			 NSString* json = [NSString stringWithContentsOfFile:dataPath
 										   usedEncoding:nil
 														   error:nil];
-			 [self performSelectorOnMainThread:@selector(yy_modelSetWithJSON:) withObject:json waitUntilDone:YES];
+			 [self setJsonOnMainThread:json];
 		 }];
 #else
 		NSString* dataPath = [[NSBundle mainBundle]pathForResource:NSStringFromClass(self.class) ofType:@".json"];
@@ -34,7 +34,7 @@
 		NSString* json = [NSString stringWithContentsOfFile:dataPath
 											   usedEncoding:nil
 													  error:nil];
-		[self performSelectorOnMainThread:@selector(yy_modelSetWithJSON:) withObject:json waitUntilDone:YES];
+		[self setJsonOnMainThread:json];
 		
 		//正式
 		[self watchModel:self named:@"self"];
@@ -42,6 +42,11 @@
 		[self watchCommonModelClass];
 	}
 	return self;
+}
+
+-(void)setJsonOnMainThread:(NSString*)json
+{
+	[self performSelectorOnMainThread:@selector(yy_modelSetWithJSON:) withObject:json waitUntilDone:YES];
 }
 
 -(void)watchCommonModelClass
