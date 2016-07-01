@@ -15,4 +15,6 @@
 							   atPath:(NSString*)path;
 +(NSArray<NSString*>*)recurFullPathFilesWithSuffix:(NSString*)suffix
 							   inDirectory:(NSString*)path;
++(NSString*)recurFullPathToFile:(NSString*)file
+					inDirectory:(NSString*)path;
 @end

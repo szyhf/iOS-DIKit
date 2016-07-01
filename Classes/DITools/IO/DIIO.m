@@ -55,4 +55,27 @@
 	NSPredicate *fltr = [NSPredicate predicateWithFormat:predicateFormat];
 	return [res filteredArrayUsingPredicate:fltr];
 }
+
++(NSString*)recurFullPathToFile:(NSString*)file
+							  inDirectory:(NSString*)path
+{
+	NSString* _fileName = [@"/" stringByAppendingString:file];
+	NSFileManager *fm = [NSFileManager defaultManager];
+	NSDirectoryEnumerator* dirEnumerator = [fm enumeratorAtPath:path];
+	NSString* filePath ;
+	while (( filePath = [dirEnumerator nextObject] ) != nil)
+	{
+		//这里得到的filePath只是子目录的路径
+		BOOL isDir;
+		[fm fileExistsAtPath:filePath isDirectory:&isDir];
+		if(!isDir)
+		{
+			if([filePath hasSuffix:_fileName])
+			{
+				return [path stringByAppendingString:filePath];
+			}
+		}
+	}
+	return @"";
+}
 @end
