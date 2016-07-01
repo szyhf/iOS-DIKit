@@ -9,5 +9,6 @@
 #import "DIModel.h"
 
 @interface DIDictionaryModel : DIModel
-
++(Class)cellModelClass;
++(NSString*)collectionProperty;
 @end

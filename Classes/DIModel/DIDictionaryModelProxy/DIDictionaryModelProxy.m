@@ -36,11 +36,11 @@
 }
 +(NSString*)collectionProperty
 {
-	return @"collections";
+	return [[self collectionClass]invokeMethod:@"collectionProperty"];
 }
 +(Class)collectionClass
 {
-	return NSObject.class;
+	return DIDictionaryModel.class;
 }
 
 - (instancetype)init
@@ -48,6 +48,7 @@
 	self = [super init];
 	if (self)
 	{
+		NSAssert([[self.class collectionClass]isSubclassOfClass:DIDictionaryModel.class], @"[DIDictionaryModelProxy collectionClass] should be subclass of DIDictionaryModel.");
 		[self watchModelClass:self.collectionClass];
 		
 		[self watchCollection];

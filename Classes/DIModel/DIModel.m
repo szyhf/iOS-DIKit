@@ -20,7 +20,11 @@
 	{
 		//模拟数据源
 #if TARGET_OS_SIMULATOR
-		NSString* dataPath = [NSString stringWithFormat:@"%@%@.json",DIConfig.getNSString(@"LocalDataDirectory"),self.class];
+		//NSString* dataPath = [NSString stringWithFormat:@"%@%@.json",DIConfig.getNSString(@"LocalDataDirectory"),self.class];
+		NSString* dirPath = DIConfig.getNSString(@"LocalDataDirectory");
+		NSString* fileName = [NSString stringWithFormat:@"%@.json",self.class];
+		NSString* dataPath = [DIIO recurFullPathToFile:fileName inDirectory:dirPath];
+		//DebugLogWhile(![NSString isNilOrEmpty:dataPath], dataPath);
 		[DIWatcher watch:dataPath withCallback:
 		 ^{
 			 NSString* json = [NSString stringWithContentsOfFile:dataPath

@@ -10,7 +10,7 @@
 #import "NSObject+YYModel.h"
 @interface DIArrayModel()
 //默认存放点
-@property (nonatomic, strong) NSArray* cellModels;
+@property (nonatomic, strong) NSArray* diCollection;
 @end
 
 @implementation DIArrayModel
@@ -21,11 +21,11 @@
  */
 -(void)setJsonOnMainThread:(NSString*)json
 {
-	NSArray* cellsModels = [NSMutableArray yy_modelArrayWithClass:[self.class cellModelClass] json:json];
-	[self performSelectorOnMainThread:@selector(di_setCellModels:) withObject:cellsModels waitUntilDone:YES];
+	NSArray* cellsModels = [NSArray yy_modelArrayWithClass:[self.class cellModelClass] json:json];
+	[self performSelectorOnMainThread:@selector(di_setDICollection:) withObject:cellsModels waitUntilDone:YES];
 }
 
--(void)di_setCellModels:models
+-(void)di_setDICollection:models
 {
 	[self setValue:models forKey:[self.class collectionProperty]];
 }
@@ -37,6 +37,6 @@
 
 +(NSString*)collectionProperty
 {
-	return @"cellModels";
+	return @"diCollection";
 }
 @end
