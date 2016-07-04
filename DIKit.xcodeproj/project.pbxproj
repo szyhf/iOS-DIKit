@@ -470,8 +470,10 @@
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
+			<key>name</key>
+			<string>DIDictionaryProxyModel</string>
 			<key>path</key>
-			<string>DIDictionaryModelProxy</string>
+			<string>DIDictionaryProxyModel</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -484,7 +486,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.h</string>
 			<key>path</key>
-			<string>DIDictionaryModelProxy.h</string>
+			<string>DIDictionaryProxyModel.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -499,7 +501,7 @@
 			<key>lineEnding</key>
 			<string>0</string>
 			<key>path</key>
-			<string>DIDictionaryModelProxy.m</string>
+			<string>DIDictionaryProxyModel.m</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -742,8 +744,6 @@
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>DIDictionaryModel</string>
 			<key>path</key>
 			<string>DIDictionaryModel</string>
 			<key>sourceTree</key>
