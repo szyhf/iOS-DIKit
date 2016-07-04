@@ -12,7 +12,7 @@
 -(CGSize)contentViewFittingSize:(UIView*)contentView
 {
 	CGFloat contentViewWidth = CGRectGetWidth(self.frame);
-	if (contentViewWidth > 0)
+	//if (contentViewWidth > 0)
 	{
 		NSLayoutConstraint *widthFenceConstraint = [NSLayoutConstraint constraintWithItem:contentView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:contentViewWidth];
 		[contentView addConstraint:widthFenceConstraint];
