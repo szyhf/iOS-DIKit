@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface NSObject (Hook)
--(void)addHook:(void(^)(id))hook toMethod:(NSString*)methodName;
++(void)exchangeClassSelector:(SEL)aSel toSelector:(SEL)bSel;
++(void)exchangeInstanceSelector:(SEL)aSel toSelector:(SEL)bSel;
 @end
