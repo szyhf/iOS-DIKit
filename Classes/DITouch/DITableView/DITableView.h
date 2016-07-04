@@ -17,7 +17,7 @@
 @property (nonatomic, strong,readonly) NSArray<DITableViewSection*>* sections;
 
 -(void)registerCellNode:(DITemplateNode*)templateNode;
--(UITableViewCell*)dequeueDefaultCell;
+-(UITableViewCell*)dequeueDefaultCellForIndexPath:(nonnull NSIndexPath*)indexPath;
 
 -(DITableViewSection*)objectInSectionsAtIndex:(NSUInteger)index;
 -(void)addSectionsObject:(DITableViewSection *)section;

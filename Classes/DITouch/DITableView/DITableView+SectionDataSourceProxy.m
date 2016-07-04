@@ -41,6 +41,6 @@ numberOfRowsInSection:(NSInteger)section
 	}
 		
 	//返回默认值
-	return [tableView dequeueDefaultCell];
+	return [tableView dequeueDefaultCellForIndexPath:indexPath];
 }
 @end

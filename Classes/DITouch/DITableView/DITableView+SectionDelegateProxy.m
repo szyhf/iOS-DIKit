@@ -21,11 +21,11 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 	}
 	
 	//没配置的话按默认生成。
-	UITableViewCell* cell = [tableView dequeueDefaultCell];
-	return [tableView fd_heightForCellWithIdentifier:cell.reuseIdentifier
-									cacheByIndexPath:indexPath
-									   configuration:nil
-		 ];
+	NSString* reuseIdentifier = diSection.dataSource.cellTemplates.firstObject.name;
+	return [tableView fd_heightForCellWithIdentifier:reuseIdentifier cacheByIndexPath:indexPath
+									   configuration:^(id cell) {
+		
+	}];
 }
 
 //选中某行
