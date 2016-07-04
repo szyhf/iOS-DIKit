@@ -38,7 +38,6 @@
 	//动态拦截不同的setTableModelWatchClass_cellModels:方法
 	if([NSStringFromSelector(sel) isEqualToString:[self di_setCollectionKeyPathMethod]])
 	{
-		//严格来说不应该这样做。。但方便先用着呗=。=
 		IMP imp = class_getMethodImplementation(self, @selector(di_setCellModels:));
 		class_addMethod(self, sel, imp, "v@:@");//格式为“返回值参数1参数2参数3参数...”参数1默认为当前对象，参数2默认为当前SEL，参数3开始是用户自定义的参数，@表示id类型，:表示SEL类型，v表示void，其他的参考苹果文档。
 		return YES;
