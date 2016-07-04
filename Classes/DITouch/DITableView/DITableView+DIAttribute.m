@@ -18,31 +18,10 @@
 				  ^{
 					  _instance = @{
 									@"cell":self.cellKey,
-									//@"section":self.sectionKey,
 									} ;
 				  });
 	return _instance[key];
 }
-
-//+(UndefinedKeyHandlerBlock)sectionKey
-//{
-	//return ^void(DITableView* view,NSString*key,id value)
-	//{
-		//NSMutableArray<DITableViewSection*>* values ;
-		//if([value isKindOfClass:DITableViewSection.class])
-		//{
-			//values = [NSMutableArray arrayWithObject:value];
-		//}
-		//else
-		//{
-			//values = value;
-		//}
-		//if(view.sections)
-			//[view.sections addObjectsFromArray:values];
-		//else
-			//[view setSections:values];
-	//};
-//}
 
 +(UndefinedKeyHandlerBlock)cellKey
 {
