@@ -22,8 +22,8 @@ numberOfRowsInSection:(NSInteger)section
 	//快速设置一些可能本身并不需要真实数据源或者可变数据源的情况
 	if(self.maxRowCount)
 		return self.maxRowCount.integerValue;
-	
-	return 2;//默认返回两行看效果=。=
+	else
+		return _cellsViewModel.count;
 }
 
 - (UITableViewCell *)tableView:(DITableView *)tableView
@@ -32,7 +32,11 @@ numberOfRowsInSection:(NSInteger)section
 	self.tableView = tableView;
 	//默认处理为section的第一类cell（有需要，请重载）
 	DITableViewSection* diSection = [tableView objectInSectionsAtIndex:indexPath.section];
-	UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:diSection.dataSource.cellTemplates.firstObject.name forIndexPath:indexPath];
+	UITableViewCell* cell;
+	if(diSection)
+		cell = [tableView dequeueReusableCellWithIdentifier:diSection.dataSource.cellTemplates.firstObject.name forIndexPath:indexPath];
+	else
+		cell = [tableView dequeueDefaultCellForIndexPath:indexPath];
 	//配置数据
 	if(indexPath.row<_cellsViewModel.count)
 	{
@@ -42,6 +46,7 @@ numberOfRowsInSection:(NSInteger)section
 	
 	[cell setNeedsLayout];
 	[cell layoutIfNeeded];
+	
 	return cell;
 }
 
