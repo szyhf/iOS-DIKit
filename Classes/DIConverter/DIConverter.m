@@ -11,6 +11,7 @@
 #import "NSObject+Runtimes.h"
 #import "DITools.h"
 #import "DIIO.h"
+#import "DIConfig.h"
 
 @implementation DIConverter
 
@@ -56,7 +57,7 @@
 #if TARGET_OS_SIMULATOR
 +(NSString*)imageFilePathNamed:(NSString*)imageName
 {
-	return [DIIO recurFullPathFilesWithSuffix:[NSString stringWithFormat:@"/%@.png",imageName] inDirectory:@"/Users/back/Documents/IOS/Liangfeng/Liangfeng/Resources"].firstObject;
+	return [DIIO recurFullPathToFile:[NSString stringWithFormat:@"%@.png",imageName] inDirectory:DIConfig.getNSString(@"LocalResourceDirectory")];
 }
 #endif
 
