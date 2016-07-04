@@ -19,10 +19,11 @@
  *
  *  @param json 以Array为最外层封装的json字符串
  */
--(void)setJsonOnMainThread:(NSString*)json
+-(void)setByJson:(NSString*)json
 {
 	NSArray* cellsModels = [NSArray yy_modelArrayWithClass:[self.class cellModelClass] json:json];
 	[self performSelectorOnMainThread:@selector(di_setDICollection:) withObject:cellsModels waitUntilDone:YES];
+	//[self di_setDICollection:cellsModels];
 }
 
 -(void)di_setDICollection:models

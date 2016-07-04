@@ -6,9 +6,9 @@
 //  Copyright © 2016年 Back. All rights reserved.
 //
 
-#import "DIDictionaryModelProxy.h"
+#import "DIDictionaryProxyModel.h"
 #import "NSObject+FBKVOController.h"
-@interface DIDictionaryModelProxy()
+@interface DIDictionaryProxyModel()
 @property (nonatomic, strong,readonly) NSString* collectionKeyPath;
 /**
  *  当前模型除了主键外的其他属性
@@ -28,7 +28,7 @@
 @property (nonatomic, assign) Class collectionClass;
 @end
 
-@implementation DIDictionaryModelProxy
+@implementation DIDictionaryProxyModel
 
 +(NSString*)primaryKey
 {
@@ -48,7 +48,7 @@
 	self = [super init];
 	if (self)
 	{
-		NSAssert([[self.class collectionClass]isSubclassOfClass:DIDictionaryModel.class], @"[DIDictionaryModelProxy collectionClass] should be subclass of DIDictionaryModel.");
+		NSAssert([[self.class collectionClass]isSubclassOfClass:DIDictionaryModel.class], @"[DIDictionaryProxyModel collectionClass] should be subclass of DIDictionaryModel.");
 		[self watchModelClass:self.collectionClass];
 		
 		[self watchCollection];
@@ -114,7 +114,7 @@
 	 keyPath:self.primaryKey
 	 options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
 	 block:
-	 ^(DIDictionaryModelProxy*  _Nullable observer, DIDictionaryModelProxy*  _Nonnull object, NSDictionary<NSString *,id> * _Nonnull change)
+	 ^(DIDictionaryProxyModel*  _Nullable observer, DIDictionaryProxyModel*  _Nonnull object, NSDictionary<NSString *,id> * _Nonnull change)
 	 {
 		 [self notifyModelUpdated];
 	 }
@@ -130,7 +130,7 @@
 	 observe:self.watchMap
 	 keyPath:self.collectionKeyPath
 	 options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
-		block:^(DIDictionaryModelProxy*  _Nullable observer, id  _Nonnull object, NSDictionary<NSString *,id> * _Nonnull change)
+		block:^(DIDictionaryProxyModel*  _Nullable observer, id  _Nonnull object, NSDictionary<NSString *,id> * _Nonnull change)
 		{
 			[self notifyModelUpdated];
 		}];
@@ -152,7 +152,7 @@
 		
 		DIModel* collectionModel = [DIContainer getInstance:self.collectionClass];
 		NSString* keypath = [NSString stringWithFormat:@"%@.%@",collectionProperty,pkValue];
-		DIDictionaryModelProxy* model = [collectionModel valueForKeyPath:keypath];
+		DIDictionaryProxyModel* model = [collectionModel valueForKeyPath:keypath];
 		[model super_setValue:value forKey:key];
 	}
 }
@@ -171,7 +171,7 @@
 		
 		DIModel* collectionModel = [DIContainer getInstance:self.collectionClass];
 		NSString* keypath = [NSString stringWithFormat:@"%@.%@",collectionProperty,pkValue];
-		DIDictionaryModelProxy* model = [collectionModel valueForKeyPath:keypath];
+		DIDictionaryProxyModel* model = [collectionModel valueForKeyPath:keypath];
 		return [model super_valueForKey:key];
 	}
 }

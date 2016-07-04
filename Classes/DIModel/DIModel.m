@@ -11,6 +11,7 @@
 #import "DIConfig.h"
 #import "DITools.h"
 #import "DIContainer.h"
+#import "NSObject+YYModel.h"
 
 @implementation DIModel
 - (instancetype)init
@@ -30,7 +31,7 @@
 			 NSString* json = [NSString stringWithContentsOfFile:dataPath
 										   usedEncoding:nil
 														   error:nil];
-			 [self setJsonOnMainThread:json];
+			 [self setByJson:json];
 		 }];
 #else
 		NSString* dataPath = [[NSBundle mainBundle]pathForResource:NSStringFromClass(self.class) ofType:@".json"];
@@ -38,7 +39,7 @@
 		NSString* json = [NSString stringWithContentsOfFile:dataPath
 											   usedEncoding:nil
 													  error:nil];
-		[self setJsonOnMainThread:json];
+		[self setByJson:json];
 		
 		//正式
 		[self watchModel:self named:@"self"];
@@ -48,9 +49,11 @@
 	return self;
 }
 
--(void)setJsonOnMainThread:(NSString*)json
+-(void)setByJson:(NSString*)json
 {
-	[self performSelectorOnMainThread:@selector(yy_modelSetWithJSON:) withObject:json waitUntilDone:YES];
+	//TODO:将UI更新的主线程控制延后到setValueForKey等行为。。
+	//[self performSelectorOnMainThread:@selector(yy_modelSetWithJSON:) withObject:json waitUntilDone:YES];
+	[self yy_modelSetWithJSON:json];
 }
 
 -(void)watchCommonModelClass

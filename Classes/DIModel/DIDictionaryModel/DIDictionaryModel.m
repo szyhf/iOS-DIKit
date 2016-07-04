@@ -18,10 +18,11 @@
  *
  *  @param json 以Dictionary为最外层封装的json字符串
  */
--(void)setJsonOnMainThread:(NSString*)json
+-(void)setByJson:(NSString*)json
 {
 	NSDictionary* cellsModels =	[NSDictionary yy_modelDictionaryWithClass:[self.class cellModelClass] json:json];
 	[self performSelectorOnMainThread:@selector(di_setDICollection:) withObject:cellsModels waitUntilDone:YES];
+	//[self di_setDICollection:cellsModels];
 }
 
 -(void)di_setDICollection:models
