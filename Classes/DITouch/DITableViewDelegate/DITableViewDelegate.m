@@ -16,8 +16,9 @@
 -(CGFloat)tableView:(DITableView *)tableView
 heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	UITableViewCell* cell = [tableView tableView:tableView cellForRowAtIndexPath:indexPath];
-	return [tableView fd_heightForCellWithIdentifier:cell.reuseIdentifier
+	DITableViewSection* diSection = [tableView objectInSectionsAtIndex:indexPath.section];
+	NSString* reuseIdentifier = diSection.dataSource.cellTemplates.firstObject.name;
+	return [tableView fd_heightForCellWithIdentifier:reuseIdentifier
 									cacheByIndexPath:indexPath
 									   configuration:nil
 		 ];
@@ -37,7 +38,7 @@ heightForHeaderInSection:(NSInteger)section
 	DITableViewSection* diSection = [tableView objectInSectionsAtIndex:section];
 	if(diSection)
 		return [diSection heightForHeaderViewByTableView:tableView];
-	return 0;
+	return 0.001;
 }
 
 //section.headerView
@@ -59,4 +60,11 @@ heightForHeaderInSection:(NSInteger)section
 	return 0.001;//返回0的话会被设置为一个非零的高度
 }
 
+-(UIView*)tableView:(DITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	DITableViewSection* diSection = [tableView objectInSectionsAtIndex:section];
+	if(diSection)
+		return diSection.footerView;
+	return nil;
+}
 @end
