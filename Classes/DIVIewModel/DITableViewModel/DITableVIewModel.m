@@ -6,10 +6,13 @@
 //  Copyright © 2016年 Back. All rights reserved.
 //
 
-#import "DITableVIewModel.h"
+#import "DITableViewModel.h"
 #import "DIContainer.h"
 #import "DIArrayModel.h"
 #import "NSObject+FBKVOController.h"
+@interface DITableViewModel()
+@property (nonatomic, strong)NSMutableArray* cells;
+@end
 
 @implementation DITableViewModel
 +(Class)cellViewModelClass
@@ -54,6 +57,7 @@
 		[cellVM watchModel:model];
 		[cellViewModels addObject:cellVM];
 	}
+	self.cells = cellViewModels;
 	[self.watchMap setValue:cellViewModels forKeyPath:@"target.cellsViewModel"];
 }
 
