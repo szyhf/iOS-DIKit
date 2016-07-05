@@ -470,8 +470,6 @@
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>DIDictionaryProxyModel</string>
 			<key>path</key>
 			<string>DIDictionaryProxyModel</string>
 			<key>sourceTree</key>
@@ -542,7 +540,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.h</string>
 			<key>path</key>
-			<string>DITableVIewModel.h</string>
+			<string>DITableViewModel.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -555,7 +553,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.objc</string>
 			<key>path</key>
-			<string>DITableVIewModel.m</string>
+			<string>DITableViewModel.m</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
