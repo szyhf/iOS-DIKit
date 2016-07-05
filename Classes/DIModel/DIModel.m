@@ -12,6 +12,9 @@
 #import "DITools.h"
 #import "DIContainer.h"
 #import "NSObject+YYModel.h"
+#import "DIObject.h"
+
+#import <objc/runtime.h>
 
 @implementation DIModel
 - (instancetype)init
@@ -42,6 +45,7 @@
 		[self setByJson:json];
 		
 		//正式
+		[self loadAffectingMap];
 		[self watchModel:self named:@"self"];
 		[self watchUniqueModelClass];
 		[self watchCommonModelClass];
@@ -59,7 +63,7 @@
 -(void)watchCommonModelClass
 {
 	//CommonModel是非单例，一般是ProxyModel
-	for (id clazz in [self.class commonModelWatchClass])
+	for (id clazz in [self.class commonModelWatchClasses])
 	{
 		DIModel* model;
 		if([clazz isKindOfClass:NSString.class])
@@ -79,7 +83,7 @@
  *
  *  @return 非全局唯一Model数组
  */
-+(NSArray*)commonModelWatchClass
++(NSArray*)commonModelWatchClasses
 {
 	return @[];
 }
@@ -109,6 +113,22 @@
 +(NSArray*)uniqueModelWatchClass
 {
 	return @[];
+}
+
+-(void)loadAffectingMap
+{
+	for (NSString* key in [self.class affectingMap])
+	{
+		NSString* affectSelectorName = [NSString stringWithFormat:@"keyPathsForValuesAffecting%@",key];
+		
+		NSSet*(^block)() = ^NSSet*()
+		{
+			return [NSSet setWithArray:[self.class affectingMap][key]];
+		};
+		
+		IMP imp = imp_implementationWithBlock(block);
+		class_addMethod(object_getClass(self.class), NSSelectorFromString(affectSelectorName), imp, "@@:");
+	}
 }
 
 -(void)dealloc
