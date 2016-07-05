@@ -117,6 +117,32 @@
 	 ^(DIDictionaryProxyModel*  _Nullable observer, DIDictionaryProxyModel*  _Nonnull object, NSDictionary<NSString *,id> * _Nonnull change)
 	 {
 		 [self notifyModelUpdated];
+		 id pkValue = [self valueForKey:self.primaryKey];
+		 if(pkValue==nil)
+			 return;
+		 DIModel* collectionModel = [DIContainer getInstance:self.collectionClass];
+		 NSString* keypath = [NSString stringWithFormat:@"%@.%@.",self.collectionProperty,pkValue];
+	
+		 [self.KVOControllerNonRetaining unobserve:collectionModel];
+		 
+		 for (NSString* property in [self commonProperties])
+		 {
+			 NSString* watchKeyPath = [keypath stringByAppendingString:property];
+			 
+			 [self.KVOControllerNonRetaining observe:collectionModel keyPath:watchKeyPath options:NSKeyValueObservingOptionNew block:
+			  ^(id  _Nullable observer, id  _Nonnull object, NSDictionary<NSString *,id> * _Nonnull change)
+			  {
+				  //如果当前代理本身也充当了数据结构的话，取消监控以防止死循环。
+				  NSArray* sourceModels = [collectionModel valueForKeyPath:self.collectionProperty];
+				  if([sourceModels containsObject:self])
+				  {
+					  [self.KVOControllerNonRetaining unobserve:collectionModel keyPath:watchKeyPath];
+					  return;
+				  }
+				  [self willChangeValueForKey:property];
+				  [self didChangeValueForKey:property];
+			  }];
+		 }
 	 }
 	 ];
 }
