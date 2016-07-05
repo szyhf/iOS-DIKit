@@ -6,9 +6,5 @@
 //
 //
 
-#ifndef DIObject_h
-#define DIObject_h
 #import "NSObject+Runtimes.h"
 #import "NSObject+Hook.h"
-
-#endif /* DIObject_h */

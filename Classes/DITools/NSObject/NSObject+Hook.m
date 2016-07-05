@@ -18,6 +18,12 @@
 	Method bMethod = class_getInstanceMethod(self, bSel);
 	method_exchangeImplementations(aMethod, bMethod);
 }
++(void)exchangeClassSelector:(SEL)aSel toSelector:(SEL)bSel
+{
+	Method aMethod = class_getClassMethod(self, aSel);
+	Method bMethod = class_getClassMethod(self, bSel);
+	method_exchangeImplementations(aMethod, bMethod);
+}
 
 -(void)addHook:(void(^)(id obj))hook toMethod:(NSString*)methodName
 {
