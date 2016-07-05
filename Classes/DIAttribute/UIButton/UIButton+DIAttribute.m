@@ -12,7 +12,7 @@
 #import "DIConverter.h"
 
 @implementation UIButton (DIAttribute)
-@dynamic di_tap;
+
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
 {
 	static NSDictionary<NSString*,UndefinedKeyHandlerBlock>* _instance;
@@ -101,8 +101,9 @@
 		return tapBlock();
 }
 
+@dynamic di_tap;
 -(void)setDi_tap:(id)value
 {
-	objc_setAssociatedObject(self, @selector(setDi_tap:), value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	objc_setAssociatedObject(self, NSSelectorFromString(@"di_tap"), value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 @end
