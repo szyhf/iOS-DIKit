@@ -136,6 +136,8 @@
 	}
 }
 
+
+
 #pragma mark - property
 @dynamic watchMap;
 -(NSMutableDictionary<NSString*,NSObject*>*)watchMap
@@ -152,5 +154,12 @@
 +(NSDictionary<NSString*,NSString*>*)bindingMap
 {
 	return @{};
+}
+
++(NSDictionary*)affectingMap
+{
+	return @{
+			 
+			 };
 }
 @end
