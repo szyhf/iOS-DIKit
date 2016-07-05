@@ -10,7 +10,7 @@
 /**
  *  快速处理数组型表格数据
  */
-@interface DIArrayModel<__covariant ObjectType> : DIModel
+@interface DIArrayModel: DIModel
 +(Class)cellModelClass;
 +(NSString*)collectionProperty;
 @end
