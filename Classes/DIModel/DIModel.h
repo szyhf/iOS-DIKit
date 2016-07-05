@@ -8,6 +8,19 @@
 
 #import <Foundation/Foundation.h>
 @interface DIModel : NSObject
+/**
+ *  要监控的非全局唯一Model注册表
+ *
+ *  @return 非全局唯一Model数组
+ */
++(NSArray*)commonModelWatchClasses;
+
+/**
+ *  要监控的全局唯一Model注册表
+ *
+ *  @return 全局唯一Model数组
+ */
++(NSArray*)uniqueModelWatchClass;
 @end
 
 @interface DIModel(Watch)
@@ -29,15 +42,9 @@
 +(NSDictionary<NSString*,NSString*>*)bindingMap;
 
 /**
- *  要监控的非全局唯一Model注册表
+ *  依赖键映射表
  *
- *  @return 非全局唯一Model数组
+ *  @return [@"key1WillAffected"=>@[@"keyAffecting1",@"keyAffecting2",...],@"key2WillAffected"=>...]
  */
-+(NSArray*)commonModelWatchClass;
-/**
- *  要监控的非全局唯一Model注册表
- *
- *  @return 非全局唯一Model数组
- */
-+(NSArray*)uniqueModelWatchClass;
++(NSDictionary*)affectingMap;
 @end
