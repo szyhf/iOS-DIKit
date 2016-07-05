@@ -9,9 +9,9 @@
 #import "DIModel.h"
 #import "DIContainer.h"
 #import "NSObject+FBKVOController.h"
-#import "NSObject+Runtimes.h"
-#import <objc/runtime.h>
 #import "DIString.h"
+#import "DIObject.h"
+#import <objc/runtime.h>
 @implementation DIModel (Watch)
 -(void)watchModelClass:(Class)modelClass
 {
@@ -58,7 +58,7 @@
 		SEL selectorToKeyPath = NSSelectorFromString([NSString stringWithFormat:@"set%@:toKeyPath:",[modelKey stringByReplacingOccurrencesOfString:@"." withString:@"_"]]);
 		SEL selectorNoKeyPath = NSSelectorFromString([NSString stringWithFormat:@"set%@:",[modelKey stringByReplacingOccurrencesOfString:@"." withString:@"_"]]);
 		
-
+		
 		FBKVONotificationBlock observerBlock;
 		
 		if([self respondsToSelector:selectorToKeyPath])
@@ -68,7 +68,15 @@
 			  NSString *,id> * change)
 			{
 				id newValue = [watchMap valueForKeyPath:modelKey];
-				[observer invokeSelector:selectorToKeyPath withParams:newValue,key];
+#if TARGET_OS_SIMULATOR
+				dispatch_queue_t queue = dispatch_get_main_queue();
+				dispatch_sync(queue,
+							  ^{
+#endif
+								  [observer invokeSelector:selectorToKeyPath withParams:newValue,key];
+#if TARGET_OS_SIMULATOR
+							  });
+#endif
 			};
 		}
 		else if ([self respondsToSelector:selectorNoKeyPath])
@@ -78,7 +86,15 @@
 			  NSString *,id> * change)
 			{
 				id newValue = [watchMap valueForKeyPath:modelKey];
-				[observer invokeSelector:selectorNoKeyPath withParams:newValue];
+#if TARGET_OS_SIMULATOR
+				dispatch_queue_t queue = dispatch_get_main_queue();
+				dispatch_sync(queue,
+							  ^{
+#endif
+								  [observer invokeSelector:selectorNoKeyPath withParams:newValue];
+#if TARGET_OS_SIMULATOR
+							  });
+#endif
 			};
 		}
 		else
@@ -87,7 +103,15 @@
 			^(DIModel* observer, NSDictionary* watchMap, NSDictionary<NSString *,id> * change)
 			{
 				id newValue = [watchMap valueForKeyPath:modelKey];
-				[watchMap setValue:newValue forKeyPath:key];
+#if TARGET_OS_SIMULATOR
+				dispatch_queue_t queue = dispatch_get_main_queue();
+				dispatch_sync(queue,
+							  ^{
+#endif
+								  [watchMap setValue:newValue forKeyPath:key];
+#if TARGET_OS_SIMULATOR
+							  });
+#endif
 			};
 		}
 		[self.KVOControllerNonRetaining
