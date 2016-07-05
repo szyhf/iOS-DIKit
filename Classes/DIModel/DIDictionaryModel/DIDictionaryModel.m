@@ -21,8 +21,8 @@
 -(void)setByJson:(NSString*)json
 {
 	NSDictionary* cellsModels =	[NSDictionary yy_modelDictionaryWithClass:[self.class cellModelClass] json:json];
-	[self performSelectorOnMainThread:@selector(di_setDICollection:) withObject:cellsModels waitUntilDone:YES];
-	//[self di_setDICollection:cellsModels];
+	//[self performSelectorOnMainThread:@selector(di_setDICollection:) withObject:cellsModels waitUntilDone:YES];
+	[self di_setDICollection:cellsModels];
 }
 
 -(void)di_setDICollection:models
