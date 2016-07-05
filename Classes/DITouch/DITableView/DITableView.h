@@ -14,20 +14,20 @@
 
 @interface DITableView : UITableView
 
-@property (nonatomic, strong,readonly) NSArray<DITableViewSection*>* sections;
+@property (nonatomic, strong,readonly) NSArray<DITableViewSection*>*_Nullable sections;
 
--(void)registerCellNode:(DITemplateNode*)templateNode;
--(UITableViewCell*)dequeueDefaultCellForIndexPath:(nonnull NSIndexPath*)indexPath;
+-(void)registerCellNode:(DITemplateNode*_Nullable)templateNode;
+-(UITableViewCell*_Nullable)dequeueDefaultCellForIndexPath:(nonnull NSIndexPath*)indexPath;
 
--(DITableViewSection*)objectInSectionsAtIndex:(NSUInteger)index;
--(void)addSectionsObject:(DITableViewSection *)section;
--(void)addSections:(NSSet *)objects;
+-(DITableViewSection*_Nullable)objectInSectionsAtIndex:(NSUInteger)index;
+-(void)addSectionsObject:(DITableViewSection *_Nullable)section;
+-(void)addSections:(NSSet *_Nullable)objects;
 @end
 
 #pragma mark - category
 
 @interface DITableView(Layout)
--(CGSize)contentViewFittingSize:(UIView*)contentView;
+-(CGSize)contentViewFittingSize:(UIView*_Nullable)contentView;
 @end
 
 @interface DITableView (SectionDataSourceProxy)<UITableViewDataSource>
