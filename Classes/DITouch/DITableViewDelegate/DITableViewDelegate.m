@@ -17,11 +17,15 @@
 heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	DITableViewSection* diSection = [tableView objectInSectionsAtIndex:indexPath.section];
-	NSString* reuseIdentifier = diSection.dataSource.cellTemplates.firstObject.name;
+	NSString* reuseIdentifier;
+	if(diSection)
+	{
+		reuseIdentifier = diSection.dataSource.cellTemplates.firstObject.name;
+	}
 	return [tableView fd_heightForCellWithIdentifier:reuseIdentifier
 									cacheByIndexPath:indexPath
 									   configuration:nil
-		 ];
+			];
 }
 
 //选中某行
