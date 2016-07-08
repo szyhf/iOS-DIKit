@@ -40,7 +40,7 @@
 @property (nonatomic, strong) NSString* className;
 @property (nonatomic, strong) NSString* style;
 
-@property (nonatomic, strong) DINode* parent;
+@property (nonatomic, weak) DINode* parent;
 @property (nonatomic, strong) NSArray<DINode*>* children;
 
 @property (nonatomic, strong) NSMutableArray<void(^)()>*delayBlocks;

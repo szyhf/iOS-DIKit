@@ -188,6 +188,6 @@
 }
 -(void)dealloc
 {
-	DebugLog(@"Node %@ dealloc",self.name);
+	//DebugLog(@"Node %@ dealloc",self.name);
 }
 @end
