@@ -75,11 +75,9 @@
 
 -(void)updateByNode:(DINode*)node
 {
-	[node.attributes enumerateKeysAndObjectsUsingBlock:
-	 ^(NSString * _Nonnull key,
-	   NSString * _Nonnull value,
-	   BOOL * _Nonnull stop)
+	for (NSString* key in node.attributes)
 	{
+		NSString* value = node.attributes[key];
 		@try
 		{
 			//[self.class di_UpdateObject:self byKey:key value:value];
@@ -89,7 +87,7 @@
 		{
 			WarnLog(@"set <%@ %p> attribute[%@ => %@] failed\nException:%@\n%@",node.name,self,key,value,exception,[exception callStackSymbols]);
 		}
-	}];
+	}
 }
 
 +(id)di_assumeValue:(id)value byKey:(NSString*)key
@@ -175,19 +173,6 @@
 	return objc_getAssociatedObject(self,NSSelectorFromString(key));
 }
 
-+(UndefinedKeyHandlerBlock)styleKey
-{
-	static UndefinedKeyHandlerBlock _instance;
-	static dispatch_once_t _leftBarKey_token;
-	dispatch_once(&_leftBarKey_token,
-				  ^{
-					  _instance =  ^void(UIViewController* obj,NSString*key,id value)
-					  {
-						  [obj setValue:value forKey:@"nuiClass"];
-					  } ;
-				  });
-	return _instance;
-}
 
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
 {
@@ -202,6 +187,17 @@
 				  });
 	return _instance[key];
 }
+
++(UndefinedKeyHandlerBlock)styleKey
+{
+	return ^void(UIViewController* obj,NSString*key,id value)
+	{
+		[obj setValue:value forKey:@"nuiClass"];
+		if([obj respondsToSelector:NSSelectorFromString(@"applyNUI")])
+			[obj invokeMethod:@"applyNUI"];
+	} ;
+}
+
 
 +(UndefinedKeyHandlerBlock)viewModelKey
 {
