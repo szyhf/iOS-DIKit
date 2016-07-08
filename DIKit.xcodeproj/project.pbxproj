@@ -948,11 +948,13 @@
 				<string>0C4013551CF45DC900787E28</string>
 				<string>0CBE5A831D00395F00082369</string>
 				<string>0CAF0B1D1D0EE6F000CB826E</string>
+				<string>0C5296DD1D2D101300A0F6D9</string>
 				<string>0CAF0A3B1D06CC5A00CB826E</string>
 				<string>0C26FAC31D17DCF0002DFA65</string>
 				<string>0CAF0A441D06CD3C00CB826E</string>
 				<string>0CBE5A881D016F0700082369</string>
 				<string>0CAF0ABC1D0D905200CB826E</string>
+				<string>0C5296D81D2D0ABD00A0F6D9</string>
 				<string>0C1668B31CFDBA7A003DA175</string>
 				<string>0C5199121CF7286E006A8DA2</string>
 				<string>0CAF0B9A1D127C1C00CB826E</string>
@@ -1496,6 +1498,7 @@
 				<string>0C5277A91CEAD8F80021B477</string>
 				<string>0CAF0A3F1D06CC6800CB826E</string>
 				<string>0C735E971D1A6FA000066F3E</string>
+				<string>0C5296DC1D2D0AE000A0F6D9</string>
 				<string>0CAF0C0B1D13A89500CB826E</string>
 				<string>0C735E921D1A686700066F3E</string>
 				<string>0C3C08141D15A9350081B46B</string>
@@ -1514,6 +1517,7 @@
 				<string>0C169A541D251B8E00317C1A</string>
 				<string>0C40135A1CF45DFA00787E28</string>
 				<string>0CBE5A871D00398600082369</string>
+				<string>0C5296E11D2D102200A0F6D9</string>
 				<string>0C80FB131CF6A90D00C16176</string>
 				<string>0C80FB0D1CF6A0A400C16176</string>
 				<string>0C169A4F1D251B6F00317C1A</string>
@@ -1590,6 +1594,7 @@
 				<string>0C5277B11CEAD8F80021B477</string>
 				<string>0C169A6B1D25213F00317C1A</string>
 				<string>0CAF0AE21D0DDB8A00CB826E</string>
+				<string>0C5296DB1D2D0AE000A0F6D9</string>
 				<string>0CFE9CAA1D1B7DDC00258509</string>
 				<string>0CCF07561CED6CD3001998A0</string>
 				<string>0CAF0ACF1D0DBA1A00CB826E</string>
@@ -1625,6 +1630,7 @@
 				<string>0CBE5A8B1D016F5300082369</string>
 				<string>0CE3DB691D193CBF002ACCFE</string>
 				<string>0C3C08131D15A9350081B46B</string>
+				<string>0C5296E01D2D102200A0F6D9</string>
 				<string>0C5199151CF7286E006A8DA2</string>
 				<string>0CAF0B9D1D127C3E00CB826E</string>
 				<string>0C80FB0C1CF6A0A400C16176</string>
@@ -2497,6 +2503,122 @@
 			<string>Classes</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C5296D81D2D0ABD00A0F6D9</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0C5296D91D2D0AE000A0F6D9</string>
+				<string>0C5296DA1D2D0AE000A0F6D9</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>UITextField</string>
+			<key>path</key>
+			<string>UITextField</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C5296D91D2D0AE000A0F6D9</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>UITextField+DIAttribute.h</string>
+			<key>path</key>
+			<string>UITextField+DIAttribute.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C5296DA1D2D0AE000A0F6D9</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>UITextField+DIAttribute.m</string>
+			<key>path</key>
+			<string>UITextField+DIAttribute.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C5296DB1D2D0AE000A0F6D9</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C5296D91D2D0AE000A0F6D9</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C5296DC1D2D0AE000A0F6D9</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C5296DA1D2D0AE000A0F6D9</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C5296DD1D2D101300A0F6D9</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0C5296DE1D2D102200A0F6D9</string>
+				<string>0C5296DF1D2D102200A0F6D9</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>UIFont</string>
+			<key>path</key>
+			<string>UIFont</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C5296DE1D2D102200A0F6D9</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>UIFont+DIAttribute.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C5296DF1D2D102200A0F6D9</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>UIFont+DIAttribute.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C5296E01D2D102200A0F6D9</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C5296DE1D2D102200A0F6D9</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C5296E11D2D102200A0F6D9</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C5296DF1D2D102200A0F6D9</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
 		</dict>
 		<key>0C6719D91CEF13E500E90400</key>
 		<dict>

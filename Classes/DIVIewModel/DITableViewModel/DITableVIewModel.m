@@ -75,6 +75,7 @@
 {
 	return [NSString stringWithFormat:@"%@.%@",[self tableModelWatchClass],[[self tableModelWatchClass] invokeMethod:@"collectionProperty"]];
 }
+
 +(NSString*)di_setCollectionKeyPathMethod
 {
 	return [NSString stringWithFormat:@"set%@_%@:",[self tableModelWatchClass],[[self tableModelWatchClass] invokeMethod:@"collectionProperty"]];
