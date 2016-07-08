@@ -16,12 +16,12 @@
 
 @property (nonatomic, strong,readonly) NSArray<DITableViewSection*>*_Nullable sections;
 
--(void)registerCellNode:(DITemplateNode*_Nullable)templateNode;
--(UITableViewCell*_Nullable)dequeueDefaultCellForIndexPath:(nonnull NSIndexPath*)indexPath;
+-(void)registerCellNode:(nonnull DITemplateNode*)templateNode;
+-(nonnull UITableViewCell*)dequeueDefaultCellForIndexPath:(nonnull NSIndexPath*)indexPath;
 
--(DITableViewSection*_Nullable)objectInSectionsAtIndex:(NSUInteger)index;
--(void)addSectionsObject:(DITableViewSection *_Nullable)section;
--(void)addSections:(NSSet *_Nullable)objects;
+-(nullable DITableViewSection*)objectInSectionsAtIndex:(NSUInteger)index;
+-(void)addSectionsObject:(nonnull DITableViewSection *)section;
+-(void)addSections:(nonnull NSSet *)objects;
 @end
 
 #pragma mark - category

@@ -7,7 +7,7 @@
 //
 
 #import "DITableView.h"
-
+//使用DataSourceProxy的先决条件是存在Section。
 @implementation DITableView (SectionDataSourceProxy)
 -(NSInteger)numberOfSectionsInTableView:(DITableView *)tableView
 {

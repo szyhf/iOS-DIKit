@@ -28,9 +28,9 @@
 }
 - (instancetype)init
 {
-	self = [super init];
+	//self = [super init];
 	//self = [super initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-
+	self = [super initWithFrame:CGRectZero style:UITableViewStylePlain];
 	if (self)
 	{
 		[self setEstimatedRowHeight:128];//设一个默认高度

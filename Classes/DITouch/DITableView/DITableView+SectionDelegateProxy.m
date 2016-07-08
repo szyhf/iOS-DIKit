@@ -8,7 +8,7 @@
 
 #import "DITableView.h"
 #import "UITableView+FDTemplateLayoutCell.h"
-
+//使用DataSourceProxy的先决条件是存在Section。
 @implementation DITableView (SectionDelegateProxy)
 //每行高度
 -(CGFloat)tableView:(DITableView *)tableView
