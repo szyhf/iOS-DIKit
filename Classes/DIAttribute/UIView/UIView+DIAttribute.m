@@ -10,10 +10,21 @@
 #import "DIConverter.h"
 #import "DITools.h"
 #import "DIContainer.h"
+#import "DIObject.h"
 
 
 @implementation UIView (DIAttribute)
++(void)load
+{
+	[self exchangeInstanceSelector:@selector(hitTest:withEvent:) toSelector:@selector(di_hitTest:withEvent:)];
+}
 
+- (UIView *)di_hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+	[self endEditing:YES];
+	UIView *result = [self di_hitTest:point withEvent:event];
+	return result;
+}
 +(UndefinedKeyHandlerBlock)di_AttributeBlock:(NSString*)key
 {
 	static NSDictionary<NSString*,UndefinedKeyHandlerBlock>* _instance;
@@ -84,6 +95,8 @@
 					  _instance = ^void(UIView* view,NSString* key,NSString* value)
 					  {
 						  [view setValue:value forKey:@"nuiClass"];
+						  //if([view respondsToSelector:NSSelectorFromString(@"applyNUI")])
+							  //[view invokeMethod:@"applyNUI"];
 					  };
 				  });
 	return _instance;
