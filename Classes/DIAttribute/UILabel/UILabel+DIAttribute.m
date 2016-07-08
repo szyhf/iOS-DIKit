@@ -20,7 +20,9 @@
 	dispatch_once(&_token,
 				  ^{
 					  _instance = @{
-									@"text":self.textKey
+									@"text":self.textKey,
+									@"fontName":self.fontNameKey,
+									@"fontSize":self.fontSize,
 									} ;
 				  });
 	return _instance[key];
@@ -36,4 +38,34 @@
 		}
 	};
 }
+
++(UndefinedKeyHandlerBlock)fontNameKey
+{
+	return ^void(UILabel* label,NSString*key,id value)
+	{
+		NSString* val = [DIConverter toString:value];
+		UIFont* font = [UIFont fontWithName:val size:label.font.pointSize];
+		if(font)
+			label.font = font;
+		
+		WarnLogWhile(!font, @"Try to set font named %@ but not exist.",val);
+	};
+}
+
++(UndefinedKeyHandlerBlock)fontSize
+{
+	return ^void(UILabel* label,NSString*key,id value)
+	{
+		double val = [(NSString*)value floatValue];
+		UIFont* font;
+		if(val>0)
+		{
+			font = [UIFont fontWithName:label.font.fontName size:val];
+			if(font)
+				label.font = font;
+		}
+		WarnLogWhile(!font, @"Try to set font named %@ but not exist.",val);
+	};
+}
+
 @end
