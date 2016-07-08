@@ -47,4 +47,12 @@
  *  @return [@"key1WillAffected"=>@[@"keyAffecting1",@"keyAffecting2",...],@"key2WillAffected"=>...]
  */
 +(NSDictionary*)affectingMap;
+
+-(void)willObserveKeyPath:(NSString*)keyPath
+			toKeyPath:(NSString*)targetKeyPath;
+
+-(void)onObserveNew:(id)newValue
+		 forKeyPath:(NSString*)keyPath
+		  toKeyPath:(NSString*)targetKeyPath;
+
 @end
