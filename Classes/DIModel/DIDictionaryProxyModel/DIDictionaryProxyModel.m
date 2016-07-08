@@ -53,7 +53,6 @@
 		
 		[self watchCollection];
 		[self watchPrimaryKey];
-		//TODO（待定，目前难以测试）：
 		//观察当前映射对象的非主键属性
 		//并根据新的主键更新监控的对象路径
 		//其他属性更新时仅调用该成员已更新的通知。
@@ -62,31 +61,6 @@
 	return self;
 }
 
--(NSArray*)commonProperties
-{
-	static NSArray* _instance;
-	static dispatch_once_t _token;
-	dispatch_once(&_token,
-				  ^{
-					 unsigned int propertyCount = 0;
-					  objc_property_t *properties = class_copyPropertyList(self.class, &propertyCount);
-					 NSMutableArray* _properties = [NSMutableArray arrayWithCapacity:propertyCount];
-					  if(properties)
-					  {
-						  for(int i = 0; i < propertyCount; i ++)
-						  {
-							  objc_property_t property = properties[i];
-							  NSString *propName = [NSString stringWithUTF8String:property_getName(property)];
-							  [_properties addObject:propName];
-						  }
-					  }
-					  free(properties);
-					  [_properties removeObject:self.primaryKey];
-					  
-					  _instance = [NSArray arrayWithArray:_properties];
-				  });
-	return _instance;
-}
 
 /**
  *  发出除主键以外其他属性已更新的通知
@@ -136,6 +110,7 @@
 				  NSArray* sourceModels = [collectionModel valueForKeyPath:self.collectionProperty];
 				  if([sourceModels containsObject:self])
 				  {
+					  //DebugLog(@"Remove observe:%@",self);
 					  [self.KVOControllerNonRetaining unobserve:collectionModel keyPath:watchKeyPath];
 					  return;
 				  }
@@ -213,6 +188,38 @@
 }
 
 #pragma mark - property
++(NSArray*)commonProperties
+{
+	//存在性能问题，每次都要重新生成，待处理。
+	NSArray* _instance;
+	//dispatch_once_t onceToken;
+	//dispatch_once(&onceToken,
+	//^{
+		unsigned int propertyCount = 0;
+		objc_property_t *properties = class_copyPropertyList(self.class, &propertyCount);
+		NSMutableArray* _properties = [NSMutableArray arrayWithCapacity:propertyCount];
+		if(properties)
+		{
+			for(int i = 0; i < propertyCount; i ++)
+			{
+				objc_property_t property = properties[i];
+				NSString *propName = [NSString stringWithUTF8String:property_getName(property)];
+				[_properties addObject:propName];
+			}
+		}
+		free(properties);
+		[_properties removeObject:self.primaryKey];
+		
+		_instance = [NSArray arrayWithArray:_properties];
+
+	//});
+	return _instance;
+}
+-(NSArray*)commonProperties
+{
+	return [self.class commonProperties];
+}
+
 -(NSString*)collectionKeyPath
 {
 	return [NSString stringWithFormat:@"%@.%@",NSStringFromClass(self.collectionClass),self.collectionProperty];
