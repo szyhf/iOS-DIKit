@@ -49,6 +49,7 @@
 	{
 		formatter = [[NSDateFormatter alloc] init];
 		[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+		return @"很久以前";
 	}
 	
 	
