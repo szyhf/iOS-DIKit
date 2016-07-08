@@ -21,7 +21,7 @@ numberOfRowsInSection:(NSInteger)section
 	self.tableView = tableView;
 	//快速设置一些可能本身并不需要真实数据源或者可变数据源的情况
 	if(self.maxRowCount)
-		return self.maxRowCount.integerValue;
+		return MIN(self.maxRowCount.integerValue,_cellsViewModel.count);
 	else
 		return _cellsViewModel.count;
 }
