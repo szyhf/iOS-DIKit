@@ -42,15 +42,16 @@
 		//效率和写法不理想，有空再处理
 		//key映射的model可能不存在（因为modelKey被拦截了）
 		NSInteger firstDotIndex = [key indexOf:@"."];
+		NSString* modelName;
 		if(firstDotIndex>0)
 		{
-			NSString* modelName = [key substringToIndex:firstDotIndex];
+			modelName = [key substringToIndex:firstDotIndex];
 			if(![self.watchMap.allKeys containsObject:modelName])
 			 continue;
 		}
 		
 		//modelKey映射的Model必须存在
-		NSString* modelName = [self modelNameFromKeyPath:modelKey];
+		modelName = [self modelNameFromKeyPath:modelKey];
 		if(![self.watchMap.allKeys containsObject:modelName])
 			continue;
 		
@@ -68,14 +69,20 @@
 			  NSString *,id> * change)
 			{
 				id newValue = [watchMap valueForKeyPath:modelKey];
+				[self onObserveNew:newValue forKeyPath:modelKey toKeyPath:key];
 #if TARGET_OS_SIMULATOR
 				dispatch_queue_t queue = dispatch_get_main_queue();
-				dispatch_sync(queue,
-							  ^{
+				if(![NSThread isMainThread])
+				{
+					dispatch_sync(queue, ^{
 #endif
 								  [observer invokeSelector:selectorToKeyPath withParams:newValue,key];
 #if TARGET_OS_SIMULATOR
 							  });
+				}else
+				{
+					 [observer invokeSelector:selectorToKeyPath withParams:newValue,key];
+				}
 #endif
 			};
 		}
@@ -86,14 +93,20 @@
 			  NSString *,id> * change)
 			{
 				id newValue = [watchMap valueForKeyPath:modelKey];
+				[self onObserveNew:newValue forKeyPath:modelKey toKeyPath:key];
 #if TARGET_OS_SIMULATOR
 				dispatch_queue_t queue = dispatch_get_main_queue();
-				dispatch_sync(queue,
-							  ^{
+				if(![NSThread isMainThread])
+				{
+					dispatch_sync(queue, ^{
 #endif
 								  [observer invokeSelector:selectorNoKeyPath withParams:newValue];
 #if TARGET_OS_SIMULATOR
 							  });
+				}else
+				{
+					  [observer invokeSelector:selectorNoKeyPath withParams:newValue];
+				}
 #endif
 			};
 		}
@@ -103,17 +116,28 @@
 			^(DIModel* observer, NSDictionary* watchMap, NSDictionary<NSString *,id> * change)
 			{
 				id newValue = [watchMap valueForKeyPath:modelKey];
+				if(newValue==nil)
+					return ;
+				[self onObserveNew:newValue forKeyPath:modelKey toKeyPath:key];
 #if TARGET_OS_SIMULATOR
 				dispatch_queue_t queue = dispatch_get_main_queue();
-				dispatch_sync(queue,
-							  ^{
+				if(![NSThread isMainThread])
+				{
+					dispatch_sync(queue, ^{
 #endif
 								  [watchMap setValue:newValue forKeyPath:key];
 #if TARGET_OS_SIMULATOR
 							  });
+				}else
+				{
+					[watchMap setValue:newValue forKeyPath:key];
+				}
 #endif
 			};
 		}
+		
+		[self willObserveKeyPath:modelKey toKeyPath:key];
+		
 		[self.KVOControllerNonRetaining
 		 observe:self.watchMap
 		 keyPath:modelKey
@@ -160,7 +184,19 @@
 	}
 }
 
+#pragma mark - event
+-(void)willObserveKeyPath:(NSString*)keyPath
+		  toKeyPath:(NSString*)targetKeyPath
+{
+	//便于子类调试。
+}
 
+-(void)onObserveNew:(id)newValue
+		 forKeyPath:(NSString*)keyPath
+		  toKeyPath:(NSString*)targetKeyPath
+{
+	//便于子类调试。
+}
 
 #pragma mark - property
 @dynamic watchMap;
