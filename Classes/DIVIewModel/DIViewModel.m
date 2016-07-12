@@ -60,7 +60,7 @@
 			//{
 				//id newValue = [watchMap valueForKeyPath:modelKey];
 				
-				//[self onObserveNew:newValue forKeyPath:modelKey toKeyPath:key];
+				//[self onObserveNew:newValue fromKeyPath:modelKey toKeyPath:key];
 				//dispatch_queue_t queue = dispatch_get_main_queue();
 				//if(![NSThread isMainThread])
 				//{
@@ -82,7 +82,7 @@
 			//{
 				//id newValue = [watchMap valueForKeyPath:modelKey];
 				
-				//[self onObserveNew:newValue forKeyPath:modelKey toKeyPath:key];
+				//[self onObserveNew:newValue fromKeyPath:modelKey toKeyPath:key];
 				//dispatch_queue_t queue = dispatch_get_main_queue();
 				//if(![NSThread isMainThread])
 				//{
@@ -103,7 +103,7 @@
 			//{
 				//id newValue = [watchMap valueForKeyPath:modelKey];
 				////id oldValue = [watchMap valueForKeyPath:key];
-				//[self onObserveNew:newValue forKeyPath:modelKey toKeyPath:key];
+				//[self onObserveNew:newValue fromKeyPath:modelKey toKeyPath:key];
 				////if ([newValue isEqual:oldValue])
 				////{
 				////return;
