@@ -21,7 +21,7 @@ numberOfRowsInSection:(NSInteger)section
 	self.tableView = tableView;
 	//快速设置一些可能本身并不需要真实数据源或者可变数据源的情况
 	if(self.maxRowCount)
-		return MIN(self.maxRowCount.integerValue,_cellsViewModel.count);
+		return self.maxRowCount.integerValue;
 	else
 		return _cellsViewModel.count;
 }
@@ -37,6 +37,7 @@ numberOfRowsInSection:(NSInteger)section
 		cell = [tableView dequeueReusableCellWithIdentifier:diSection.dataSource.cellTemplates.firstObject.name forIndexPath:indexPath];
 	else
 		cell = [tableView dequeueDefaultCellForIndexPath:indexPath];
+	[cell prepareForReuse];
 	//配置数据
 	if(indexPath.row<_cellsViewModel.count)
 	{
