@@ -13,7 +13,7 @@
 /**
  *  当前模型除了主键外的其他属性
  */
-@property (nonatomic, strong,readonly) NSArray<NSString*>* commonProperties;
+@property (nonatomic, strong) NSArray<NSString*>* commonProperties;
 /**
  *  +(NSString*)primaryKey的代理属性。
  */
@@ -48,7 +48,7 @@
 	self = [super init];
 	if (self)
 	{
-		NSAssert([[self.class collectionClass]isSubclassOfClass:DIDictionaryModel.class], @"[DIDictionaryProxyModel collectionClass] should be subclass of DIDictionaryModel.");
+		NSAssert([[self.class collectionClass]isSubclassOfClass:DIDictionaryModel.class], @"[%@ collectionClass] should be subclass of DIDictionaryModel.",self);
 		[self watchModelClass:self.collectionClass];
 		
 		[self watchCollection];
@@ -215,10 +215,7 @@
 	//});
 	return _instance;
 }
--(NSArray*)commonProperties
-{
-	return [self.class commonProperties];
-}
+
 
 -(NSString*)collectionKeyPath
 {
@@ -232,8 +229,26 @@
 {
 	return [self.class collectionProperty];
 }
+
 -(Class)collectionClass
 {
 	return [self.class collectionClass];
 }
+
+- (NSArray<NSString*> *)commonProperties {
+	if(_commonProperties == nil)
+	{
+		NSMutableArray*__commonProperties = [NSMutableArray array];
+		Class clazz = self.superclass;
+		while(clazz!=DIDictionaryProxyModel.class)
+		{
+			[__commonProperties addObjectsFromArray:[clazz commonProperties]];
+			clazz = clazz.superclass;
+		}
+		[__commonProperties addObjectsFromArray:[self.class commonProperties]];
+		_commonProperties = [NSArray arrayWithArray:__commonProperties];
+	}
+	return _commonProperties;
+}
+
 @end
