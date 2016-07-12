@@ -64,7 +64,7 @@
 			if(font)
 				label.font = font;
 		}
-		WarnLogWhile(!font, @"Try to set font named %@ but not exist.",val);
+		WarnLogWhile(!font, @"Try to set font named %@ but not exist.",font);
 	};
 }
 
