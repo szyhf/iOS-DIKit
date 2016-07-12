@@ -51,8 +51,8 @@
 -(void)willObserveKeyPath:(NSString*)keyPath
 			toKeyPath:(NSString*)targetKeyPath;
 
--(void)onObserveNew:(id)newValue
-		 forKeyPath:(NSString*)keyPath
+-(bool)onObserveNew:(id)newValue
+		 fromKeyPath:(NSString*)keyPath
 		  toKeyPath:(NSString*)targetKeyPath;
-
+-(NSString*)modelNameFromKeyPath:(NSString*)modelKeyPath;
 @end

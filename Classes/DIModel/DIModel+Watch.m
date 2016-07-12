@@ -69,7 +69,7 @@
 			  NSString *,id> * change)
 			{
 				id newValue = [watchMap valueForKeyPath:modelKey];
-				[self onObserveNew:newValue forKeyPath:modelKey toKeyPath:key];
+				[self onObserveNew:newValue fromKeyPath:modelKey toKeyPath:key];
 #if TARGET_OS_SIMULATOR
 				dispatch_queue_t queue = dispatch_get_main_queue();
 				if(![NSThread isMainThread])
@@ -93,7 +93,7 @@
 			  NSString *,id> * change)
 			{
 				id newValue = [watchMap valueForKeyPath:modelKey];
-				[self onObserveNew:newValue forKeyPath:modelKey toKeyPath:key];
+				[self onObserveNew:newValue fromKeyPath:modelKey toKeyPath:key];
 #if TARGET_OS_SIMULATOR
 				dispatch_queue_t queue = dispatch_get_main_queue();
 				if(![NSThread isMainThread])
@@ -118,7 +118,7 @@
 				id newValue = [watchMap valueForKeyPath:modelKey];
 				if(newValue==nil)
 					return ;
-				[self onObserveNew:newValue forKeyPath:modelKey toKeyPath:key];
+				[self onObserveNew:newValue fromKeyPath:modelKey toKeyPath:key];
 #if TARGET_OS_SIMULATOR
 				dispatch_queue_t queue = dispatch_get_main_queue();
 				if(![NSThread isMainThread])
@@ -191,11 +191,12 @@
 	//便于子类调试。
 }
 
--(void)onObserveNew:(id)newValue
-		 forKeyPath:(NSString*)keyPath
+-(bool)onObserveNew:(id)newValue
+		 fromKeyPath:(NSString*)keyPath
 		  toKeyPath:(NSString*)targetKeyPath
 {
 	//便于子类调试。
+	return YES;
 }
 
 #pragma mark - property
