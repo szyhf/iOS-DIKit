@@ -8,3 +8,4 @@
 
 #import "NSObject+Runtimes.h"
 #import "NSObject+Hook.h"
+#import "NSObject+Thread.h"

@@ -22,6 +22,7 @@ FOUNDATION_EXPORT const unsigned char DIKitVersionString[];
 //Model和ViewModel
 #import "DIModel.h"
 #import "DIDictionaryProxyModel.h"
+#import "DIArrayProxyModel.h"
 #import "DIArrayModel.h"
 #import "DIDictionaryModel.h"
 
