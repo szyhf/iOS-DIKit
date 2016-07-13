@@ -12,6 +12,7 @@
 #import "DIString.h"
 #import "DIObject.h"
 #import <objc/runtime.h>
+#import "DITools.h"
 @implementation DIModel (Watch)
 -(void)watchModelClass:(Class)modelClass
 {
@@ -33,7 +34,7 @@
 	[self startWatching];
 }
 
--(void)startWatching
+-(void)startWatching_old
 {
 	for (NSString* key in [self.class bindingMap])
 	{
@@ -70,20 +71,10 @@
 			{
 				id newValue = [watchMap valueForKeyPath:modelKey];
 				[self onObserveNew:newValue fromKeyPath:modelKey toKeyPath:key];
-#if TARGET_OS_SIMULATOR
-				dispatch_queue_t queue = dispatch_get_main_queue();
-				if(![NSThread isMainThread])
-				{
-					dispatch_sync(queue, ^{
-#endif
-								  [observer invokeSelector:selectorToKeyPath withParams:newValue,key];
-#if TARGET_OS_SIMULATOR
-							  });
-				}else
-				{
-					 [observer invokeSelector:selectorToKeyPath withParams:newValue,key];
-				}
-#endif
+				[self performBlockOnMainThread:
+				 ^{
+					[observer invokeSelector:selectorToKeyPath withParams:newValue,key];
+				} waitUntilDone:YES];
 			};
 		}
 		else if ([self respondsToSelector:selectorNoKeyPath])
@@ -94,20 +85,10 @@
 			{
 				id newValue = [watchMap valueForKeyPath:modelKey];
 				[self onObserveNew:newValue fromKeyPath:modelKey toKeyPath:key];
-#if TARGET_OS_SIMULATOR
-				dispatch_queue_t queue = dispatch_get_main_queue();
-				if(![NSThread isMainThread])
-				{
-					dispatch_sync(queue, ^{
-#endif
-								  [observer invokeSelector:selectorNoKeyPath withParams:newValue];
-#if TARGET_OS_SIMULATOR
-							  });
-				}else
-				{
-					  [observer invokeSelector:selectorNoKeyPath withParams:newValue];
-				}
-#endif
+				[self performBlockOnMainThread:
+				 ^{
+					[observer invokeSelector:selectorNoKeyPath withParams:newValue];
+				} waitUntilDone:YES];
 			};
 		}
 		else
@@ -119,20 +100,9 @@
 				if(newValue==nil)
 					return ;
 				[self onObserveNew:newValue fromKeyPath:modelKey toKeyPath:key];
-#if TARGET_OS_SIMULATOR
-				dispatch_queue_t queue = dispatch_get_main_queue();
-				if(![NSThread isMainThread])
-				{
-					dispatch_sync(queue, ^{
-#endif
-								  [watchMap setValue:newValue forKeyPath:key];
-#if TARGET_OS_SIMULATOR
-							  });
-				}else
-				{
+				[self performBlockOnMainThread:^{
 					[watchMap setValue:newValue forKeyPath:key];
-				}
-#endif
+				} waitUntilDone:YES];
 			};
 		}
 		
@@ -146,11 +116,110 @@
 	};
 }
 
+-(void)startWatching
+{
+	//嵌套过多、每次都要重新计算，可以优化
+	for (NSString* srcKey in [self.class bindingMap])
+	{
+		//左端目标存在？
+		NSString* leftTargetName = [self modelNameFromKeyPath:srcKey];
+		if(![self.watchMap.allKeys containsObject:leftTargetName])
+			continue;
+		
+		//右端目标可能是数组
+		NSArray* distKeys;
+		id rightTarget = [self.class bindingMap][srcKey];
+		if([rightTarget isKindOfClass:NSString.class])
+		{
+			distKeys = @[rightTarget];
+		}
+		else if([rightTarget isKindOfClass:NSArray.class])
+		{
+			distKeys = rightTarget;
+		}
+		else
+		{
+			//暂时不支持NSString和NSArray<NSString*>以外的情况
+			WarnLog(@"Unregionzed rightTarget %@",rightTarget);
+			continue;
+		}
+		
+		for (NSString* distKey in distKeys)
+		{
+			//右端存在时继续
+			NSString* rightTargetName = [self modelNameFromKeyPath:distKey];
+			if(![self.watchMap.allKeys containsObject:rightTargetName])
+				continue;
+			
+			//优先支持forKeyPath的selector，没有的话则尝试调用无forKeyPath的
+			SEL selectorToKeyPath = NSSelectorFromString([NSString stringWithFormat:@"set%@:toKeyPath:",[srcKey stringByReplacingOccurrencesOfString:@"." withString:@"_"]]);
+			SEL selectorNoKeyPath = NSSelectorFromString([NSString stringWithFormat:@"set%@:",[srcKey stringByReplacingOccurrencesOfString:@"." withString:@"_"]]);
+			
+			FBKVONotificationBlock observerBlock;
+			
+			if([self respondsToSelector:selectorToKeyPath])
+			{
+				observerBlock =
+				^(DIModel* observer, NSDictionary* watchMap, NSDictionary<
+				  NSString *,id> * change)
+				{
+					id newValue = [watchMap valueForKeyPath:srcKey];
+					[self onObserveNew:newValue fromKeyPath:srcKey toKeyPath:distKey];
+					[self performBlockOnMainThread:
+					 ^{
+						 [observer invokeSelector:selectorToKeyPath withParams:newValue,distKey];
+					 } waitUntilDone:YES];
+				};
+			}
+			else if ([self respondsToSelector:selectorNoKeyPath])
+			{
+				observerBlock =
+				^(DIModel* observer, NSDictionary* watchMap, NSDictionary<
+				  NSString *,id> * change)
+				{
+					id newValue = [watchMap valueForKeyPath:srcKey];
+					[self onObserveNew:newValue fromKeyPath:srcKey toKeyPath:distKey];
+					[self performBlockOnMainThread:
+					 ^{
+						 [observer invokeSelector:selectorNoKeyPath withParams:newValue];
+					 } waitUntilDone:YES];
+				};
+			}
+			else
+			{
+				
+				observerBlock =^(DIModel* observer, NSDictionary* watchMap, NSDictionary<NSString *,id> * change)
+				{
+					id newValue = [watchMap valueForKeyPath:srcKey];
+					if(newValue==nil)
+						return ;
+					[self onObserveNew:newValue fromKeyPath:srcKey toKeyPath:distKey];
+					[self performBlockOnMainThread:^{
+						DebugLog(@"Will set value %@ forKeyPath %@",newValue,distKey);
+						[watchMap setValue:newValue forKeyPath:distKey];
+					} waitUntilDone:YES];
+				};
+			}
+			
+			[self willObserveKeyPath:srcKey toKeyPath:distKey];
+			
+			[self.KVOControllerNonRetaining
+			 observe:self.watchMap
+			 keyPath:srcKey
+			 options:NSKeyValueObservingOptionNew
+			 block:observerBlock];
+			
+			observerBlock(self,self.watchMap,@{});
+		}
+		
+	}
+}
+
 -(void)stopWatching
 {
-	[[self.class bindingMap]enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, NSString*  _Nonnull modelKey, BOOL * _Nonnull stop)
+	[[self.class bindingMap]enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull srcKey, NSString*  _Nonnull distKey, BOOL * _Nonnull stop)
 	 {
-		 [self.KVOControllerNonRetaining unobserve:self keyPath:[NSString stringWithFormat:@"watchMap.%@",modelKey]];
+		 [self.KVOControllerNonRetaining unobserve:self keyPath:[NSString stringWithFormat:@"watchMap.%@",srcKey]];
 	 }];
 }
 
