@@ -37,37 +37,48 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 	void(^tapBlock)() ;
 	if([tap_value isKindOfClass:NSString.class])
 	{
-		NSScanner* scanner = [NSScanner scannerWithString:tap_value];
-		NSString* targetName;
-		NSString* methodName;
-		[scanner scanUpToString:@"." intoString:&targetName];
-		[scanner scanString:@"." intoString:nil];
-		[scanner scanUpToString:@"" intoString:&methodName];
-		id target = [DIContainer getInstanceByName:targetName];
-		SEL action = NSSelectorFromString(methodName);
-		if([target respondsToSelector:action])
+		NSArray* commands = [(NSString*)tap_value componentsSeparatedByString:@";"];
+		NSMutableArray* actions = [NSMutableArray arrayWithCapacity:commands.count];
+		for (NSString* command in commands)
 		{
-			tap_value =^void()
+			NSScanner* scanner = [NSScanner scannerWithString:command];
+			NSString* targetName;
+			NSString* methodName;
+			[scanner scanUpToString:@"." intoString:&targetName];
+			[scanner scanString:@"." intoString:nil];
+			[scanner scanUpToString:@"" intoString:&methodName];
+			id target = [DIContainer getInstanceByName:targetName];
+			
+			SEL action = NSSelectorFromString(methodName);
+			if([target respondsToSelector:action])
+				[actions addObject:@[target,methodName]];
+		}
+		
+		tap_value =^void(UITableView *_tableView,NSIndexPath *_indexPath)
+		{
+			for (NSArray* action in actions)
 			{
+				NSString* methodName = action.lastObject;
 				if([methodName hasSuffix:@":"])
 				{
-					[target invokeSelector:action withParams:tableView,indexPath];
+					[action.firstObject invokeSelector:NSSelectorFromString(methodName) withParams:_tableView,_indexPath];
 				}
 				else
 				{
-					[target invokeSelector:action];
+					[action.firstObject  invokeMethod:methodName];
 				}
-			};
-			tapBlock = tap_value;
-			[self setValue:tap_value forKey:@"di_select"];
-		}
+			}
+			
+		};
+		tapBlock = tap_value;
+		[self setValue:tap_value forKey:@"di_select"];
 	}
 	else
 	{
 		tapBlock = tap_value;
 	}
 	if(tapBlock)
-		tapBlock();
+		tapBlock(tableView,indexPath);
 	
 	[self di_tableView:tableView didSelectRowAtIndexPath:indexPath];
 }
