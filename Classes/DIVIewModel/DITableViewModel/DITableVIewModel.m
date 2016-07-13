@@ -67,7 +67,7 @@
 	//不能写静态，否则静态对象由父类持有，各个子类都会复写同一个
 	//就无法动态生成了=。=
 	return @{
-			 @"target.cellsViewModel":[self collectionKeyPath],
+			 [self collectionKeyPath]:@"target.cellsViewModel",
 			 };
 }
 
