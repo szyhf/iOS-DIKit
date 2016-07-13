@@ -26,7 +26,8 @@
  *
  *  @return 方法返回值
  */
-+(id)invokeMethod:(NSString*)methodName withParams:(id)param,...;
+//有问题，暂时禁用
+//+(id)invokeMethod:(NSString*)methodName withParams:(id)param,...;
 
 +(id)invokeSelector:(SEL)selector;
 +(id)invokeSelector:(SEL)selector withParams:(id)param,...;
@@ -51,5 +52,6 @@
  *
  *  @return 方法返回值
  */
--(id)invokeMethod:(NSString *)methodName withParams:(id)param,...;
+//有问题，暂时禁用
+//-(id)invokeMethod:(NSString *)methodName withParams:(id)param,...;
 @end
