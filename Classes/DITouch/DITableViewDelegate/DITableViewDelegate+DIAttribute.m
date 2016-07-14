@@ -41,6 +41,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 		NSMutableArray* actions = [NSMutableArray arrayWithCapacity:commands.count];
 		for (NSString* command in commands)
 		{
+			if([NSString isNilOrEmpty:command])
+				continue;
 			NSScanner* scanner = [NSScanner scannerWithString:command];
 			NSString* targetName;
 			NSString* methodName;
