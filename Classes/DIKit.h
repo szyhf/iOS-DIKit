@@ -29,5 +29,7 @@ FOUNDATION_EXPORT const unsigned char DIKitVersionString[];
 #import "DIViewModel.h"
 #import "DITableViewModel.h"
 
+#import "DITouch.h"
+
 //NUI相关
 #import "NUISettings.h"
