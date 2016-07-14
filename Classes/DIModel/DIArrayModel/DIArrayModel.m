@@ -40,4 +40,9 @@
 {
 	return @"diCollection";
 }
+
+-(NSArray*)array
+{
+	return [self valueForKey:[self.class collectionProperty]];
+}
 @end
