@@ -10,6 +10,7 @@
 #import "DITree.h"
 #import "DIContainer.h"
 #import "DIConverter.h"
+#import "DICommand.h"
 
 @implementation UIButton (DIAttribute)
 
@@ -65,40 +66,54 @@
 +(void)tap:(UIButton*)button
 {
 	id tap_value = [button valueForKey:@"di_tap"];
-	void(^tapBlock)() ;
+	void(^tapBlock)(UIButton*) ;
 	if([tap_value isKindOfClass:NSString.class])
 	{
-		NSScanner* scanner = [NSScanner scannerWithString:tap_value];
-		NSString* targetName;
-		NSString* methodName;
-		[scanner scanUpToString:@"." intoString:&targetName];
-		[scanner scanString:@"." intoString:nil];
-		[scanner scanUpToString:@"" intoString:&methodName];
-		id target = [DIContainer getInstanceByName:targetName];
-		SEL action = NSSelectorFromString(methodName);
-		if([target respondsToSelector:action])
+		NSArray* commands = [(NSString*)tap_value componentsSeparatedByString:@";"];
+		NSMutableArray* actions = [NSMutableArray arrayWithCapacity:commands.count];
+		for (NSString* command in commands)
 		{
-			tap_value =^void()
+			if([NSString isNilOrEmpty:command])
+				continue;
+			//DICommand* diCommand = [[DICommand alloc]initWithString:command];
+			//[diCommand call];
+			NSScanner* scanner = [NSScanner scannerWithString:command];
+			NSString* targetName;
+			NSString* methodName;
+			[scanner scanUpToString:@"." intoString:&targetName];
+			[scanner scanString:@"." intoString:nil];
+			[scanner scanUpToString:@"" intoString:&methodName];
+			id target = [DIContainer getInstanceByName:targetName];
+			
+			SEL action = NSSelectorFromString(methodName);
+			if([target respondsToSelector:action])
+				[actions addObject:@[target,methodName]];
+		}
+		
+		tap_value =^void(UIButton*_button)
+		{
+			for (NSArray* action in actions)
 			{
+				NSString* methodName = action.lastObject;
 				if([methodName hasSuffix:@":"])
 				{
-					[target invokeSelector:action withParams:button];
+					[action.firstObject invokeSelector:NSSelectorFromString(methodName) withParams:_button];
 				}
 				else
 				{
-					[target invokeSelector:action];
+					[action.firstObject  invokeMethod:methodName];
 				}
-			};
-			tapBlock = tap_value;
-			[button setValue:tap_value forKey:@"di_tap"];
-		}
+			}
+		};
+		tapBlock = tap_value;
+		[button setValue:tap_value forKey:@"di_tap"];
 	}
 	else
 	{
 		tapBlock = tap_value;
 	}
 	if(tapBlock)
-		return tapBlock();
+		return tapBlock(button);
 }
 
 @dynamic di_tap;
