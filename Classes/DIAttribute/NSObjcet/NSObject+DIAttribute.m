@@ -208,7 +208,8 @@
 		{
 			[viewModel setBindingInstance:obj];
 		}
-		[obj setValue:viewModel forKey:key];
+		//不确定是不是应该用diSet，待观察。。
+		[obj di_setValue:viewModel forKey:key];
 	};
 }
 @end
