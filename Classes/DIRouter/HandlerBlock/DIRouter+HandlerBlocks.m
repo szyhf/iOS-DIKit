@@ -10,8 +10,17 @@
 #import "DIContainer.h"
 #import "NSObject+Runtimes.h"
 #import "DITableView.h"
+#import "DIHidden.h"
 
 @implementation DIRouter (HandlerBlocks)
++(RealizeHandlerBlock)realizeUIViewToDIHidden
+{
+	return ^void(NSObject*parent ,DIHidden* hidden)
+	{
+		//不用做,Hidden用于存储临时属性
+	};
+}
+
 +(RealizeHandlerBlock)realizeDITableViewToDITableViewSection
 {
 	return ^void(DITableView*tableView ,DITableViewSection* tableViewSection)
