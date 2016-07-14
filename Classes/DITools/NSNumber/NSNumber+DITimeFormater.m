@@ -48,11 +48,10 @@
 	if(!formatter)
 	{
 		formatter = [[NSDateFormatter alloc] init];
-		[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-		return @"很久以前";
+		[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];		
 	}
 	
-	
+	return @"很久以前";
 	return [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:toTime]];
 }
 @end
