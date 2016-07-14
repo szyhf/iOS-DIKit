@@ -34,6 +34,9 @@
 -(void)watchModel:(NSObject*)model;
 -(void)watchModelClass:(Class)modelClass;
 
+-(void)unwatchMdoelClass:(Class)modelClass;
+-(void)unwatchMdoelNamed:(NSString*)modelName;
+
 /**
  *  当前模型的默认绑定列表
  *
