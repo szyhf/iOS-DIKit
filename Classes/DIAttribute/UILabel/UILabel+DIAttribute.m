@@ -23,10 +23,20 @@
 									@"text":self.textKey,
 									@"fontName":self.fontNameKey,
 									@"fontSize":self.fontSize,
+									@"lineBreakMode":self.lineBreakModeKey
 									} ;
 				  });
 	return _instance[key];
 }
++(UndefinedKeyHandlerBlock)lineBreakModeKey
+{
+	return ^void(UILabel* label,NSString*key,id value)
+	{
+		int mode = [(NSString*)value intValue];
+		[label setLineBreakMode:(NSLineBreakMode)mode];
+	};
+}
+
 +(UndefinedKeyHandlerBlock)textKey
 {
 	return ^void(UILabel* label,NSString*key,id value)
