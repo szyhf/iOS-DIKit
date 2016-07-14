@@ -37,10 +37,6 @@
 {
 	return @[@"ID"];
 }
-+(NSString*)collectionProperty
-{
-	return @"diCollection";
-}
 +(Class)collectionClass
 {
 	return DIArrayModel.class;
@@ -200,7 +196,7 @@
 }
 -(NSString*)collectionProperty
 {
-	return [self.class collectionProperty];
+	return [[self.class collectionClass] collectionProperty];
 }
 -(Class)collectionClass
 {
