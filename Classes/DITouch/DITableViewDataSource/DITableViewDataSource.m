@@ -12,6 +12,7 @@
 #import "DITools.h"
 @interface DITableViewDataSource()
 @property (nonatomic, strong) NSMutableSet<UITableView*>* tableViews;
+@property (nonatomic, strong) NSMutableDictionary<NSString*,DIViewModel*>* vmForReuse;
 @end
 
 @implementation DITableViewDataSource
@@ -42,6 +43,15 @@ numberOfRowsInSection:(NSInteger)section
 	if(indexPath.row<_cellsViewModel.count)
 	{
 		DIViewModel* cellViewModel = self.cellsViewModel[indexPath.row];
+		
+		//因为cell会被重用，所以可能会出现同一个cell被多个cellVM重复关注的情况
+		//所以要把cellVM的关注情况也处理起来。		
+		__weak DIViewModel* weakCellVM = cellViewModel;
+		DIViewModel* oldVM = self.vmForReuse[[cell description]];
+		if(oldVM)
+			[oldVM unwatchMdoelNamed:@"target"];
+		self.vmForReuse[[cell description]] = weakCellVM;
+		
 		[cellViewModel setBindingInstance:cell];
 	}
 	
@@ -86,4 +96,11 @@ numberOfRowsInSection:(NSInteger)section
 	}
 	return _tableViews;
 }
+- (NSMutableDictionary<NSString*,DIViewModel*> *)vmForReuse {
+	if(_vmForReuse == nil) {
+		_vmForReuse = [[NSMutableDictionary<NSString*,DIViewModel*> alloc] init];
+	}
+	return _vmForReuse;
+}
+
 @end
