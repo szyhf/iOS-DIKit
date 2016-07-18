@@ -119,7 +119,14 @@
 {
 	for (NSString* key in [self.class affectingMap])
 	{
-		NSString* affectSelectorName = [NSString stringWithFormat:@"keyPathsForValuesAffecting%@",key];
+		if([NSString isNilOrEmpty:key])
+			continue;
+		
+		//key要处理成首字母大写
+		NSMutableString* upperKey = [NSMutableString stringWithString:[key substringFromIndex:0 toIndex:1].uppercaseString];
+		if(key.length>2)
+			[upperKey appendString:[key substringFromIndex:1]];
+		NSString* affectSelectorName = [NSString stringWithFormat:@"keyPathsForValuesAffecting%@",upperKey];
 		
 		NSSet*(^block)() = ^NSSet*()
 		{
