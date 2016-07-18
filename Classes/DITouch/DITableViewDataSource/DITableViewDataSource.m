@@ -43,14 +43,7 @@ numberOfRowsInSection:(NSInteger)section
 	if(indexPath.row<_cellsViewModel.count)
 	{
 		DIViewModel* cellViewModel = self.cellsViewModel[indexPath.row];
-		
-		//因为cell会被重用，所以可能会出现同一个cell被多个cellVM重复关注的情况
-		//所以要把cellVM的关注情况也处理起来。		
-		__weak DIViewModel* weakCellVM = cellViewModel;
-		DIViewModel* oldVM = self.vmForReuse[[cell description]];
-		if(oldVM)
-			[oldVM unwatchMdoelNamed:@"target"];
-		self.vmForReuse[[cell description]] = weakCellVM;
+		[self prepareViewModel:cellViewModel forReuse:cell];
 		
 		[cellViewModel setBindingInstance:cell];
 	}
@@ -101,6 +94,22 @@ numberOfRowsInSection:(NSInteger)section
 		_vmForReuse = [[NSMutableDictionary<NSString*,DIViewModel*> alloc] init];
 	}
 	return _vmForReuse;
+}
+
+-(void)prepareViewModel:(DIViewModel*)viewModel forReuse:(NSObject*)bindedInstance
+{
+	//因为cell会被重用，所以可能会出现同一个cell被多个cellVM重复关注的情况
+	//所以要把cellVM的关注情况也处理起来。
+	
+	//用内存
+	NSString* identify = [NSString stringWithFormat:@"%p",bindedInstance];
+	DIViewModel* oldVM = self.vmForReuse[identify];
+	
+	if(oldVM)
+		[oldVM prepareForReuse];
+	
+	__weak DIViewModel* weakCellVM = viewModel;
+	self.vmForReuse[identify]=weakCellVM;
 }
 
 @end
