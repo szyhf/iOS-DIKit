@@ -23,10 +23,21 @@
 					  _instance = @{
 						@"tap":self.tapKey,
 						@"title":self.titleKey,
-						@"image":self.imageKey
+						@"image":self.imageKey,
+						@"titleColor":self.titleColorKey
 									} ;
 				  });
 	return _instance[key];
+}
+
++(UndefinedKeyHandlerBlock)titleColorKey
+{
+	return ^void(UIButton* button,NSString*key,id value)
+	{
+		UIColor* color = [DIConverter toColor:value];
+		if(color)
+			[button setTitleColor:color forState:UIControlStateNormal];
+	};
 }
 
 +(UndefinedKeyHandlerBlock)imageKey
@@ -88,6 +99,8 @@
 			SEL action = NSSelectorFromString(methodName);
 			if([target respondsToSelector:action])
 				[actions addObject:@[target,methodName]];
+			else if([NSClassFromString(targetName) respondsToSelector:action])
+				[actions addObject:@[NSClassFromString(targetName),methodName]];
 		}
 		
 		tap_value =^void(UIButton*_button)
