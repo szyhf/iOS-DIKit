@@ -11,4 +11,5 @@
 
 @interface DIViewModel : DIModel
 @property (nonatomic, weak) NSObject* bindingInstance;
+-(void)prepareForReuse;
 @end

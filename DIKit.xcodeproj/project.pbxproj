@@ -1298,8 +1298,6 @@
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
-			<key>name</key>
-			<string>DICommand</string>
 			<key>path</key>
 			<string>DICommand</string>
 			<key>sourceTree</key>
@@ -1342,6 +1340,62 @@
 		<dict>
 			<key>fileRef</key>
 			<string>0C4EF2AE1D372C330038C247</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C4EF2BA1D3790FD0038C247</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>0C4EF2BB1D3791340038C247</string>
+				<string>0C4EF2BC1D3791340038C247</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>DIArraySelectionModel</string>
+			<key>path</key>
+			<string>DIArraySelectionModel</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C4EF2BB1D3791340038C247</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>DIArraySelectionModel.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C4EF2BC1D3791340038C247</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>DIArraySelectionModel.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0C4EF2BD1D3791340038C247</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C4EF2BB1D3791340038C247</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0C4EF2BE1D3791340038C247</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0C4EF2BC1D3791340038C247</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -1602,6 +1656,7 @@
 				<string>0C41988A1CEEE56200EBFAA2</string>
 				<string>0C169A831D25575500317C1A</string>
 				<string>0C14681A1CF19F98001074C8</string>
+				<string>0C4EF2BE1D3791340038C247</string>
 				<string>0C5277A11CEAD8F80021B477</string>
 				<string>0CBE5ABB1D02E9D900082369</string>
 				<string>0CAF0B1C1D0EE6EB00CB826E</string>
@@ -1676,6 +1731,7 @@
 				<string>0CAF0B1B1D0EE6EB00CB826E</string>
 				<string>0CAF0AD11D0DBA1A00CB826E</string>
 				<string>0C14681D1CF1A02D001074C8</string>
+				<string>0C4EF2BD1D3791340038C247</string>
 				<string>0C4013591CF45DFA00787E28</string>
 				<string>0C735E911D1A686700066F3E</string>
 				<string>0C1468191CF19F98001074C8</string>
@@ -4709,6 +4765,7 @@
 			<array>
 				<string>0C169A701D25501100317C1A</string>
 				<string>0CFF59A41D34E61200B1B13F</string>
+				<string>0C4EF2BA1D3790FD0038C247</string>
 				<string>0C169A7F1D25574000317C1A</string>
 				<string>0C1699B31D23C08200317C1A</string>
 				<string>0CBCFFAF1D20D7BC00640F94</string>
