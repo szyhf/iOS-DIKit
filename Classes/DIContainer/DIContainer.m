@@ -261,9 +261,9 @@
 		return nil;
 	}
 	[DIContainer bindClassName:className withInstance:ins];
-	NoticeLog(@"Make a instance of %@",className);
-	
+	NoticeLog(@"Make a instance of %@",className);	
 	ins = [shared initlizeInstance:ins];
+	[DIContainer bindClassName:className withInstance:ins];
 	
 	AfterInitBlock afterBlock = (AfterInitBlock)[[shared afterInitHookMap]objectForKey:className];
 	if(afterBlock)
