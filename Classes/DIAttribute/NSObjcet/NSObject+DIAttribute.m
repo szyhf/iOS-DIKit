@@ -203,11 +203,13 @@
 {
 	return ^void(NSObject* obj,NSString*key,NSString* value)
 	{
-		DIViewModel* viewModel = [DIContainer makeInstanceByName:value];
+		
+		DIViewModel* viewModel = [DIContainer getInstanceByName:value];
 		if(viewModel!=nil)
 		{
 			[viewModel setBindingInstance:obj];
 		}
+		
 		//不确定是不是应该用diSet，待观察。。
 		[obj di_setValue:viewModel forKey:key];
 	};
