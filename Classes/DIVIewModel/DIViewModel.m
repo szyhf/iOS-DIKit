@@ -12,6 +12,11 @@
 #import "NSObject+FBKVOController.h"
 
 @implementation DIViewModel
+-(void)prepareForReuse
+{
+	[self unwatchMdoelNamed:@"target"];
+}
+
 -(void)setBindingInstance:(NSObject*)bindingInstance
 {
 	[self.KVOControllerNonRetaining unobserveAll];
