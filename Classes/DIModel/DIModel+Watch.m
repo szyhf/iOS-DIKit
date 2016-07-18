@@ -170,23 +170,12 @@
 			
 			[self willObserveKeyPath:srcKey toKeyPath:distKey];
 			
-			//if([rightTargetName isEqualToString:@"target"])
-			//{
-				//NSObject* target = self.watchMap[@"target"];
-				//[target.KVOControllerNonRetaining
-				 //observe:self.watchMap
-				 //keyPath:srcKey
-				 //options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial
-				 //block:observerBlock];
-			//}
-			//else
-			{
-				[self.KVOControllerNonRetaining
-				 observe:self.watchMap
-				 keyPath:srcKey
-				 options:NSKeyValueObservingOptionNew
-				 block:observerBlock];
-			}
+			
+			[self.KVOControllerNonRetaining
+			 observe:self.watchMap
+			 keyPath:srcKey
+			 options:NSKeyValueObservingOptionNew
+			 block:observerBlock];
 			
 			observerBlock(self,self.watchMap,@{});
 		}
